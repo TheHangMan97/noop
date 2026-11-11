@@ -1,50 +1,6 @@
 {
   "android": [
     [
-      "android/app/src/main/java/com/noop/ui/AddDeviceWizard.kt",
-      "The most common cause is the ring was not fully reset in the Oura app, or the Oura "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/AppRoot.kt",
-      "Collapsed"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/AppRoot.kt",
-      "Expanded"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BreatheScreen.kt",
-      "%.1f br/min"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/Charts.kt",
-      "Bars"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/Charts.kt",
-      "Breakdown, ${segments.size} segments"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/Charts.kt",
-      "Breakdown, no data"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/Charts.kt",
-      "Timeline"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/Charts.kt",
-      "Trend"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
-      "Each line min-max normalized within ${range.phrase}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
-      "Each line min-max normalized · sparse series widened past ${range.phrase}"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
       "\\u2014"
     ],
@@ -57,14 +13,6 @@
       " · FW $it"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/FusedRecordScreen.kt",
-      "Scores still calibrating, no single day-owner yet"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/FusedRecordScreen.kt",
-      "Today's scores owned by ${owner.displayName}"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
       "$displayHr bpm"
     ],
@@ -73,20 +21,8 @@
       "${detail.format(it)} ${detail.unit}"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "${kotlin.math.abs(delta)} ${yearWord(delta)} ${if (younger) \"younger\" else \"older\"}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "about your age"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/HrvSnapshotScreen.kt",
       "$value $unit"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HydrationScreen.kt",
-      "of %.1f L"
     ],
     [
       "android/app/src/main/java/com/noop/ui/InsightsHubScreen.kt",
@@ -105,52 +41,12 @@
       " $it"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/LabBookScreen.kt",
-      "$n reading${if (n == 1) \"\" else \"s\"} line up so far, not enough to read a trend yet "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LabBookScreen.kt",
-      "Choose a signal"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LabBookScreen.kt",
-      "No overlap yet between this marker and ${signal.title.lowercase()}. Log a few more readings "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveSessionScreen.kt",
-      "Guarding your session. Silence means you're on track."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveSessionScreen.kt",
-      "Signal lost — coaching paused."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/MindSection.kt",
-      "${face.word}, mood ${face.value.toInt()} of 5"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/MindSection.kt",
       "r = %+.2f"
     ],
     [
       "android/app/src/main/java/com/noop/ui/NoopLimitationsScreen.kt",
-      "${row.feature}: WHOOP 4.0 ${row.whoop4.spoken}, 5.0/MG ${row.whoop5.spoken}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/NoopLimitationsScreen.kt",
       "5.0/MG"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/NoopLimitationsScreen.kt",
-      "Feature"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/NotificationsSettingsScreen.kt",
-      "Buzzes your wrist"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/NotificationsSettingsScreen.kt",
-      "Off"
     ],
     [
       "android/app/src/main/java/com/noop/ui/PipBar.kt",
@@ -161,96 +57,12 @@
       "$label: $valueText $unit"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Blood Oxygen: strap estimate"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Needs the full encrypted bond: close the official WHOOP app and pair the strap to NOOP first (a live-HR-only link can't carry the unlock)."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Put the strap on first. The deep stream is on-wrist only."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Scores today's hour-by-hour stress timeline against YOUR own cross-day baseline "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Stress: personal daytime baseline"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Surfaces your strap's nightly SpO₂ estimate in the Blood Oxygen tile when no "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Wear the strap, tap once, then let it sync and share your strap log."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SkinTempCardsScreen.kt",
-      "Plan a trip or shift"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SkinTempCardsScreen.kt",
-      "View the full plan"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SmartAlarmScreen.kt",
-      "Armed on the strap itself, so it can buzz at your wake time even if your phone is asleep or NOOP is closed. Sends the exact alarm command the official app sends, confirmed buzzing on a real WHOOP 4.0 (community wire capture + on-device test, #535). Keep a backup alarm for anything you truly can't miss."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SmartAlarmScreen.kt",
-      "Connect your strap to arm this; it's set on the strap's own firmware alarm. Confirmed working on WHOOP 4.0; still experimental on 5.0 and MG. Keep a backup alarm for anything you truly can't miss."
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/StepsCalibrationScreen.kt",
       "%+.0f%%"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/StressScreen.kt",
-      "Stress is derived from two autonomic signals."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/StressScreen.kt",
-      "Today's value is your recorded daily stress score (0-3)."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TestCentreScreen.kt",
-      "Capturing… reproduce the issue, then share the log below."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TestCentreScreen.kt",
-      "Detailed capture to file"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TestCentreScreen.kt",
-      "Oura onset keying (experimental)"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TestCentreScreen.kt",
-      "Polar debug logging"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TestCentreScreen.kt",
-      "Share captured log"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/TrendsScreen.kt",
-      "Share recap"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/UpdateStore.kt",
-      "What's new in NOOP $version"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/UpdatesInboxScreen.kt",
       "${item.title}. ${item.message}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/UpdatesInboxScreen.kt",
-      "Unread. ${item.title}. ${item.message}"
     ],
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
@@ -263,14 +75,6 @@
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
       "GPX"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Logged sessions across ${effectiveRange.caption}."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Mostly ${WorkoutEditing.displaySport(modal.sport)} (${effectiveRange.caption})."
     ],
     [
       "android/app/src/main/java/com/noop/widget/NoopCompactGlanceWidget.kt",

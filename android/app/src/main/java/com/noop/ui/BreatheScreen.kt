@@ -578,7 +578,7 @@ fun BreatheScreen(viewModel: AppViewModel) {
                     }
                     when {
                         bpmSelected > 0 -> Text(
-                            String.format(Locale.US, "%.1f br/min", bpmSelected),
+                            uiString(R.string.breathe_rate_per_min, bpmSelected),
                             style = NoopType.captionNumber, color = Palette.textSecondary,
                         )
                         guided -> Text(

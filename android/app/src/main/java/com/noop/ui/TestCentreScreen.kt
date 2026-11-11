@@ -894,9 +894,8 @@ private fun DiagnosticToolsCard(vm: AppViewModel) {
             // each connect. Off by default. Diagnostic-only — nothing gates behaviour on it.
             polarIdentity?.let { identity ->
                 ToggleRowTC(
-                    title = "Polar debug logging",
-                    description = "$identity.\nLogs this identification to the strap log on each connect, " +
-                        "so a Polar bug report shows the model NOOP resolved your strap to.",
+                    title = uiString(R.string.tc_polar_debug_title),
+                    description = uiString(R.string.tc_polar_debug_desc, identity),
                     checked = polarDebugLogging,
                     onCheckedChange = { polarDebugLogging = it; vm.setPolarDebugLogging(it) },
                 )
@@ -904,11 +903,8 @@ private fun DiagnosticToolsCard(vm: AppViewModel) {
             // #1284 residual 3: experimental Oura 0x49-onset keying, only when an Oura ring is paired.
             if (ouraPaired) {
                 ToggleRowTC(
-                    title = "Oura onset keying (experimental)",
-                    description = "Keys each Oura sleep night on its stable 0x49 onset and suppresses " +
-                        "duplicate re-serves at the source, instead of the shipped end-anchored persist " +
-                        "(#1284). Off by default — a hardware-validation toggle. Watch the strap log for " +
-                        "'onset-key(#1284)' lines.",
+                    title = uiString(R.string.tc_oura_onset_title),
+                    description = uiString(R.string.tc_oura_onset_desc),
                     checked = ouraOnsetKeying,
                     onCheckedChange = { ouraOnsetKeying = it; vm.setOuraOnsetKeying(it) },
                 )
@@ -923,24 +919,20 @@ private fun DiagnosticToolsCard(vm: AppViewModel) {
             }
             // #1121 Detailed capture: an adb-like rolling on-device log, no computer needed. Off by default.
             ToggleRowTC(
-                title = "Detailed capture to file",
-                description = "Continuously append the strap log to a rolling on-device file (≤8 MB, one " +
-                    "previous generation kept) so a long-running issue — battery drain, an overnight " +
-                    "offload — is captured for hours instead of the ~50 minutes the in-memory share holds. " +
-                    "Keeps going if the app is killed and resumes on next launch. The file stays on the " +
-                    "phone unless you share it below.",
+                title = uiString(R.string.tc_detailed_capture_title),
+                description = uiString(R.string.tc_detailed_capture_desc),
                 checked = detailedCapture,
                 onCheckedChange = { detailedCapture = it; vm.setDetailedCapture(it) },
             )
             if (detailedCapture) {
                 Text(
-                    "Capturing… reproduce the issue, then share the log below.",
+                    uiString(R.string.tc_capturing),
                     style = NoopType.footnote,
                     color = Palette.accent,
                 )
             }
             NoopButton(
-                text = "Share captured log",
+                text = uiString(R.string.tc_share_captured_log),
                 leadingIcon = Icons.Filled.Upload,
                 kind = NoopButtonKind.Secondary,
                 fullWidth = true,

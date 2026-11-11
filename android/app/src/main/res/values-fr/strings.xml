@@ -2987,4 +2987,143 @@
     <string name="breathe_stop_session">Arrêter la séance</string>
     <string name="breathe_start_session">Démarrer la séance</string>
     <string name="breathe_sweeping">Balayage en cours…</string>
+    <string name="oura_adopt_failed_hint">Le plus souvent, la bague n’a pas été entièrement réinitialisée dans l’app Oura, ou l’app Oura est encore ouverte. Réinitialisez à nouveau la bague, forcez la fermeture d’Oura, puis réessayez. Si l’échec persiste, votre bague est peut-être d’une génération que NOOP ne peut pas encore adopter. L’import de fichiers reste possible.</string>
+    <string name="chart_summary_empty">%1$s, aucune donnée</string>
+    <string name="chart_summary">%1$s, %2$d points, dernier %3$s, minimum %4$s, maximum %5$s</string>
+    <string name="chart_breakdown_empty">Répartition, aucune donnée</string>
+    <string name="chart_timeline">Chronologie</string>
+    <string name="compare_range_week">les 7 derniers jours</string>
+    <string name="compare_range_month">30 jours</string>
+    <string name="compare_range_quarter">3 mois</string>
+    <string name="compare_range_half">6 mois</string>
+    <string name="compare_range_year">1 an</string>
+    <string name="compare_range_all">tout l’historique</string>
+    <string name="compare_sparse_widened_suffix">" · élargi faute de données"</string>
+    <string name="compare_overlay">Superposition</string>
+    <string name="compare_normalized_widened">Chaque courbe normalisée min-max · séries clairsemées élargies au-delà de %1$s</string>
+    <string name="compare_normalized">Chaque courbe normalisée min-max sur %1$s</string>
+    <string name="compare_move_together">Comment elles évoluent ensemble</string>
+    <string name="fused_day_owner">Les scores du jour proviennent de %1$s</string>
+    <string name="fused_day_owner_calibrating">Scores encore en calibrage, pas encore de source principale pour la journée</string>
+    <string name="fitness_age_about_lower">environ votre âge</string>
+    <string name="fitness_age_about">Environ votre âge</string>
+    <string name="fitness_age_or_younger">%1$d ou moins</string>
+    <string name="fitness_age_or_older">%1$d ou plus</string>
+    <string name="hydration_goal_of_liters">sur %1$.1f L</string>
+    <string name="lab_no_overlap_yet">Pas encore de chevauchement entre ce marqueur et %1$s. Ajoutez quelques mesures (et continuez à porter votre bracelet).</string>
+    <string name="lab_choose_signal">Choisir un signal</string>
+    <string name="live_session_signal_lost">Signal perdu — coaching en pause.</string>
+    <string name="live_session_guarding">Votre séance est surveillée. Le silence signifie que vous êtes dans le bon rythme.</string>
+    <string name="mood_awful">Horrible</string>
+    <string name="mood_low">Pas terrible</string>
+    <string name="mood_okay">Correct</string>
+    <string name="mood_good">Bien</string>
+    <string name="mood_great">Super</string>
+    <string name="mood_face_a11y">%1$s, humeur %2$d sur 5</string>
+    <string name="limit_live_hr">Fréquence cardiaque en direct</string>
+    <string name="limit_sleep_staging">Phases de sommeil</string>
+    <string name="limit_recovery_strain">Récupération et effort</string>
+    <string name="limit_resp_rate">Fréquence respiratoire</string>
+    <string name="limit_stress">Stress (sur l’appareil)</string>
+    <string name="limit_workout_detection">Détection des entraînements</string>
+    <string name="limit_skin_temp">Température cutanée</string>
+    <string name="limit_steps">Pas</string>
+    <string name="limit_spo2">Oxygène sanguin (SpO₂ %)</string>
+    <string name="limit_ecg">ECG</string>
+    <string name="limit_blood_pressure">Tension artérielle</string>
+    <string name="limit_row_a11y">%1$s : WHOOP 4.0 %2$s, 5.0/MG %3$s</string>
+    <string name="limit_spoken_yes">oui</string>
+    <string name="limit_spoken_partly">en partie</string>
+    <string name="limit_spoken_no">non</string>
+    <string name="notif_buzzes_wrist">Vibre au poignet</string>
+    <string name="deep_data_hint_needs_bond">Nécessite l’appairage chiffré complet : fermez l’app WHOOP officielle et appairez d’abord le bracelet à NOOP (une liaison FC en direct seule ne peut pas transmettre le déverrouillage).</string>
+    <string name="deep_data_hint_wear">Mettez d’abord le bracelet. Le flux de données détaillées ne fonctionne qu’au poignet.</string>
+    <string name="deep_data_hint_ready">Portez le bracelet, touchez une fois, laissez-le se synchroniser, puis partagez son journal.</string>
+    <string name="settings_spo2_estimate_title">Oxygène sanguin : estimation du bracelet</string>
+    <string name="settings_spo2_estimate_detail">Affiche l’estimation nocturne de SpO₂ du bracelet dans la tuile Oxygène sanguin lorsqu’aucun pourcentage calibré n’est disponible : l’octet candidat @82 d’une WHOOP 5.0/MG, ou la mesure propre d’une bague Oura, chaque échantillon étant d’abord plafonné à 100 % (sinon la mesure brute de la bague est trop élevée). C’est une valeur NON VÉRIFIÉE calculée par le bracelet — le candidat WHOOP a suivi de près un appareil de référence la plupart des nuits mais a évolué en sens inverse certaines nuits ; celui d’Oura n’a été vérifié que sur quelques nuits. Affichée comme « estimation » et jamais utilisée pour la récupération ou la détection de maladie. Désactivé par défaut.</string>
+    <string name="settings_stress_baseline_title">Stress : référence diurne personnelle</string>
+    <string name="settings_stress_baseline_detail">Évalue la chronologie horaire du stress d’aujourd’hui par rapport à VOTRE propre référence sur plusieurs jours (le déroulé habituel de vos journées, à la manière d’Oura) plutôt que par rapport aux heures calmes du jour. Le seuil n’a été réglé que sur une seule personne de référence, c’est donc un autre regard, pas le réglage par défaut. FC uniquement ; jamais utilisé pour la récupération ou la détection de maladie. Désactivé par défaut.</string>
+    <string name="skin_temp_plan_trip">Planifier un voyage ou un changement d’horaire</string>
+    <string name="skin_temp_view_plan">Voir le plan complet</string>
+    <string name="smart_alarm_connect_to_arm">Connectez votre bracelet pour l’armer ; l’alarme est réglée dans le firmware du bracelet. Confirmé sur WHOOP 4.0 ; encore expérimental sur 5.0 et MG. Gardez une alarme de secours pour tout ce que vous ne pouvez vraiment pas manquer.</string>
+    <string name="smart_alarm_armed_4">Armée sur le bracelet lui-même : il peut vibrer à votre heure de réveil même si votre téléphone est en veille ou NOOP fermé. Envoie exactement la commande d’alarme de l’app officielle ; vibration confirmée sur une vraie WHOOP 4.0 (capture de la communauté + test sur l’appareil, #535). Gardez une alarme de secours pour tout ce que vous ne pouvez vraiment pas manquer.</string>
+    <string name="stress_explainer_stored">La valeur du jour est votre score de stress quotidien enregistré (0-3).</string>
+    <string name="stress_explainer_derived">Le stress est dérivé de deux signaux autonomes.</string>
+    <string name="tc_polar_debug_title">Journal de débogage Polar</string>
+    <string name="tc_polar_debug_desc">%1$s.\nÉcrit cette identification dans le journal du bracelet à chaque connexion, afin qu’un rapport de bug Polar indique le modèle reconnu par NOOP.</string>
+    <string name="tc_oura_onset_title">Indexation Oura par endormissement (expérimental)</string>
+    <string name="tc_oura_onset_desc">Indexe chaque nuit Oura sur son endormissement stable 0x49 et supprime les renvois en double à la source, au lieu de l’enregistrement ancré sur la fin actuel (#1284). Désactivé par défaut — option de validation matérielle. Surveillez les lignes \'onset-key(#1284)\' dans le journal du bracelet.</string>
+    <string name="tc_detailed_capture_title">Capture détaillée dans un fichier</string>
+    <string name="tc_detailed_capture_desc">Ajoute en continu le journal du bracelet à un fichier tournant sur l’appareil (≤ 8 Mo, une génération précédente conservée) afin qu’un problème de longue durée — décharge de la batterie, déchargement nocturne — soit capturé pendant des heures au lieu des ~50 minutes conservées en mémoire. Continue si l’app est fermée et reprend au prochain lancement. Le fichier reste sur le téléphone sauf si vous le partagez ci-dessous.</string>
+    <string name="tc_capturing">Capture en cours… reproduisez le problème, puis partagez le journal ci-dessous.</string>
+    <string name="tc_share_captured_log">Partager le journal capturé</string>
+    <string name="trends_share_recap">Partager le récapitulatif</string>
+    <string name="updates_whats_new_message">NOOP %1$s est arrivé — touchez pour découvrir les nouveautés.</string>
+    <string name="updates_unread_a11y">Non lu. %1$s. %2$s</string>
+    <string name="workouts_range_last_7_days">7 derniers jours</string>
+    <string name="workouts_range_last_30_days">30 derniers jours</string>
+    <string name="workouts_range_last_90_days">90 derniers jours</string>
+    <string name="workouts_range_last_year">dernière année</string>
+    <string name="workouts_range_all_time">depuis le début</string>
+    <string name="workouts_range_hero_week">semaine</string>
+    <string name="workouts_range_hero_month">mois</string>
+    <string name="workouts_range_hero_quarter">trimestre</string>
+    <string name="workouts_range_hero_year">année</string>
+    <string name="workouts_range_hero_log">historique</string>
+    <string name="workouts_filtered_suffix">" · filtré"</string>
+    <string name="workouts_mostly_sport">Surtout %1$s (%2$s).</string>
+    <string name="workouts_logged_across">Séances enregistrées sur %1$s.</string>
+    <plurals name="chart_breakdown_segments">
+        <item quantity="one">Répartition, %1$d segment</item>
+        <item quantity="other">Répartition, %1$d segments</item>
+    </plurals>
+    <plurals name="compare_readings_across">
+        <item quantity="one">%1$d mesure sur %2$d · %3$s</item>
+        <item quantity="other">%1$d mesures sur %2$d · %3$s</item>
+    </plurals>
+    <plurals name="compare_series_count">
+        <item quantity="one">%1$d série</item>
+        <item quantity="other">%1$d séries</item>
+    </plurals>
+    <plurals name="compare_pairs_count">
+        <item quantity="one">%1$d paire</item>
+        <item quantity="other">%1$d paires</item>
+    </plurals>
+    <plurals name="fitness_age_years_younger">
+        <item quantity="one">%1$d an de moins</item>
+        <item quantity="other">%1$d ans de moins</item>
+    </plurals>
+    <plurals name="fitness_age_years_older">
+        <item quantity="one">%1$d an de plus</item>
+        <item quantity="other">%1$d ans de plus</item>
+    </plurals>
+    <plurals name="fitness_age_younger_than_age">
+        <item quantity="one">%1$d an de moins que votre âge</item>
+        <item quantity="other">%1$d ans de moins que votre âge</item>
+    </plurals>
+    <plurals name="fitness_age_older_than_age">
+        <item quantity="one">%1$d an de plus que votre âge</item>
+        <item quantity="other">%1$d ans de plus que votre âge</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_younger">
+        <item quantity="one">Au moins %1$d an de moins que votre âge</item>
+        <item quantity="other">Au moins %1$d ans de moins que votre âge</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_older">
+        <item quantity="one">Au moins %1$d an de plus que votre âge</item>
+        <item quantity="other">Au moins %1$d ans de plus que votre âge</item>
+    </plurals>
+    <plurals name="lab_readings_line_up">
+        <item quantity="one">%1$d mesure correspond pour l’instant, pas encore assez pour une tendance (NOOP attend %2$d).</item>
+        <item quantity="other">%1$d mesures correspondent pour l’instant, pas encore assez pour une tendance (NOOP attend %2$d).</item>
+    </plurals>
+    <plurals name="workouts_count_range">
+        <item quantity="one">%1$d séance · %2$s</item>
+        <item quantity="other">%1$d séances · %2$s</item>
+    </plurals>
+    <plurals name="workouts_count_widened">
+        <item quantity="one">%1$d séance · peu de données, élargi à %2$s</item>
+        <item quantity="other">%1$d séances · peu de données, élargi à %2$s</item>
+    </plurals>
+    <string name="breathe_rate_per_min">%1$.1f resp/min</string>
 </resources>

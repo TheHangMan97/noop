@@ -227,13 +227,16 @@ private object CompareCatalog {
 // MARK: - Range control (shared spec — W / M / 3M / 6M / 1Y / ALL)
 
 /** The canonical Strand range window. [days] == null means ALL of history. */
-private enum class CompareRange(val label: String, val days: Int?, val phrase: String) {
-    Week("W", 7, "the last 7 days"),
-    Month("M", 30, "30 days"),
-    Quarter("3M", 90, "3 months"),
-    Half("6M", 180, "6 months"),
-    Year("1Y", 365, "1 year"),
-    All("ALL", null, "all history");
+private enum class CompareRange(val label: String, val days: Int?, private val phraseRes: Int) {
+    Week("W", 7, R.string.compare_range_week),
+    Month("M", 30, R.string.compare_range_month),
+    Quarter("3M", 90, R.string.compare_range_quarter),
+    Half("6M", 180, R.string.compare_range_half),
+    Year("1Y", 365, R.string.compare_range_year),
+    All("ALL", null, R.string.compare_range_all);
+
+    /** Localized range wording, e.g. "the last 7 days". */
+    val phrase: String get() = uiString(phraseRes)
 
     /** This range plus every LARGER range, ascending — the auto-expand search order. */
     val widening: List<CompareRange>
@@ -469,9 +472,8 @@ fun CompareScreen(vm: AppViewModel) {
 
     val rangeCaption: String = run {
         val total = activeSeries.sumOf { it.rows.size }
-        val unit = if (total == 1) "reading" else "readings"
-        val base = "$total $unit across ${activeSeries.size} · ${range.phrase}"
-        if (anyWidened) "$base · sparse widened" else base
+        val base = uiPlural(R.plurals.compare_readings_across, total, total, activeSeries.size, range.phrase)
+        if (anyWidened) base + uiString(R.string.compare_sparse_widened_suffix) else base
     }
 
     LazyScreenScaffold(
@@ -797,7 +799,7 @@ private fun OverlaySection(
     anyWidened: Boolean,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Overlay", overline = range.phrase, trailing = "${series.size} series")
+        SectionHeader(uiString(R.string.compare_overlay), overline = range.phrase, trailing = uiPlural(R.plurals.compare_series_count, series.size, series.size))
         // Anchor the overlay card to the brand-green chrome world; each line keeps its own categorical
         // series colour so the overlaid lines stay distinguishable against the wash.
         NoopCard(tint = Palette.accent) {
@@ -805,9 +807,9 @@ private fun OverlaySection(
                 Overline("Normalized overlay")
                 Text(
                     if (anyWidened) {
-                        "Each line min-max normalized · sparse series widened past ${range.phrase}"
+                        uiString(R.string.compare_normalized_widened, range.phrase)
                     } else {
-                        "Each line min-max normalized within ${range.phrase}"
+                        uiString(R.string.compare_normalized, range.phrase)
                     },
                     style = NoopType.footnote,
                     color = Palette.textTertiary,
@@ -1256,9 +1258,9 @@ private fun CorrelationSection(series: List<CompareSeries>, range: CompareRange)
 
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         SectionHeader(
-            "How They Move Together",
+            uiString(R.string.compare_move_together),
             overline = "Pearson r · ${range.phrase}",
-            trailing = if (pairs.isEmpty()) null else "${pairs.size} pairs",
+            trailing = if (pairs.isEmpty()) null else uiPlural(R.plurals.compare_pairs_count, pairs.size, pairs.size),
         )
 
         if (pairs.isEmpty()) {

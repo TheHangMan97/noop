@@ -3017,4 +3017,143 @@
     <string name="breathe_stop_session">Stop session</string>
     <string name="breathe_start_session">Start session</string>
     <string name="breathe_sweeping">Sweeping…</string>
+    <string name="oura_adopt_failed_hint">The most common cause is the ring was not fully reset in the Oura app, or the Oura app is still running. Reset the ring again, force-quit Oura, then try once more. If it keeps failing, your ring may be a generation NOOP cannot adopt yet. You can still use file import.</string>
+    <string name="chart_summary_empty">%1$s, no data</string>
+    <string name="chart_summary">%1$s, %2$d points, latest %3$s, low %4$s, high %5$s</string>
+    <string name="chart_breakdown_empty">Breakdown, no data</string>
+    <string name="chart_timeline">Timeline</string>
+    <string name="compare_range_week">the last 7 days</string>
+    <string name="compare_range_month">30 days</string>
+    <string name="compare_range_quarter">3 months</string>
+    <string name="compare_range_half">6 months</string>
+    <string name="compare_range_year">1 year</string>
+    <string name="compare_range_all">all history</string>
+    <string name="compare_sparse_widened_suffix">" · sparse widened"</string>
+    <string name="compare_overlay">Overlay</string>
+    <string name="compare_normalized_widened">Each line min-max normalized · sparse series widened past %1$s</string>
+    <string name="compare_normalized">Each line min-max normalized within %1$s</string>
+    <string name="compare_move_together">How They Move Together</string>
+    <string name="fused_day_owner">Today\'s scores owned by %1$s</string>
+    <string name="fused_day_owner_calibrating">Scores still calibrating, no single day-owner yet</string>
+    <string name="fitness_age_about_lower">about your age</string>
+    <string name="fitness_age_about">About your age</string>
+    <string name="fitness_age_or_younger">%1$d or younger</string>
+    <string name="fitness_age_or_older">%1$d or older</string>
+    <string name="hydration_goal_of_liters">of %1$.1f L</string>
+    <string name="lab_no_overlap_yet">No overlap yet between this marker and %1$s. Log a few more readings (and keep wearing your strap).</string>
+    <string name="lab_choose_signal">Choose a signal</string>
+    <string name="live_session_signal_lost">Signal lost — coaching paused.</string>
+    <string name="live_session_guarding">Guarding your session. Silence means you\'re on track.</string>
+    <string name="mood_awful">Awful</string>
+    <string name="mood_low">Low</string>
+    <string name="mood_okay">Okay</string>
+    <string name="mood_good">Good</string>
+    <string name="mood_great">Great</string>
+    <string name="mood_face_a11y">%1$s, mood %2$d of 5</string>
+    <string name="limit_live_hr">Live heart rate</string>
+    <string name="limit_sleep_staging">Sleep staging</string>
+    <string name="limit_recovery_strain">Recovery &amp; strain</string>
+    <string name="limit_resp_rate">Respiratory rate</string>
+    <string name="limit_stress">Stress (on-device)</string>
+    <string name="limit_workout_detection">Workout detection</string>
+    <string name="limit_skin_temp">Skin temperature</string>
+    <string name="limit_steps">Steps</string>
+    <string name="limit_spo2">Blood oxygen (SpO₂ %)</string>
+    <string name="limit_ecg">ECG</string>
+    <string name="limit_blood_pressure">Blood pressure</string>
+    <string name="limit_row_a11y">%1$s: WHOOP 4.0 %2$s, 5.0/MG %3$s</string>
+    <string name="limit_spoken_yes">yes</string>
+    <string name="limit_spoken_partly">partly</string>
+    <string name="limit_spoken_no">no</string>
+    <string name="notif_buzzes_wrist">Buzzes your wrist</string>
+    <string name="deep_data_hint_needs_bond">Needs the full encrypted bond: close the official WHOOP app and pair the strap to NOOP first (a live-HR-only link can\'t carry the unlock).</string>
+    <string name="deep_data_hint_wear">Put the strap on first. The deep stream is on-wrist only.</string>
+    <string name="deep_data_hint_ready">Wear the strap, tap once, then let it sync and share your strap log.</string>
+    <string name="settings_spo2_estimate_title">Blood Oxygen: strap estimate</string>
+    <string name="settings_spo2_estimate_detail">Surfaces your strap\'s nightly SpO₂ estimate in the Blood Oxygen tile when no calibrated percentage is available: a WHOOP 5.0/MG\'s @82 candidate byte, or an Oura ring\'s own reading with each sample capped at 100% first (the ring\'s raw reading runs high otherwise). This is an UNVERIFIED strap-computed value — the WHOOP candidate matched a reference device closely on most nights but moved opposite on some; the Oura one has only been checked against a few nights so far. Shown as an \'estimate\' and never fed into recovery or illness scoring. Off by default.</string>
+    <string name="settings_stress_baseline_title">Stress: personal daytime baseline</string>
+    <string name="settings_stress_baseline_detail">Scores today\'s hour-by-hour stress timeline against YOUR own cross-day baseline (how your days usually run, Oura-style) instead of the day\'s own calm hours. The cutoff is tuned from a single-subject reference so far, so it\'s an alternative lens, not the default. HR-only; never fed into recovery or illness scoring. Off by default.</string>
+    <string name="skin_temp_plan_trip">Plan a trip or shift</string>
+    <string name="skin_temp_view_plan">View the full plan</string>
+    <string name="smart_alarm_connect_to_arm">Connect your strap to arm this; it\'s set on the strap\'s own firmware alarm. Confirmed working on WHOOP 4.0; still experimental on 5.0 and MG. Keep a backup alarm for anything you truly can\'t miss.</string>
+    <string name="smart_alarm_armed_4">Armed on the strap itself, so it can buzz at your wake time even if your phone is asleep or NOOP is closed. Sends the exact alarm command the official app sends, confirmed buzzing on a real WHOOP 4.0 (community wire capture + on-device test, #535). Keep a backup alarm for anything you truly can\'t miss.</string>
+    <string name="stress_explainer_stored">Today\'s value is your recorded daily stress score (0-3).</string>
+    <string name="stress_explainer_derived">Stress is derived from two autonomic signals.</string>
+    <string name="tc_polar_debug_title">Polar debug logging</string>
+    <string name="tc_polar_debug_desc">%1$s.\nLogs this identification to the strap log on each connect, so a Polar bug report shows the model NOOP resolved your strap to.</string>
+    <string name="tc_oura_onset_title">Oura onset keying (experimental)</string>
+    <string name="tc_oura_onset_desc">Keys each Oura sleep night on its stable 0x49 onset and suppresses duplicate re-serves at the source, instead of the shipped end-anchored persist (#1284). Off by default — a hardware-validation toggle. Watch the strap log for \'onset-key(#1284)\' lines.</string>
+    <string name="tc_detailed_capture_title">Detailed capture to file</string>
+    <string name="tc_detailed_capture_desc">Continuously append the strap log to a rolling on-device file (≤8 MB, one previous generation kept) so a long-running issue — battery drain, an overnight offload — is captured for hours instead of the ~50 minutes the in-memory share holds. Keeps going if the app is killed and resumes on next launch. The file stays on the phone unless you share it below.</string>
+    <string name="tc_capturing">Capturing… reproduce the issue, then share the log below.</string>
+    <string name="tc_share_captured_log">Share captured log</string>
+    <string name="trends_share_recap">Share recap</string>
+    <string name="updates_whats_new_message">NOOP %1$s is here — tap to read what\'s new.</string>
+    <string name="updates_unread_a11y">Unread. %1$s. %2$s</string>
+    <string name="workouts_range_last_7_days">last 7 days</string>
+    <string name="workouts_range_last_30_days">last 30 days</string>
+    <string name="workouts_range_last_90_days">last 90 days</string>
+    <string name="workouts_range_last_year">last year</string>
+    <string name="workouts_range_all_time">all time</string>
+    <string name="workouts_range_hero_week">week</string>
+    <string name="workouts_range_hero_month">month</string>
+    <string name="workouts_range_hero_quarter">quarter</string>
+    <string name="workouts_range_hero_year">year</string>
+    <string name="workouts_range_hero_log">log</string>
+    <string name="workouts_filtered_suffix">" · filtered"</string>
+    <string name="workouts_mostly_sport">Mostly %1$s (%2$s).</string>
+    <string name="workouts_logged_across">Logged sessions across %1$s.</string>
+    <plurals name="chart_breakdown_segments">
+        <item quantity="one">Breakdown, %1$d segment</item>
+        <item quantity="other">Breakdown, %1$d segments</item>
+    </plurals>
+    <plurals name="compare_readings_across">
+        <item quantity="one">%1$d reading across %2$d · %3$s</item>
+        <item quantity="other">%1$d readings across %2$d · %3$s</item>
+    </plurals>
+    <plurals name="compare_series_count">
+        <item quantity="one">%1$d series</item>
+        <item quantity="other">%1$d series</item>
+    </plurals>
+    <plurals name="compare_pairs_count">
+        <item quantity="one">%1$d pair</item>
+        <item quantity="other">%1$d pairs</item>
+    </plurals>
+    <plurals name="fitness_age_years_younger">
+        <item quantity="one">%1$d year younger</item>
+        <item quantity="other">%1$d years younger</item>
+    </plurals>
+    <plurals name="fitness_age_years_older">
+        <item quantity="one">%1$d year older</item>
+        <item quantity="other">%1$d years older</item>
+    </plurals>
+    <plurals name="fitness_age_younger_than_age">
+        <item quantity="one">%1$d year younger than your age</item>
+        <item quantity="other">%1$d years younger than your age</item>
+    </plurals>
+    <plurals name="fitness_age_older_than_age">
+        <item quantity="one">%1$d year older than your age</item>
+        <item quantity="other">%1$d years older than your age</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_younger">
+        <item quantity="one">At least %1$d year younger than your age</item>
+        <item quantity="other">At least %1$d years younger than your age</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_older">
+        <item quantity="one">At least %1$d year older than your age</item>
+        <item quantity="other">At least %1$d years older than your age</item>
+    </plurals>
+    <plurals name="lab_readings_line_up">
+        <item quantity="one">%1$d reading lines up so far, not enough to read a trend yet (NOOP waits for %2$d).</item>
+        <item quantity="other">%1$d readings line up so far, not enough to read a trend yet (NOOP waits for %2$d).</item>
+    </plurals>
+    <plurals name="workouts_count_range">
+        <item quantity="one">%1$d session · %2$s</item>
+        <item quantity="other">%1$d sessions · %2$s</item>
+    </plurals>
+    <plurals name="workouts_count_widened">
+        <item quantity="one">%1$d session · sparse, widened to %2$s</item>
+        <item quantity="other">%1$d sessions · sparse, widened to %2$s</item>
+    </plurals>
+    <string name="breathe_rate_per_min">%1$.1f br/min</string>
 </resources>

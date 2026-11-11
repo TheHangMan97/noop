@@ -2958,4 +2958,130 @@
     <string name="breathe_stop_session">停止练习</string>
     <string name="breathe_start_session">开始练习</string>
     <string name="breathe_sweeping">正在扫描节奏…</string>
+    <string name="oura_adopt_failed_hint">最常见的原因是戒指未在 Oura 应用中完全重置，或 Oura 应用仍在运行。请再次重置戒指，强制退出 Oura，然后重试。如果仍然失败，您的戒指可能属于 NOOP 尚无法接管的型号。您仍可使用文件导入。</string>
+    <string name="chart_summary_empty">%1$s，暂无数据</string>
+    <string name="chart_summary">%1$s，%2$d 个数据点，最新 %3$s，最低 %4$s，最高 %5$s</string>
+    <string name="chart_breakdown_empty">分布，暂无数据</string>
+    <string name="chart_timeline">时间线</string>
+    <string name="compare_range_week">最近 7 天</string>
+    <string name="compare_range_month">30 天</string>
+    <string name="compare_range_quarter">3 个月</string>
+    <string name="compare_range_half">6 个月</string>
+    <string name="compare_range_year">1 年</string>
+    <string name="compare_range_all">全部历史</string>
+    <string name="compare_sparse_widened_suffix">" · 数据稀疏，已扩展"</string>
+    <string name="compare_overlay">叠加</string>
+    <string name="compare_normalized_widened">每条线均做最小-最大归一化 · 稀疏序列已扩展到 %1$s 之外</string>
+    <string name="compare_normalized">每条线在 %1$s 内做最小-最大归一化</string>
+    <string name="compare_move_together">它们如何共同变化</string>
+    <string name="fused_day_owner">今日评分来源：%1$s</string>
+    <string name="fused_day_owner_calibrating">评分仍在校准，尚无当日主要来源</string>
+    <string name="fitness_age_about_lower">与您的年龄相当</string>
+    <string name="fitness_age_about">与您的年龄相当</string>
+    <string name="fitness_age_or_younger">%1$d 岁或更年轻</string>
+    <string name="fitness_age_or_older">%1$d 岁或更年长</string>
+    <string name="hydration_goal_of_liters">/ %1$.1f 升</string>
+    <string name="lab_no_overlap_yet">此标记与 %1$s 尚无重叠数据。请再记录几次读数（并继续佩戴手环）。</string>
+    <string name="lab_choose_signal">选择信号</string>
+    <string name="live_session_signal_lost">信号丢失——指导已暂停。</string>
+    <string name="live_session_guarding">正在守护您的练习。没有提示即表示状态良好。</string>
+    <string name="mood_awful">很糟</string>
+    <string name="mood_low">低落</string>
+    <string name="mood_okay">一般</string>
+    <string name="mood_good">不错</string>
+    <string name="mood_great">很棒</string>
+    <string name="mood_face_a11y">%1$s，心情 %2$d/5</string>
+    <string name="limit_live_hr">实时心率</string>
+    <string name="limit_sleep_staging">睡眠分期</string>
+    <string name="limit_recovery_strain">恢复与负荷</string>
+    <string name="limit_resp_rate">呼吸频率</string>
+    <string name="limit_stress">压力（设备端）</string>
+    <string name="limit_workout_detection">训练识别</string>
+    <string name="limit_skin_temp">皮肤温度</string>
+    <string name="limit_steps">步数</string>
+    <string name="limit_spo2">血氧（SpO₂ %）</string>
+    <string name="limit_ecg">心电图</string>
+    <string name="limit_blood_pressure">血压</string>
+    <string name="limit_row_a11y">%1$s：WHOOP 4.0 %2$s，5.0/MG %3$s</string>
+    <string name="limit_spoken_yes">支持</string>
+    <string name="limit_spoken_partly">部分支持</string>
+    <string name="limit_spoken_no">不支持</string>
+    <string name="notif_buzzes_wrist">手腕振动提醒</string>
+    <string name="deep_data_hint_needs_bond">需要完整的加密绑定：请关闭官方 WHOOP 应用，先将手环与 NOOP 配对（仅实时心率的连接无法完成解锁）。</string>
+    <string name="deep_data_hint_wear">请先佩戴手环。深度数据流仅在佩戴时可用。</string>
+    <string name="deep_data_hint_ready">佩戴手环并轻点一次，等待同步完成后分享手环日志。</string>
+    <string name="settings_spo2_estimate_title">血氧：手环估算值</string>
+    <string name="settings_spo2_estimate_detail">在没有校准百分比时，在血氧卡片中显示手环的夜间 SpO₂ 估算值：WHOOP 5.0/MG 的 @82 候选字节，或 Oura 戒指自身的读数（每个样本先限制在 100% 以内，否则戒指原始读数偏高）。这是未经验证的手环计算值——WHOOP 候选值在大多数夜晚与参考设备接近，但有些夜晚走势相反；Oura 的值目前只核对过少数几晚。仅以“估算”显示，绝不用于恢复或疾病评估。默认关闭。</string>
+    <string name="settings_stress_baseline_title">压力：个人日间基线</string>
+    <string name="settings_stress_baseline_detail">以您自己的跨日基线（您日常的典型状态，类似 Oura 的方式）来评估今天逐小时的压力时间线，而不是以当天的平静时段为参照。阈值目前仅根据一位参考对象调校，因此这是一种备选视角，并非默认设置。仅使用心率；绝不用于恢复或疾病评估。默认关闭。</string>
+    <string name="skin_temp_plan_trip">规划旅行或轮班</string>
+    <string name="skin_temp_view_plan">查看完整计划</string>
+    <string name="smart_alarm_connect_to_arm">连接手环即可启用；闹钟设置在手环自身固件中。已在 WHOOP 4.0 上确认可用；在 5.0 和 MG 上仍属实验功能。对于绝对不能错过的事项，请另设备用闹钟。</string>
+    <string name="smart_alarm_armed_4">闹钟直接设置在手环上，即使手机休眠或 NOOP 已关闭，也能在起床时间振动。发送与官方应用完全相同的闹钟指令，已在真实的 WHOOP 4.0 上确认振动（社区抓包 + 设备实测，#535）。对于绝对不能错过的事项，请另设备用闹钟。</string>
+    <string name="stress_explainer_stored">今天的数值是已记录的每日压力评分（0-3）。</string>
+    <string name="stress_explainer_derived">压力由两项自主神经信号推算得出。</string>
+    <string name="tc_polar_debug_title">Polar 调试日志</string>
+    <string name="tc_polar_debug_desc">%1$s。\n每次连接时将此识别信息写入手环日志，以便 Polar 错误报告显示 NOOP 识别出的型号。</string>
+    <string name="tc_oura_onset_title">Oura 入睡时间键控（实验）</string>
+    <string name="tc_oura_onset_desc">以稳定的 0x49 入睡时间为每晚 Oura 睡眠建立键值，并在源头抑制重复下发，取代当前以结束时间为锚点的保存方式（#1284）。默认关闭——用于硬件验证的开关。请在手环日志中查找 \'onset-key(#1284)\' 行。</string>
+    <string name="tc_detailed_capture_title">详细记录到文件</string>
+    <string name="tc_detailed_capture_desc">持续将手环日志追加到设备上的滚动文件中（≤8 MB，保留上一代），以便耗电、夜间数据下载等长时间问题能被记录数小时，而不只是内存中保留的约 50 分钟。应用被关闭后仍会继续，并在下次启动时恢复。除非您在下方分享，文件会一直保留在手机上。</string>
+    <string name="tc_capturing">正在记录…请重现问题，然后在下方分享日志。</string>
+    <string name="tc_share_captured_log">分享已记录日志</string>
+    <string name="trends_share_recap">分享回顾</string>
+    <string name="updates_whats_new_message">NOOP %1$s 已发布——轻点查看新功能。</string>
+    <string name="updates_unread_a11y">未读。%1$s。%2$s</string>
+    <string name="workouts_range_last_7_days">最近 7 天</string>
+    <string name="workouts_range_last_30_days">最近 30 天</string>
+    <string name="workouts_range_last_90_days">最近 90 天</string>
+    <string name="workouts_range_last_year">最近一年</string>
+    <string name="workouts_range_all_time">全部时间</string>
+    <string name="workouts_range_hero_week">本周</string>
+    <string name="workouts_range_hero_month">本月</string>
+    <string name="workouts_range_hero_quarter">本季度</string>
+    <string name="workouts_range_hero_year">本年</string>
+    <string name="workouts_range_hero_log">全部记录</string>
+    <string name="workouts_filtered_suffix">" · 已筛选"</string>
+    <string name="workouts_mostly_sport">以 %1$s 为主（%2$s）。</string>
+    <string name="workouts_logged_across">%1$s内记录的训练。</string>
+    <plurals name="chart_breakdown_segments">
+        <item quantity="other">分布，%1$d 个分段</item>
+    </plurals>
+    <plurals name="compare_readings_across">
+        <item quantity="other">%1$d 个读数，共 %2$d 项 · %3$s</item>
+    </plurals>
+    <plurals name="compare_series_count">
+        <item quantity="other">%1$d 个序列</item>
+    </plurals>
+    <plurals name="compare_pairs_count">
+        <item quantity="other">%1$d 组</item>
+    </plurals>
+    <plurals name="fitness_age_years_younger">
+        <item quantity="other">年轻 %1$d 岁</item>
+    </plurals>
+    <plurals name="fitness_age_years_older">
+        <item quantity="other">年长 %1$d 岁</item>
+    </plurals>
+    <plurals name="fitness_age_younger_than_age">
+        <item quantity="other">比实际年龄年轻 %1$d 岁</item>
+    </plurals>
+    <plurals name="fitness_age_older_than_age">
+        <item quantity="other">比实际年龄年长 %1$d 岁</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_younger">
+        <item quantity="other">至少比实际年龄年轻 %1$d 岁</item>
+    </plurals>
+    <plurals name="fitness_age_at_least_older">
+        <item quantity="other">至少比实际年龄年长 %1$d 岁</item>
+    </plurals>
+    <plurals name="lab_readings_line_up">
+        <item quantity="other">目前有 %1$d 个读数可对应，还不足以显示趋势（NOOP 需要 %2$d 个）。</item>
+    </plurals>
+    <plurals name="workouts_count_range">
+        <item quantity="other">%1$d 次训练 · %2$s</item>
+    </plurals>
+    <plurals name="workouts_count_widened">
+        <item quantity="other">%1$d 次训练 · 数据稀疏，已扩展至%2$s</item>
+    </plurals>
+    <string name="breathe_rate_per_min">%1$.1f 次/分</string>
 </resources>

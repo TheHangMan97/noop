@@ -2996,9 +2996,9 @@ fun SettingsScreen(
                         onClick = { vm.ble.enableWhoop5DeepData() },
                     )
                     Text(
-                        if (!live.encryptedBond) "Needs the full encrypted bond: close the official WHOOP app and pair the strap to NOOP first (a live-HR-only link can't carry the unlock)."
-                        else if (!live.worn) "Put the strap on first. The deep stream is on-wrist only."
-                        else "Wear the strap, tap once, then let it sync and share your strap log.",
+                        if (!live.encryptedBond) uiString(R.string.deep_data_hint_needs_bond)
+                        else if (!live.worn) uiString(R.string.deep_data_hint_wear)
+                        else uiString(R.string.deep_data_hint_ready),
                         style = NoopType.caption,
                         color = Palette.textTertiary,
                     )
@@ -3188,7 +3188,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Text(
-                        "Blood Oxygen: strap estimate",
+                        uiString(R.string.settings_spo2_estimate_title),
                         style = NoopType.subhead,
                         color = Palette.textPrimary,
                         modifier = Modifier.weight(1f),
@@ -3209,14 +3209,7 @@ fun SettingsScreen(
                     )
                 }
                 Text(
-                    "Surfaces your strap's nightly SpO₂ estimate in the Blood Oxygen tile when no " +
-                        "calibrated percentage is available: a WHOOP 5.0/MG's @82 candidate byte, or an " +
-                        "Oura ring's own reading with each sample capped at 100% first (the ring's raw " +
-                        "reading runs high otherwise). This is an UNVERIFIED strap-computed value — the " +
-                        "WHOOP candidate matched a reference device closely on most nights but moved " +
-                        "opposite on some; the Oura one has only been checked against a few nights so " +
-                        "far. Shown as an 'estimate' and never fed into recovery or illness scoring. Off " +
-                        "by default.",
+                    uiString(R.string.settings_spo2_estimate_detail),
                     style = NoopType.caption,
                     color = Palette.textTertiary,
                 )
@@ -3234,7 +3227,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Text(
-                        "Stress: personal daytime baseline",
+                        uiString(R.string.settings_stress_baseline_title),
                         style = NoopType.subhead,
                         color = Palette.textPrimary,
                         modifier = Modifier.weight(1f),
@@ -3256,10 +3249,7 @@ fun SettingsScreen(
                 }
 
                 Text(
-                    "Scores today's hour-by-hour stress timeline against YOUR own cross-day baseline " +
-                        "(how your days usually run, Oura-style) instead of the day's own calm hours. The " +
-                        "cutoff is tuned from a single-subject reference so far, so it's an alternative lens, " +
-                        "not the default. HR-only; never fed into recovery or illness scoring. Off by default.",
+                    uiString(R.string.settings_stress_baseline_detail),
                     style = NoopType.caption,
                     color = Palette.textTertiary,
                 )

@@ -481,13 +481,11 @@ private fun RangeBar(
             label = { it.label },
             onSelect = onSelect,
         )
-        val unit = if (rowCount == 1) "session" else "sessions"
-        // #64: append "· filtered" when a sport/source/search filter narrows the list.
-        val suffix = if (filterActive) " · filtered" else ""
+        val suffix = if (filterActive) uiString(R.string.workouts_filtered_suffix) else ""
         val caption = if (fellBack) {
-            "$rowCount $unit · sparse, widened to ${effectiveRange.caption}$suffix"
+            uiPlural(R.plurals.workouts_count_widened, rowCount, rowCount, effectiveRange.caption) + suffix
         } else {
-            "$rowCount $unit · ${effectiveRange.caption}$suffix"
+            uiPlural(R.plurals.workouts_count_range, rowCount, rowCount, effectiveRange.caption) + suffix
         }
         Text(
             caption,
@@ -776,8 +774,8 @@ private fun EffortHero(
                     HeroStat("Active", oneDecimal(totalTimeH) + "h", Palette.textPrimary, Modifier.weight(1f))
                 }
                 Text(
-                    if (modal != null) "Mostly ${WorkoutEditing.displaySport(modal.sport)} (${effectiveRange.caption})."
-                    else "Logged sessions across ${effectiveRange.caption}.",
+                    if (modal != null) uiString(R.string.workouts_mostly_sport, WorkoutEditing.displaySport(modal.sport), effectiveRange.caption)
+                    else uiString(R.string.workouts_logged_across, effectiveRange.caption),
                     style = NoopType.footnote,
                     color = Palette.textTertiary,
                 )
@@ -2408,12 +2406,17 @@ private fun FullDivider(alpha: Float = 1f) {
 
 // MARK: - Range model
 
-private enum class WorkoutRange(val label: String, val caption: String, val days: Int?, val heroWord: String) {
-    Week("7D", "last 7 days", 7, "week"),
-    Month("30D", "last 30 days", 30, "month"),
-    Quarter("90D", "last 90 days", 90, "quarter"),
-    Year("1Y", "last year", 365, "year"),
-    All("All", "all time", null, "log"),
+private enum class WorkoutRange(val label: String, private val captionRes: Int, val days: Int?, private val heroWordRes: Int) {
+    Week("7D", R.string.workouts_range_last_7_days, 7, R.string.workouts_range_hero_week),
+    Month("30D", R.string.workouts_range_last_30_days, 30, R.string.workouts_range_hero_month),
+    Quarter("90D", R.string.workouts_range_last_90_days, 90, R.string.workouts_range_hero_quarter),
+    Year("1Y", R.string.workouts_range_last_year, 365, R.string.workouts_range_hero_year),
+    All("All", R.string.workouts_range_all_time, null, R.string.workouts_range_hero_log);
+
+    /** Localized caption, e.g. "last 7 days". */
+    val caption: String get() = uiString(captionRes)
+    /** Localized noun for the hero line, e.g. "week". */
+    val heroWord: String get() = uiString(heroWordRes)
 }
 
 /** The HRR card must not interpolate the range enum's legacy English-only caption into localized copy. */

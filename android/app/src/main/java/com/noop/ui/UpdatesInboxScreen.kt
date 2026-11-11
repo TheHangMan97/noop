@@ -311,7 +311,7 @@ private fun UpdateRow(
                 contentDescription = if (item.read) {
                     "${item.title}. ${item.message}"
                 } else {
-                    "Unread. ${item.title}. ${item.message}"
+                    uiString(R.string.updates_unread_a11y, item.title, item.message)
                 }
             },
     ) {

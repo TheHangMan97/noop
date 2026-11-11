@@ -48,14 +48,16 @@ import kotlin.math.sqrt
 // mood is self-knowledge, not a score, so nothing here is tinted good/bad.
 
 /** One face on the check-in scale. `value` is the stored 1.0–5.0 contract value. */
-private data class MoodFace(val emoji: String, val value: Double, val word: String)
+private data class MoodFace(val emoji: String, val value: Double, val wordRes: Int) {
+    val word: String get() = uiString(wordRes)
+}
 
 private val MOOD_FACES = listOf(
-    MoodFace("😞", 1.0, "Awful"),   // 😞
-    MoodFace("😕", 2.0, "Low"),     // 😕
-    MoodFace("😐", 3.0, "Okay"),    // 😐
-    MoodFace("🙂", 4.0, "Good"),    // 🙂
-    MoodFace("😄", 5.0, "Great"),   // 😄
+    MoodFace("😞", 1.0, R.string.mood_awful),   // 😞
+    MoodFace("😕", 2.0, R.string.mood_low),     // 😕
+    MoodFace("😐", 3.0, R.string.mood_okay),    // 😐
+    MoodFace("🙂", 4.0, R.string.mood_good),    // 🙂
+    MoodFace("😄", 5.0, R.string.mood_great),   // 😄
 )
 
 /** Check-ins needed before the correlation lines unlock (mirrors the Swift gate). */
@@ -198,7 +200,7 @@ fun MindSection(vm: AppViewModel) {
 @Composable
 private fun MoodFaceButton(face: MoodFace, selected: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    val desc = "${face.word}, mood ${face.value.toInt()} of 5"
+    val desc = uiString(R.string.mood_face_a11y, face.word, face.value.toInt())
     Box(
         modifier = Modifier
             .clip(shape)

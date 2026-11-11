@@ -852,8 +852,9 @@ private fun VitalityHero(
                         color = Palette.textPrimary,
                     )
                     Text(
-                        if (delta == 0) "about your age"
-                        else "${kotlin.math.abs(delta)} ${yearWord(delta)} ${if (younger) "younger" else "older"}",
+                        if (delta == 0) uiString(R.string.fitness_age_about_lower)
+                        else if (younger) uiPlural(R.plurals.fitness_age_years_younger, kotlin.math.abs(delta), kotlin.math.abs(delta))
+                        else uiPlural(R.plurals.fitness_age_years_older, kotlin.math.abs(delta), kotlin.math.abs(delta)),
                         style = NoopType.footnote,
                         color = if (delta == 0) Palette.textSecondary
                         else if (younger) Palette.statusPositive else Palette.statusWarning,
@@ -978,14 +979,14 @@ private fun FitnessAgeHero(
     // age at or under it there is no safe distance to state at all, so the card states the bound alone.
     val deltaWord = when {
         boundSymbol == "≤" && deltaYears > 0 ->
-            "At least $deltaYears ${yearWord(deltaYears)} younger than your age"
-        boundSymbol == "≤" -> "${FitnessAgeEngine.minAge.roundToInt()} or younger"
+            uiPlural(R.plurals.fitness_age_at_least_younger, deltaYears, deltaYears)
+        boundSymbol == "≤" -> uiString(R.string.fitness_age_or_younger, FitnessAgeEngine.minAge.roundToInt())
         boundSymbol == "≥" && deltaYears < 0 ->
-            "At least ${kotlin.math.abs(deltaYears)} ${yearWord(deltaYears)} older than your age"
-        boundSymbol == "≥" -> "${FitnessAgeEngine.maxAge.roundToInt()} or older"
-        deltaYears == 0 -> "About your age"
-        younger -> "$deltaYears ${yearWord(deltaYears)} younger than your age"
-        else -> "${kotlin.math.abs(deltaYears)} ${yearWord(deltaYears)} older than your age"
+            uiPlural(R.plurals.fitness_age_at_least_older, kotlin.math.abs(deltaYears), kotlin.math.abs(deltaYears))
+        boundSymbol == "≥" -> uiString(R.string.fitness_age_or_older, FitnessAgeEngine.maxAge.roundToInt())
+        deltaYears == 0 -> uiString(R.string.fitness_age_about)
+        younger -> uiPlural(R.plurals.fitness_age_younger_than_age, deltaYears, deltaYears)
+        else -> uiPlural(R.plurals.fitness_age_older_than_age, kotlin.math.abs(deltaYears), kotlin.math.abs(deltaYears))
     }
     // Vessel fill: a bounded, honest reading of the SAME younger/older signal the card already states,
     // mapped across the ±5 yr band the section advertises — "about your age" is half-full, younger fills
@@ -1251,8 +1252,6 @@ private fun ReadinessRow(item: FitnessReadinessItem, onOpenSettings: (() -> Unit
         }
     }
 }
-
-private fun yearWord(years: Int): String = if (kotlin.math.abs(years) == 1) "year" else "years"
 
 @Composable
 fun VitalSignsScreen(vm: AppViewModel, onVitalClick: (String) -> Unit = {}) {

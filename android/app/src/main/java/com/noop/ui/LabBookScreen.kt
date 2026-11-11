@@ -491,11 +491,9 @@ private fun CorrelationResult(
         computing -> Text(uiString(R.string.l10n_lab_book_screen_lining_them_up_c59ee297), style = NoopType.subhead, color = Palette.textTertiary)
         n < LAB_FLOOR -> Text(
             if (n == 0) {
-                "No overlap yet between this marker and ${signal.title.lowercase()}. Log a few more readings " +
-                    "(and keep wearing your strap)."
+                uiString(R.string.lab_no_overlap_yet, signal.title)
             } else {
-                "$n reading${if (n == 1) "" else "s"} line up so far, not enough to read a trend yet " +
-                    "(NOOP waits for $LAB_FLOOR)."
+                uiPlural(R.plurals.lab_readings_line_up, n, n, LAB_FLOOR)
             },
             style = NoopType.subhead,
             color = Palette.textTertiary,
@@ -538,7 +536,7 @@ private fun SignalPicker(selected: LabSignal?, onSelect: (LabSignal?) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Icon(Icons.Filled.Add, contentDescription = null, tint = Palette.accent, modifier = Modifier.size(16.dp))
-            Text(selected?.title ?: "Choose a signal", style = NoopType.subhead, color = Palette.accent)
+            Text(selected?.title ?: uiString(R.string.lab_choose_signal), style = NoopType.subhead, color = Palette.accent)
         }
         androidx.compose.material3.DropdownMenu(
             expanded = expanded,
