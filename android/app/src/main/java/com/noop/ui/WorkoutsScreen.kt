@@ -263,7 +263,7 @@ fun WorkoutsScreen(vm: AppViewModel) {
     val skyBehindCards = remember { NoopPrefs.skyBehindCards(skyCtx) }
     LazyScreenScaffold(
         title = uiString(R.string.l10n_workouts_screen_workouts_ccb58b22),
-        subtitle = "Every session, threaded together.",
+        subtitle = uiStringOr(R.string.de_every_session_threaded_together_c925aa, "Every session, threaded together."),
         // LIQUID SKY BACKDROP (the pilot pattern — LiquidScreenSky.kt): the time-of-day liquid sky settles
         // into the theme canvas behind the header + top rows (bled full-width up behind the status bar via
         // the scaffold's topBackground plumbing), and the cards float OVER it on the flat surface below. The
@@ -404,7 +404,7 @@ private fun EmptyWorkouts() {
     // empty state is just the note — no second Add button here.
     DataPendingNote(
         title = uiString(R.string.l10n_workouts_screen_no_workouts_yet_85a92042),
-        body = "No workouts yet. They come from your WHOOP and Apple Health history. Import in Data Sources to bring them in, or add one you tracked elsewhere.",
+        body = uiStringOr(R.string.de_no_workouts_yet_they_come_from_your_whoo_1000eb, "No workouts yet. They come from your WHOOP and Apple Health history. Import in Data Sources to bring them in, or add one you tracked elsewhere."),
     )
 }
 
@@ -507,10 +507,10 @@ private val SOURCE_FILTER_OPTIONS = listOf(
 private fun sourceFilterLabel(c: WorkoutSource): String = when (c) {
     WorkoutSource.WHOOP -> "Whoop"
     WorkoutSource.APPLE -> "Apple"
-    WorkoutSource.DETECTED -> "Detected"
-    WorkoutSource.MANUAL -> "Manual"
-    WorkoutSource.LIFTING -> "Lifting"
-    WorkoutSource.ACTIVITY_FILE -> "File"
+    WorkoutSource.DETECTED -> uiStringOr(R.string.de_detected_74fb2c, "Detected")
+    WorkoutSource.MANUAL -> uiStringOr(R.string.de_manual_4e836f, "Manual")
+    WorkoutSource.LIFTING -> uiStringOr(R.string.de_lifting_a975ed, "Lifting")
+    WorkoutSource.ACTIVITY_FILE -> uiStringOr(R.string.de_file_2c3caf, "File")
 }
 
 /**
@@ -733,7 +733,7 @@ private fun EffortHero(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(18.dp),
             ) {
-                Overline("Typical effort", color = Palette.effortColor)
+                Overline(uiStringOr(R.string.de_typical_effort_8a4b47, "Typical effort"), color = Palette.effortColor)
                 Box(modifier = Modifier.size(140.dp), contentAlignment = Alignment.Center) {
                     LiquidVessel(
                         value = fraction,
@@ -769,8 +769,8 @@ private fun EffortHero(
                     color = Palette.textPrimary,
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(Metrics.gap), modifier = Modifier.fillMaxWidth()) {
-                    HeroStat("Sessions", "${rows.size}", Palette.effortColor, Modifier.weight(1f))
-                    HeroStat("Active", oneDecimal(totalTimeH) + "h", Palette.textPrimary, Modifier.weight(1f))
+                    HeroStat(uiStringOr(R.string.de_sessions_e11e37, "Sessions"), "${rows.size}", Palette.effortColor, Modifier.weight(1f))
+                    HeroStat(uiStringOr(R.string.de_active_a733b8, "Active"), oneDecimal(totalTimeH) + "h", Palette.textPrimary, Modifier.weight(1f))
                 }
                 Text(
                     if (modal != null) uiString(R.string.workouts_mostly_sport, WorkoutEditing.displaySport(modal.sport), effectiveRange.caption)
@@ -1014,7 +1014,7 @@ private fun BreakdownSection(groups: List<SportGroup>, rows: List<WorkoutRow>) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         SectionHeader(
             title = uiString(R.string.l10n_workouts_screen_activity_breakdown_214431d6),
-            overline = "By sport",
+            overline = uiStringOr(R.string.de_by_sport_22170d, "By sport"),
             trailing = "${groups.size} sport${if (groups.size == 1) "" else "s"}",
         )
         // This sport's own sessions, so each card can carry an HR-zone mini-bar.
@@ -1059,10 +1059,10 @@ private fun SportCard(g: SportGroup, zones: ZoneSummary?) {
             CardDivider()
             // Identical 4-up stat strip for every card.
             Row(modifier = Modifier.fillMaxWidth()) {
-                MiniStat("Sessions", "${g.count}", Modifier.weight(1f))
-                MiniStat("Time", oneDecimal(g.totalTimeH) + "h", Modifier.weight(1f))
+                MiniStat(uiStringOr(R.string.de_sessions_e11e37, "Sessions"), "${g.count}", Modifier.weight(1f))
+                MiniStat(uiStringOr(R.string.de_time_6c82e6, "Time"), oneDecimal(g.totalTimeH) + "h", Modifier.weight(1f))
                 MiniStat("Kcal", grouped(g.totalKcal), Modifier.weight(1f), tint = Palette.metricAmber)
-                MiniStat("Avg/sess", "${g.avgTimePerSessionMin.roundToInt()}m", Modifier.weight(1f))
+                MiniStat(uiStringOr(R.string.de_avg_sess_eb89c8, "Avg/sess"), "${g.avgTimePerSessionMin.roundToInt()}m", Modifier.weight(1f))
             }
         }
     }
@@ -1090,7 +1090,7 @@ private fun ZonesSection(rows: List<WorkoutRow>) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         SectionHeader(
             title = uiString(R.string.l10n_workouts_screen_hr_zones_293d7175),
-            overline = "Whoop import",
+            overline = uiStringOr(R.string.de_whoop_import_f30564, "Whoop import"),
             trailing = "${z.sessionsWithZones} of ${rows.size} session${if (rows.size == 1) "" else "s"}",
         )
         NoopCard(tint = Palette.effortColor) {
@@ -1179,7 +1179,7 @@ private fun SessionsSection(
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(modifier = Modifier.weight(1f)) {
-                SectionHeader(title = uiString(R.string.l10n_workouts_screen_all_sessions_03bc4eb4), overline = "Log", trailing = "${rows.size} total")
+                SectionHeader(title = uiString(R.string.l10n_workouts_screen_all_sessions_03bc4eb4), overline = uiStringOr(R.string.de_log_8bf95e, "Log"), trailing = "${rows.size} total")
             }
             if (anySelectable) SelectPill(selectionMode, onToggleSelectMode)
         }
@@ -1273,12 +1273,12 @@ private fun SelectionToolbar(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         ToolbarAction(
-            "Merge (${chosen.size})", Icons.AutoMirrored.Filled.MergeType,
+            uiStringOr(R.string.de_merge_1_s_7a7e86, "Merge (%1\$s)", (chosen.size).toString()), Icons.AutoMirrored.Filled.MergeType,
             tint = if (canMerge) Palette.effortColor else Palette.textTertiary,
             enabled = canMerge, onClick = { onMerge(chosen) },
         )
         ToolbarAction(
-            "Delete (${chosen.size})", Icons.Filled.Delete,
+            uiStringOr(R.string.de_delete_1_s_d61658, "Delete (%1\$s)", (chosen.size).toString()), Icons.Filled.Delete,
             tint = if (chosen.isEmpty()) Palette.textTertiary else Palette.metricRose,
             enabled = chosen.isNotEmpty(), onClick = { onBulkDelete(chosen) },
         )
@@ -1324,12 +1324,12 @@ private fun SessionHeaderRow(selectionMode: Boolean = false) {
         // #64: a leading spacer over the per-row selection glyph, so the columns stay aligned in select mode.
         if (selectionMode) Spacer(Modifier.width(30.dp))
         // Weights mirror SessionRow (#157: Date widened for the time range, taken from Sport).
-        ColHeader("Date", Modifier.weight(1.7f), TextAlign.Start)
-        ColHeader("Sport", Modifier.weight(1.3f), TextAlign.Start)
-        ColHeader("Dur", Modifier.weight(1f), TextAlign.End)
+        ColHeader(uiStringOr(R.string.de_date_eb9a4b, "Date"), Modifier.weight(1.7f), TextAlign.Start)
+        ColHeader(uiStringOr(R.string.de_sport_1855c2, "Sport"), Modifier.weight(1.3f), TextAlign.Start)
+        ColHeader(uiStringOr(R.string.de_dur_10dc1b, "Dur"), Modifier.weight(1f), TextAlign.End)
         ColHeader("HR", Modifier.weight(1.1f), TextAlign.End)
         ColHeader("Kcal", Modifier.weight(1f), TextAlign.End)
-        ColHeader("Src", Modifier.weight(1f), TextAlign.End)
+        ColHeader(uiStringOr(R.string.de_src_fdb3d8, "Src"), Modifier.weight(1f), TextAlign.End)
         // Trailing spacer column over the per-row overflow menu, so headers line up with the cells.
         Spacer(Modifier.width(32.dp))
     }
@@ -1519,17 +1519,17 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                 SourceBadge(srcLabel, tint = srcTint)
             }
             CardDivider()
-            DetailRow("Time", timeRangeLabel(row.startTs, row.endTs))
-            DetailRow("Duration", durationLabel(row.durationS))
-            if (row.avgHr != null) DetailRow("Avg HR", "${row.avgHr} bpm")
-            if (row.maxHr != null) DetailRow("Max HR", "${row.maxHr} bpm")
-            if (row.energyKcal != null) DetailRow("Calories", "${grouped(row.energyKcal)} kcal")
+            DetailRow(uiStringOr(R.string.de_time_6c82e6, "Time"), timeRangeLabel(row.startTs, row.endTs))
+            DetailRow(uiStringOr(R.string.de_duration_137000, "Duration"), durationLabel(row.durationS))
+            if (row.avgHr != null) DetailRow(uiStringOr(R.string.de_avg_hr_40a8c2, "Avg HR"), "${row.avgHr} bpm")
+            if (row.maxHr != null) DetailRow(uiStringOr(R.string.de_max_hr_6acd9e, "Max HR"), "${row.maxHr} bpm")
+            if (row.energyKcal != null) DetailRow(uiStringOr(R.string.de_calories_3e62ec, "Calories"), "${grouped(row.energyKcal)} kcal")
             if (row.distanceM != null) {
                 val unitSystem = UnitPrefs.distanceSystem(LocalContext.current)
-                DetailRow("Distance", UnitFormatter.distanceFromKilometers(row.distanceM / 1000.0, unitSystem))
+                DetailRow(uiStringOr(R.string.de_distance_423208, "Distance"), UnitFormatter.distanceFromKilometers(row.distanceM / 1000.0, unitSystem))
             }
-            steps?.let { DetailRow("Steps", "${grouped(it.toDouble())} steps") }  // #398, on-foot sports
-            if (!row.notes.isNullOrBlank()) DetailRow("Notes", row.notes)
+            steps?.let { DetailRow(uiStringOr(R.string.de_steps_cdde4f, "Steps"), "${grouped(it.toDouble())} steps") }  // #398, on-foot sports
+            if (!row.notes.isNullOrBlank()) DetailRow(uiStringOr(R.string.de_notes_704400, "Notes"), row.notes)
 
             // #796 - per-session Effort contribution. The session's captured strain re-homed from a plain
             // value row into a prominent Effort-amber card (the big count-up value + the "This session"
@@ -1558,7 +1558,7 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                 }
                 CardDivider()
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Overline("Heart rate", modifier = Modifier.weight(1f))
+                    Overline(uiStringOr(R.string.de_heart_rate_410aa1, "Heart rate"), modifier = Modifier.weight(1f))
                     Text(uiString(R.string.l10n_workouts_screen_hr_zones_293d7175), style = NoopType.footnote, color = Palette.textSecondary)
                     Spacer(Modifier.width(Metrics.space8))
                     Switch(checked = zoneColorsEnabled, onCheckedChange = { zoneColorsEnabled = it })
@@ -1603,9 +1603,9 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                         overflow = TextOverflow.Ellipsis)
                 }
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Metrics.space12)) {
-                    MiniStat("Avg", row.avgHr?.let { "$it bpm" } ?: "–", Modifier.weight(1f))
-                    MiniStat("Peak", (row.maxHr ?: hi).let { "$it bpm" }, Modifier.weight(1f))
-                    MiniStat("Low", "$lo bpm", Modifier.weight(1f))
+                    MiniStat(uiStringOr(R.string.de_avg_cdc931, "Avg"), row.avgHr?.let { "$it bpm" } ?: "–", Modifier.weight(1f))
+                    MiniStat(uiStringOr(R.string.de_peak_c83dbb, "Peak"), (row.maxHr ?: hi).let { "$it bpm" }, Modifier.weight(1f))
+                    MiniStat(uiStringOr(R.string.de_low_a12494, "Low"), "$lo bpm", Modifier.weight(1f))
                 }
                 // #18: the Avg HR shown above can be EDITED on the manual sheet while the graph, zones and
                 // Effort stay from the recorded session (preservingCaptured keeps the captured strain/zones).
@@ -1629,7 +1629,7 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                 if (total > 0.0) {
                     CardDivider()
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Overline("HR zones", modifier = Modifier.weight(1f))
+                        Overline(uiStringOr(R.string.de_hr_zones_8a7816, "HR zones"), modifier = Modifier.weight(1f))
                         Text(
                             if (zonesFromImport) uiString(R.string.workouts_zones_from_import) else uiString(R.string.workouts_zones_from_strap),
                             style = NoopType.footnote,
@@ -1893,7 +1893,7 @@ private fun RecoveryTrendChart(
 private fun SessionEffortCard(strain: Double, effortScale: EffortScale) {
     val shown = UnitFormatter.effortValue(strain, effortScale)
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.space8)) {
-        SectionHeader("Effort", overline = "This session")
+        SectionHeader(uiStringOr(R.string.de_effort_8c974b, "Effort"), overline = uiStringOr(R.string.de_this_session_48c2a1, "This session"))
         NoopCard(tint = Palette.effortColor) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -2173,7 +2173,7 @@ private fun ManualWorkoutDialog(
                     },
                 )
                 DialogField(
-                    "Duration (minutes)", durationMin,
+                    uiStringOr(R.string.de_duration_minutes_10c3d1, "Duration (minutes)"), durationMin,
                     onChange = { typed ->
                         durationMin = typed
                         typed.trim().toIntOrNull()?.takeIf { it > 0 }?.let { m ->
@@ -2182,9 +2182,9 @@ private fun ManualWorkoutDialog(
                     },
                     numeric = true,
                 )
-                DialogField("Distance ($distUnit, optional)", distance, onChange = { distance = it }, numeric = true)
-                DialogField("Avg HR (bpm, optional)", avgHr, onChange = { avgHr = it }, numeric = true)
-                DialogField("Calories (kcal, optional)", kcal, onChange = { kcal = it }, numeric = true)
+                DialogField(uiStringOr(R.string.de_distance_1_s_optional_e99a15, "Distance (%1\$s, optional)", distUnit.toString()), distance, onChange = { distance = it }, numeric = true)
+                DialogField(uiStringOr(R.string.de_avg_hr_bpm_optional_9220e9, "Avg HR (bpm, optional)"), avgHr, onChange = { avgHr = it }, numeric = true)
+                DialogField(uiStringOr(R.string.de_calories_kcal_optional_0758de, "Calories (kcal, optional)"), kcal, onChange = { kcal = it }, numeric = true)
                 if (built == null) {
                     Text(
                         uiString(R.string.l10n_workouts_screen_enter_a_sport_a_positive_duration_3da88ad5),
@@ -2312,7 +2312,7 @@ private fun SportPickerField(value: String, onChange: (String) -> Unit) {
     // carries no GPS hint). Only rendered while the field is empty (typing means searching).
     val recents = if (q.isEmpty()) RecentSportsPrefs.recent(context) else emptyList()
 
-    DialogField("Sport", value, onChange = onChange, placeholder = uiString(R.string.l10n_workouts_screen_e_g_running_7dc6eba4))
+    DialogField(uiStringOr(R.string.de_sport_1855c2, "Sport"), value, onChange = onChange, placeholder = uiString(R.string.l10n_workouts_screen_e_g_running_7dc6eba4))
     if (showList) {
         Column(
             modifier = Modifier
@@ -2322,7 +2322,7 @@ private fun SportPickerField(value: String, onChange: (String) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             if (recents.isNotEmpty()) {
-                Overline("Recent", modifier = Modifier.padding(top = 6.dp))
+                Overline(uiStringOr(R.string.de_recent_76eec7, "Recent"), modifier = Modifier.padding(top = 6.dp))
                 recents.forEach { name ->
                     SportSuggestionRow(
                         name = name,
@@ -2331,7 +2331,7 @@ private fun SportPickerField(value: String, onChange: (String) -> Unit) {
                         onPick = { onChange(name) },
                     )
                 }
-                Overline("All activities", modifier = Modifier.padding(top = 6.dp))
+                Overline(uiStringOr(R.string.de_all_activities_961d28, "All activities"), modifier = Modifier.padding(top = 6.dp))
             }
             matches.forEach { sp ->
                 SportSuggestionRow(name = sp.name, isDistance = sp.isDistanceSport, onPick = { onChange(sp.name) })
@@ -2410,7 +2410,7 @@ private enum class WorkoutRange(val label: String, private val captionRes: Int, 
     Month("30D", R.string.workouts_range_last_30_days, 30, R.string.workouts_range_hero_month),
     Quarter("90D", R.string.workouts_range_last_90_days, 90, R.string.workouts_range_hero_quarter),
     Year("1Y", R.string.workouts_range_last_year, 365, R.string.workouts_range_hero_year),
-    All("All", R.string.workouts_range_all_time, null, R.string.workouts_range_hero_log);
+    All(uiStringOr(R.string.de_all_6a7208, "All"), R.string.workouts_range_all_time, null, R.string.workouts_range_hero_log);
 
     /** Localized caption, e.g. "last 7 days". */
     val caption: String get() = uiString(captionRes)

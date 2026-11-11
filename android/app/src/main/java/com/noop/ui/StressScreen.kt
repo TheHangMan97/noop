@@ -323,7 +323,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.StressContent(
             modifier = Modifier.staggeredAppear(1),
             verticalArrangement = Arrangement.spacedBy(Metrics.gap),
         ) {
-            SectionHeader("Today", overline = "Markers", trailing = "vs 30-day baseline")
+            SectionHeader(uiStringOr(R.string.de_today_24345a, "Today"), overline = uiStringOr(R.string.de_markers_c64fa8, "Markers"), trailing = uiStringOr(R.string.de_vs_30_day_baseline_18548a, "vs 30-day baseline"))
             StressTiles(model)
         }
     }
@@ -395,7 +395,7 @@ private fun StressHeroCard(model: StressModel, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Overline("Stress monitor", modifier = Modifier.weight(1f))
+                Overline(uiStringOr(R.string.de_stress_monitor_98ead1, "Stress monitor"), modifier = Modifier.weight(1f))
                 StatePill(model.band.title, tone = model.band.tone, showsDot = true)
             }
 
@@ -504,7 +504,7 @@ private fun StressAdvancedCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Overline("Advanced HRV", modifier = Modifier.weight(1f))
+                Overline(uiStringOr(R.string.de_advanced_hrv_cee295, "Advanced HRV"), modifier = Modifier.weight(1f))
                 Text(
                     uiString(R.string.l10n_stress_screen_on_demand_today_s_r_r_17d716e1),
                     style = NoopType.footnote,
@@ -521,7 +521,7 @@ private fun StressAdvancedCard(
                         modifier = m,
                         label = uiString(R.string.l10n_stress_screen_baevsky_stress_index_296cf7c0),
                         value = "${stressIndex.si.roundToInt()}",
-                        caption = "Autonomic rigidity from your heart-rate rhythm. Higher means a more rigid, stressed rhythm.",
+                        caption = uiStringOr(R.string.de_autonomic_rigidity_from_your_heart_rate_ca21ce, "Autonomic rigidity from your heart-rate rhythm. Higher means a more rigid, stressed rhythm."),
                         accent = StressRamp.TENSE,
                     )
                 }
@@ -536,7 +536,7 @@ private fun StressAdvancedCard(
                             modifier = m,
                             label = uiString(R.string.l10n_stress_screen_autonomic_balance_lf_hf_776cb6f7),
                             value = StressTrace.formatRatio(ratio),
-                            caption = "Sympathetic vs parasympathetic tone from frequency-domain HRV. Higher leans sympathetic (stress-ward).",
+                            caption = uiStringOr(R.string.de_sympathetic_vs_parasympathetic_tone_from_b8b1ae, "Sympathetic vs parasympathetic tone from frequency-domain HRV. Higher leans sympathetic (stress-ward)."),
                             accent = StressRamp.STEADY,
                         )
                     }
@@ -546,7 +546,7 @@ private fun StressAdvancedCard(
                             modifier = m,
                             label = uiString(R.string.l10n_stress_screen_hf_power_3a9fd8c9),
                             value = "${freqHrv.hf.roundToInt()}",
-                            caption = "Parasympathetic (rest) band of your HRV.",
+                            caption = uiStringOr(R.string.de_parasympathetic_rest_band_of_your_hrv_17ccac, "Parasympathetic (rest) band of your HRV."),
                             accent = StressRamp.STEADY,
                         )
                     }
@@ -597,7 +597,7 @@ private fun StressDaytimeSection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Today's Timeline", overline = "Intraday", trailing = timelineTrailing(day))
+        SectionHeader(uiStringOr(R.string.de_today_s_timeline_7b7a5b, "Today's Timeline"), overline = uiStringOr(R.string.de_intraday_905fbd, "Intraday"), trailing = timelineTrailing(day))
 
         NoopCard(tint = Palette.stressColor) {
             Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -605,7 +605,7 @@ private fun StressDaytimeSection(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Overline("Stress through the day", modifier = Modifier.weight(1f))
+                    Overline(uiStringOr(R.string.de_stress_through_the_day_eb1102, "Stress through the day"), modifier = Modifier.weight(1f))
                     // The peak of what is DRAWN, not of the whole hours (#2144). A sliding window can
                     // exceed both hourly neighbours when the busy stretch straddles a boundary, so
                     // reading `day.peak` here would caption the line with a number below its visible
@@ -1165,9 +1165,9 @@ private fun DaytimeStressLine(hours: List<DaytimeStress.HourPoint>) {
 
 private fun daytimeLineDescription(hours: List<DaytimeStress.HourPoint>): String {
     val scored = hours.mapNotNull { p -> p.level?.let { p.hour to it } }
-    if (scored.isEmpty()) return "No intraday stress data yet today."
+    if (scored.isEmpty()) return uiStringOr(R.string.de_no_intraday_stress_data_yet_today_9ee3b5, "No intraday stress data yet today.")
     val parts = scored.map { "${it.first}:00 ${String.format(Locale.US, "%.1f", it.second)}" }
-    return "Hourly stress today: " + parts.joinToString(", ")
+    return uiStringOr(R.string.de_hourly_stress_today_657763, "Hourly stress today: ") + parts.joinToString(", ")
 }
 
 // MARK: - Time-in-band — Calm / Moderate / High split of the scored waking hours (liquid tubes)
@@ -1191,7 +1191,7 @@ private fun StressTotalsBar(day: DaytimeStress.Result) {
 
     NoopCard(tint = Palette.stressColor) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Overline("Time in band")
+            Overline(uiStringOr(R.string.de_time_in_band_64d3c3, "Time in band"))
 
             TimeInBandRow(StressTotalsBand.Calm, calm, total)
             TimeInBandRow(StressTotalsBand.Moderate, moderate, total)
@@ -1201,9 +1201,9 @@ private fun StressTotalsBar(day: DaytimeStress.Result) {
 }
 
 private enum class StressTotalsBand(val title: String, val color: Color) {
-    Calm("Calm", StressRamp.CALM),         // blue — low stress
-    Moderate("Moderate", StressRamp.STEADY), // green — balanced
-    High("High", StressRamp.TENSE),        // amber — high
+    Calm(uiStringOr(R.string.de_calm_7930bf, "Calm"), StressRamp.CALM),         // blue — low stress
+    Moderate(uiStringOr(R.string.de_moderate_ea8b09, "Moderate"), StressRamp.STEADY), // green — balanced
+    High(uiStringOr(R.string.de_high_b1a595, "High"), StressRamp.TENSE),        // amber — high
 }
 
 /** One band's share of the scored waking hours as a liquid tube row: a swatch + label on the left, the
@@ -1267,8 +1267,8 @@ private fun SustainedBreatheCard(day: DaytimeStress.Result, onBreathe: () -> Uni
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Overline("Sustained high stress", modifier = Modifier.weight(1f))
-                StatePill("${day.sustainedRun}h elevated", tone = StrandTone.Warning, showsDot = true)
+                Overline(uiStringOr(R.string.de_sustained_high_stress_7d54c5, "Sustained high stress"), modifier = Modifier.weight(1f))
+                StatePill(uiStringOr(R.string.de_1_sh_elevated_54d114, "%1\$sh elevated", (day.sustainedRun).toString()), tone = StrandTone.Warning, showsDot = true)
             }
             Text(
                 uiString(R.string.l10n_stress_screen_your_last_day_sustainedrun_hours_have_194825dd, day.sustainedRun),
@@ -1423,7 +1423,7 @@ private fun StressTrendSection(model: StressModel, modifier: Modifier = Modifier
     val dayLabels = remember(points) { points.map { shortDayLabel(it.day) } }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Stress Trend", overline = "History", trailing = range.label)
+        SectionHeader(uiStringOr(R.string.de_stress_trend_c3f8a2, "Stress Trend"), overline = uiStringOr(R.string.de_history_90ccd6, "History"), trailing = range.label)
         if (points.size >= 2) {
             val avg = values.average()
             NoopCard(tint = Palette.stressColor) {
@@ -1433,7 +1433,7 @@ private fun StressTrendSection(model: StressModel, modifier: Modifier = Modifier
                         verticalAlignment = Alignment.Top,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Overline("Stress · ${range.label}")
+                            Overline(uiStringOr(R.string.de_stress_1_s_749429, "Stress · %1\$s", (range.label).toString()))
                             Text(
                                 uiString(R.string.l10n_stress_screen_daily_0_3_proxy_63247929),
                                 style = NoopType.footnote,
@@ -1463,9 +1463,9 @@ private fun StressTrendSection(model: StressModel, modifier: Modifier = Modifier
                     )
                     HorizontalDivider(color = Palette.hairline)
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        TrendFooterItem("Today", String.format(Locale.US, "%.1f", model.score))
-                        TrendFooterItem("Average", String.format(Locale.US, "%.1f", avg))
-                        TrendFooterItem("Days", points.size.toString())
+                        TrendFooterItem(uiStringOr(R.string.de_today_24345a, "Today"), String.format(Locale.US, "%.1f", model.score))
+                        TrendFooterItem(uiStringOr(R.string.de_average_15f86c, "Average"), String.format(Locale.US, "%.1f", avg))
+                        TrendFooterItem(uiStringOr(R.string.de_days_f6bb0f, "Days"), points.size.toString())
                     }
                 }
             }
@@ -1513,7 +1513,7 @@ private fun androidx.compose.foundation.layout.RowScope.TrendFooterItem(label: S
 private fun StressMethodologyCard(model: StressModel, modifier: Modifier = Modifier) {
     NoopCard(tint = Palette.stressColor, modifier = modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Overline("How this is computed")
+            Overline(uiStringOr(R.string.de_how_this_is_computed_5b5203, "How this is computed"))
             Text(
                 if (model.usingStored) {
                     uiString(R.string.stress_explainer_stored)
@@ -1574,7 +1574,7 @@ private fun androidx.compose.foundation.layout.RowScope.BandLegend(range: String
 @Composable
 private fun StressDaytimeLoading(modifier: Modifier = Modifier) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Today's Timeline", overline = "Intraday")
+        SectionHeader(uiStringOr(R.string.de_today_s_timeline_7b7a5b, "Today's Timeline"), overline = uiStringOr(R.string.de_intraday_905fbd, "Intraday"))
         NoopCard(tint = Palette.stressColor) {
             Box(
                 modifier = Modifier
@@ -1616,7 +1616,7 @@ private fun StressLoading() {
 private fun StressEmpty() {
     DataPendingNote(
         title = uiString(R.string.l10n_stress_screen_no_stress_history_yet_ec962e3c),
-        body = "No stress history yet. Import your WHOOP export in Data Sources to see it.",
+        body = uiStringOr(R.string.de_no_stress_history_yet_import_your_whoop_16b553, "No stress history yet. Import your WHOOP export in Data Sources to see it."),
     )
 }
 
@@ -1776,12 +1776,12 @@ internal class StressModel private constructor(
             val calmCaption: String
             if (recent.isEmpty()) {
                 calmValue = "—"
-                calmCaption = "needs history"
+                calmCaption = uiStringOr(R.string.de_needs_history_debbf1, "needs history")
             } else {
                 val calm = recent.count { it.value < 1.0 }
                 val pct = (calm.toDouble() / recent.size * 100).roundToInt()
                 calmValue = "$pct%"
-                calmCaption = "low-stress days · ${recent.size}d"
+                calmCaption = uiStringOr(R.string.de_low_stress_days_1_sd_a0f2f9, "low-stress days · %1\$sd", (recent.size).toString())
             }
 
             return StressModel(
@@ -1837,19 +1837,19 @@ internal class StressModel private constructor(
             val rhrDn = (rhrDelta ?: 0.0) < -1.0
             return when (band) {
                 StressBand.High -> when {
-                    rhrUp && hrvDn -> "Resting HR is elevated and HRV is below your baseline, both classic signs of high activation. Prioritise rest, hydration and an easy day."
-                    hrvDn -> "HRV has dropped well below your baseline, pointing to elevated stress or fatigue. Ease off and give your body time to recover."
-                    rhrUp -> "Resting heart rate is running high versus your norm. Your body is under load today. Keep effort light."
-                    else -> "Your autonomic markers are skewed toward stress today. Treat it as a recovery-focused day."
+                    rhrUp && hrvDn -> uiStringOr(R.string.de_resting_hr_is_elevated_and_hrv_is_below_9d99a9, "Resting HR is elevated and HRV is below your baseline, both classic signs of high activation. Prioritise rest, hydration and an easy day.")
+                    hrvDn -> uiStringOr(R.string.de_hrv_has_dropped_well_below_your_baseline_fafbf8, "HRV has dropped well below your baseline, pointing to elevated stress or fatigue. Ease off and give your body time to recover.")
+                    rhrUp -> uiStringOr(R.string.de_resting_heart_rate_is_running_high_versu_f0d20b, "Resting heart rate is running high versus your norm. Your body is under load today. Keep effort light.")
+                    else -> uiStringOr(R.string.de_your_autonomic_markers_are_skewed_toward_dff40e, "Your autonomic markers are skewed toward stress today. Treat it as a recovery-focused day.")
                 }
                 StressBand.Medium -> when {
                     rhrUp || hrvDn -> "Slightly off baseline (${if (rhrUp) "resting HR is a touch high" else "HRV is a little low"}), so you're moderately activated. Nothing alarming; just don't overreach."
-                    else -> "You're sitting around your typical autonomic baseline: moderate stress, a normal, balanced day."
+                    else -> uiStringOr(R.string.de_you_re_sitting_around_your_typical_auton_cd0fd2, "You're sitting around your typical autonomic baseline: moderate stress, a normal, balanced day.")
                 }
                 StressBand.Low -> when {
-                    rhrDn && hrvUp -> "Resting heart rate is low and HRV is up. Your nervous system looks well-recovered and calm. A great day to push if you want to."
-                    hrvUp -> "HRV is above baseline, a sign of a relaxed, well-recovered nervous system. Stress is low."
-                    else -> "Resting heart rate and HRV are sitting at or below baseline: low physiological stress. You're in a calm, recovered state."
+                    rhrDn && hrvUp -> uiStringOr(R.string.de_resting_heart_rate_is_low_and_hrv_is_up_670c84, "Resting heart rate is low and HRV is up. Your nervous system looks well-recovered and calm. A great day to push if you want to.")
+                    hrvUp -> uiStringOr(R.string.de_hrv_is_above_baseline_a_sign_of_a_relaxe_b4f550, "HRV is above baseline, a sign of a relaxed, well-recovered nervous system. Stress is low.")
+                    else -> uiStringOr(R.string.de_resting_heart_rate_and_hrv_are_sitting_a_8f0860, "Resting heart rate and HRV are sitting at or below baseline: low physiological stress. You're in a calm, recovered state.")
                 }
             }
         }

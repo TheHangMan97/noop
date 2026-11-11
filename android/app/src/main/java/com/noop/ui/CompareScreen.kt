@@ -148,56 +148,56 @@ data class CompareMetric(
  * [DailyMetric] so a my-whoop metric can be derived from the daily cache as a fallback.
  */
 private object CompareCatalog {
-    val categories = listOf("Heart", "Charge", "Rest", "Effort", "Health", "Nutrition", "Mind")
+    val categories = listOf("Heart", "Charge", "Rest", uiStringOr(R.string.de_effort_8c974b, "Effort"), "Health", "Nutrition", "Mind")
 
     val all: List<CompareMetric> = listOf(
         // Heart
-        CompareMetric("avg_hr", "Average Heart Rate", "Heart", "bpm", "my-whoop", 0),
-        CompareMetric("max_hr", "Max Heart Rate", "Heart", "bpm", "my-whoop", 0),
-        CompareMetric("energy_kcal", "Calories", "Heart", "kcal", "my-whoop", 0),
-        CompareMetric("vo2max", "VO₂ Max", "Heart", "", "apple-health", 1),
-        CompareMetric("fitness_age", "Fitness Age", "Heart", "yrs", "my-whoop", 0),
-        CompareMetric("vo2max_est", "VO₂ Max (estimated)", "Heart", "", "my-whoop", 1),
-        CompareMetric("vitality", "Vitality", "Heart", "", "my-whoop", 0),
-        CompareMetric("body_age", "Body Age", "Heart", "yrs", "my-whoop", 0),
+        CompareMetric("avg_hr", uiStringOr(R.string.de_average_heart_rate_2e9531, "Average Heart Rate"), "Heart", "bpm", "my-whoop", 0),
+        CompareMetric("max_hr", uiStringOr(R.string.de_max_heart_rate_5f8b27, "Max Heart Rate"), "Heart", "bpm", "my-whoop", 0),
+        CompareMetric("energy_kcal", uiStringOr(R.string.de_calories_3e62ec, "Calories"), "Heart", "kcal", "my-whoop", 0),
+        CompareMetric("vo2max", uiStringOr(R.string.de_vo_max_21214f, "VO₂ Max"), "Heart", "", "apple-health", 1),
+        CompareMetric("fitness_age", uiStringOr(R.string.de_fitness_age_12383b, "Fitness Age"), "Heart", "yrs", "my-whoop", 0),
+        CompareMetric("vo2max_est", uiStringOr(R.string.de_vo_max_estimated_01930b, "VO₂ Max (estimated)"), "Heart", "", "my-whoop", 1),
+        CompareMetric("vitality", uiStringOr(R.string.de_vitality_be320b, "Vitality"), "Heart", "", "my-whoop", 0),
+        CompareMetric("body_age", uiStringOr(R.string.de_body_age_8a2512, "Body Age"), "Heart", "yrs", "my-whoop", 0),
         // Charge (was Recovery)
         CompareMetric("recovery", "Charge", "Charge", "%", "my-whoop", 0),
-        CompareMetric("hrv", "Heart Rate Variability", "Charge", "ms", "my-whoop", 0),
-        CompareMetric("rhr", "Resting Heart Rate", "Charge", "bpm", "my-whoop", 0),
-        CompareMetric("resp_rate", "Respiratory Rate", "Charge", "rpm", "my-whoop", 1),
-        CompareMetric("spo2", "Blood Oxygen", "Charge", "%", "my-whoop", 0),
-        CompareMetric("skin_temp", "Skin Temperature", "Charge", "°C", "my-whoop", 1),
+        CompareMetric("hrv", uiStringOr(R.string.de_heart_rate_variability_20f006, "Heart Rate Variability"), "Charge", "ms", "my-whoop", 0),
+        CompareMetric("rhr", uiStringOr(R.string.de_resting_heart_rate_9700f4, "Resting Heart Rate"), "Charge", "bpm", "my-whoop", 0),
+        CompareMetric("resp_rate", uiStringOr(R.string.de_respiratory_rate_3fbb53, "Respiratory Rate"), "Charge", "rpm", "my-whoop", 1),
+        CompareMetric("spo2", uiStringOr(R.string.de_blood_oxygen_a8ad9f, "Blood Oxygen"), "Charge", "%", "my-whoop", 0),
+        CompareMetric("skin_temp", uiStringOr(R.string.de_skin_temperature_f59127, "Skin Temperature"), "Charge", "°C", "my-whoop", 1),
         // Rest (was Sleep)
         CompareMetric("sleep_performance", "Rest", "Rest", "%", "my-whoop", 0),
-        CompareMetric("sleep_total_min", "Asleep Time", "Rest", "min", "my-whoop", 0),
-        CompareMetric("sleep_efficiency", "Sleep Efficiency", "Rest", "%", "my-whoop", 0),
-        CompareMetric("sleep_deep_min", "Deep (SWS) Sleep", "Rest", "min", "my-whoop", 0),
-        CompareMetric("sleep_rem_min", "REM Sleep", "Rest", "min", "my-whoop", 0),
-        CompareMetric("sleep_light_min", "Light Sleep", "Rest", "min", "my-whoop", 0),
+        CompareMetric("sleep_total_min", uiStringOr(R.string.de_asleep_time_ccde95, "Asleep Time"), "Rest", "min", "my-whoop", 0),
+        CompareMetric("sleep_efficiency", uiStringOr(R.string.de_sleep_efficiency_b4b5c2, "Sleep Efficiency"), "Rest", "%", "my-whoop", 0),
+        CompareMetric("sleep_deep_min", uiStringOr(R.string.de_deep_sws_sleep_4ec27b, "Deep (SWS) Sleep"), "Rest", "min", "my-whoop", 0),
+        CompareMetric("sleep_rem_min", uiStringOr(R.string.de_rem_sleep_77605e, "REM Sleep"), "Rest", "min", "my-whoop", 0),
+        CompareMetric("sleep_light_min", uiStringOr(R.string.de_light_sleep_d4bbaf, "Light Sleep"), "Rest", "min", "my-whoop", 0),
         // Effort (was Strain)
-        CompareMetric("strain", "Effort", "Effort", "/100", "my-whoop", 1),
-        CompareMetric("steps", "Steps", "Effort", "", "apple-health", 0),
+        CompareMetric("strain", uiStringOr(R.string.de_effort_8c974b, uiStringOr(R.string.de_effort_8c974b, "Effort")), "Effort", "/100", "my-whoop", 1),
+        CompareMetric("steps", uiStringOr(R.string.de_steps_cdde4f, "Steps"), uiStringOr(R.string.de_effort_8c974b, "Effort"), "", "apple-health", 0),
         // On-device steps ESTIMATE for a WHOOP 4.0 (no real step count over BLE): the strap's daily
         // motion volume scaled by a personal calibration, stored under the computed "-noop" source.
         // Distinct from the real "steps" above — labelled "(estimated)" so it never reads as measured.
-        CompareMetric("steps_est", "Steps (estimated)", "Effort", "steps", "my-whoop", 0),
-        CompareMetric("active_kcal", "Active Energy", "Effort", "kcal", "apple-health", 0),
+        CompareMetric("steps_est", uiStringOr(R.string.de_steps_estimated_7e9cc5, "Steps (estimated)"), uiStringOr(R.string.de_effort_8c974b, "Effort"), "steps", "my-whoop", 0),
+        CompareMetric("active_kcal", uiStringOr(R.string.de_active_energy_2d3288, "Active Energy"), uiStringOr(R.string.de_effort_8c974b, "Effort"), "kcal", "apple-health", 0),
         // Health / Body
-        CompareMetric("weight", "Weight", "Health", "kg", "apple-health", 1),
-        CompareMetric("body_fat", "Body Fat", "Health", "%", "apple-health", 1),
-        CompareMetric("lean_mass", "Lean Body Mass", "Health", "kg", "apple-health", 1),
+        CompareMetric("weight", uiStringOr(R.string.de_weight_69c0b8, "Weight"), "Health", "kg", "apple-health", 1),
+        CompareMetric("body_fat", uiStringOr(R.string.de_body_fat_13aeec, "Body Fat"), "Health", "%", "apple-health", 1),
+        CompareMetric("lean_mass", uiStringOr(R.string.de_lean_body_mass_bf9a78, "Lean Body Mass"), "Health", "kg", "apple-health", 1),
         CompareMetric(
             "bmi", "BMI", "Health", "", "apple-health", 1,
-            note = "From Health Connect this is derived from your weight and profile height.",
+            note = uiStringOr(R.string.de_from_health_connect_this_is_derived_from_58d77d, "From Health Connect this is derived from your weight and profile height."),
         ),
         // Nutrition (imported from a food-tracker CSV — calories-in next to calories-out).
         // Mirrors the macOS MetricCatalog entries exactly (same keys + sources, v2.2.0 parity).
-        CompareMetric("calories_in", "Calories In", "Nutrition", "kcal", NutritionCsvImporter.SOURCE_ID, 0),
-        CompareMetric("protein_g", "Protein", "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
-        CompareMetric("carbs_g", "Carbs", "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
-        CompareMetric("fat_g", "Fat", "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
+        CompareMetric("calories_in", uiStringOr(R.string.de_calories_in_723691, "Calories In"), "Nutrition", "kcal", NutritionCsvImporter.SOURCE_ID, 0),
+        CompareMetric("protein_g", uiStringOr(R.string.de_protein_26ed35, "Protein"), "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
+        CompareMetric("carbs_g", uiStringOr(R.string.de_carbs_d1b711, "Carbs"), "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
+        CompareMetric("fat_g", uiStringOr(R.string.de_fat_7b71bd, "Fat"), "Nutrition", "g", NutritionCsvImporter.SOURCE_ID, 0),
         // Mind (daily mood check-in, 1–5; non-clinical self-tracking).
-        CompareMetric("mood", "Mood", "Mind", "/5", MoodStore.MOOD_DEVICE_ID, 0),
+        CompareMetric("mood", uiStringOr(R.string.de_mood_c16981, "Mood"), "Mind", "/5", MoodStore.MOOD_DEVICE_ID, 0),
     )
 
     fun inCategory(c: String): List<CompareMetric> = all.filter { it.category == c }
@@ -478,7 +478,7 @@ fun CompareScreen(vm: AppViewModel) {
 
     LazyScreenScaffold(
         title = uiString(R.string.l10n_compare_screen_compare_8d105cf4),
-        subtitle = "Overlay signals, draw conclusions.",
+        subtitle = uiStringOr(R.string.de_overlay_signals_draw_conclusions_d4fb7b, "Overlay signals, draw conclusions."),
         // Liquid sky backdrop (LiquidScreenSky.kt) in the scaffold's topBackground slot, gated on the
         // day-cycle preference — the same pilot plumbing the liquid Today uses.
         topBackground = screenBackdropSlot(showDayCycleBackground, skyBehindCards),
@@ -490,7 +490,7 @@ fun CompareScreen(vm: AppViewModel) {
         // ── Metric picker section (chips + range control)
         item {
         Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-            SectionHeader("Metrics", overline = "Overlay 2-4 signals")
+            SectionHeader(uiStringOr(R.string.de_metrics_ddf6a1, "Metrics"), overline = uiStringOr(R.string.de_overlay_2_4_signals_7bba88, "Overlay 2-4 signals"))
             NoopCard {
                 Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
                     SegmentedPillControl(
@@ -561,7 +561,7 @@ fun CompareScreen(vm: AppViewModel) {
 
         if (selected.size < minSelection) {
             item {
-                EmptyNote("Pick at least two metrics above to overlay them and read how they move together.")
+                EmptyNote(uiStringOr(R.string.de_pick_at_least_two_metrics_above_to_overl_9a527d, "Pick at least two metrics above to overlay them and read how they move together."))
             }
         } else {
             val nonEmpty = activeSeries.filter { it.rows.isNotEmpty() }
@@ -570,11 +570,11 @@ fun CompareScreen(vm: AppViewModel) {
                     item {
                         DataPendingNote(
                             title = uiString(R.string.l10n_compare_screen_compare_needs_at_least_two_metrics_2bfe1fad),
-                            body = "Compare needs at least two metrics with history. Import your WHOOP export in Data Sources first.",
+                            body = uiStringOr(R.string.de_compare_needs_at_least_two_metrics_with_44ec15, "Compare needs at least two metrics with history. Import your WHOOP export in Data Sources first."),
                         )
                     }
                 } else {
-                    item { EmptyNote("Reading your history…") }
+                    item { EmptyNote(uiStringOr(R.string.de_reading_your_history_cdde00, "Reading your history…")) }
                 }
             } else {
                 item { OverlaySection(nonEmpty, range, anyWidened) }
@@ -803,7 +803,7 @@ private fun OverlaySection(
         // series colour so the overlaid lines stay distinguishable against the wash.
         NoopCard(tint = Palette.accent) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Overline("Normalized overlay")
+                Overline(uiStringOr(R.string.de_normalized_overlay_8c6cf2, "Normalized overlay"))
                 Text(
                     if (anyWidened) {
                         uiString(R.string.compare_normalized_widened, range.phrase)
@@ -1258,7 +1258,7 @@ private fun CorrelationSection(series: List<CompareSeries>, range: CompareRange)
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         SectionHeader(
             uiString(R.string.compare_move_together),
-            overline = "Pearson r · ${range.phrase}",
+            overline = uiStringOr(R.string.de_pearson_r_1_s_aeabf0, "Pearson r · %1\$s", (range.phrase).toString()),
             trailing = if (pairs.isEmpty()) null else uiPlural(R.plurals.compare_pairs_count, pairs.size, pairs.size),
         )
 

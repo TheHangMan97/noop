@@ -59,10 +59,10 @@ private const val APPLE_DEVICE = "apple-health"
 private enum class AppleRange(val days: Int?, val label: String, val caption: String, val windowName: String) {
     Week(7, "W", "7 DAYS", "week"),
     Month(30, "M", "30 DAYS", "month"),
-    Quarter(90, "3M", "90 DAYS", "3 months"),
-    Half(180, "6M", "180 DAYS", "6 months"),
+    Quarter(90, "3M", "90 DAYS", uiStringOr(R.string.de_3_months_b9e4e6, "3 months")),
+    Half(180, "6M", "180 DAYS", uiStringOr(R.string.de_6_months_cd75b8, "6 months")),
     Year(365, "1Y", "365 DAYS", "year"),
-    All(null, "ALL", "ALL TIME", "all history");
+    All(null, "ALL", "ALL TIME", uiStringOr(R.string.de_all_history_eb5df7, "all history"));
 
     /** This range plus every larger range, ascending — the auto-widen search order. */
     val widening: List<AppleRange>
@@ -185,12 +185,12 @@ fun AppleHealthScreen(vm: AppViewModel) {
 /** Header subtitle reflects the windowed (visible) per-day span of the steps series. */
 private fun spanSubtitle(loaded: Boolean, data: AppleData, range: AppleRange): String {
     if (!loaded) {
-        return "Steps, heart, sleep, body composition and VO₂ max - synced from the desktop app."
+        return uiStringOr(R.string.de_steps_heart_sleep_body_composition_and_v_14ca8b, "Steps, heart, sleep, body composition and VO₂ max - synced from the desktop app.")
     }
     // Use steps as the canonical per-day series for the span readout.
     val rows = resolve(data.raw("steps"), range).rows
     if (rows.isEmpty()) {
-        return "Steps, heart, sleep, body composition and VO₂ max - synced from the desktop app."
+        return uiStringOr(R.string.de_steps_heart_sleep_body_composition_and_v_14ca8b, "Steps, heart, sleep, body composition and VO₂ max - synced from the desktop app.")
     }
     val lo = rows.first().day
     val hi = rows.last().day
@@ -208,7 +208,7 @@ private fun RangeControl(data: AppleData, range: AppleRange, onSelect: (AppleRan
     val n = stepsRows.size
     val unit = if (n == 1) "day" else "days"
     val base = "$n $unit · ${range.windowName}"
-    val caption = if (anyWidened) "$base · some sparse series widened" else base
+    val caption = if (anyWidened) uiStringOr(R.string.de_1_s_some_sparse_series_widened_c533ca, "%1\$s · some sparse series widened", base.toString()) else base
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -265,31 +265,31 @@ private fun TileGrid(data: AppleData, range: AppleRange) {
     // Two columns of equal-width fixed-height tiles, mirroring the macOS adaptive grid.
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         TileRow {
-            MetricTile(Modifier.weight(1f), data, range, "steps", "Steps", Palette.metricCyan) { intString(it) }
-            MetricTile(Modifier.weight(1f), data, range, "resting_hr", "Resting HR", Palette.metricRose, "bpm") {
+            MetricTile(Modifier.weight(1f), data, range, "steps", uiStringOr(R.string.de_steps_cdde4f, "Steps"), Palette.metricCyan) { intString(it) }
+            MetricTile(Modifier.weight(1f), data, range, "resting_hr", uiStringOr(R.string.de_resting_hr_266770, "Resting HR"), Palette.metricRose, "bpm") {
                 "${it.roundToInt()}"
             }
         }
         TileRow {
             MetricTile(Modifier.weight(1f), data, range, "hrv", "HRV", Palette.metricPurple, "ms") { "${it.roundToInt()}" }
-            MetricTile(Modifier.weight(1f), data, range, "vo2max", "VO₂ Max", Palette.accent, "ml/kg") {
+            MetricTile(Modifier.weight(1f), data, range, "vo2max", uiStringOr(R.string.de_vo_max_21214f, "VO₂ Max"), Palette.accent, "ml/kg") {
                 String.format(Locale.US, "%.1f", it)
             }
         }
         TileRow {
-            MetricTile(Modifier.weight(1f), data, range, "weight", "Weight", Palette.accent) {
+            MetricTile(Modifier.weight(1f), data, range, "weight", uiStringOr(R.string.de_weight_69c0b8, "Weight"), Palette.accent) {
                 UnitFormatter.massFromKilograms(it, unitSystem)
             }
-            MetricTile(Modifier.weight(1f), data, range, "body_fat", "Body Fat", Palette.metricAmber, "%") {
+            MetricTile(Modifier.weight(1f), data, range, "body_fat", uiStringOr(R.string.de_body_fat_13aeec, "Body Fat"), Palette.metricAmber, "%") {
                 String.format(Locale.US, "%.1f", it)
             }
         }
         TileRow {
-            MetricTile(Modifier.weight(1f), data, range, "lean_mass", "Lean Mass", Palette.accent) {
+            MetricTile(Modifier.weight(1f), data, range, "lean_mass", uiStringOr(R.string.de_lean_mass_a7494b, "Lean Mass"), Palette.accent) {
                 UnitFormatter.massFromKilograms(it, unitSystem)
             }
             MetricTile(
-                Modifier.weight(1f), data, range, "asleep_min", "Asleep avg", Palette.metricPurple,
+                Modifier.weight(1f), data, range, "asleep_min", uiStringOr(R.string.de_asleep_avg_52d491, "Asleep avg"), Palette.metricPurple,
                 aggregate = Aggregate.Mean,
             ) { durationString(it) }
         }
@@ -337,7 +337,7 @@ private fun MetricTile(
         else -> {
             val m = values.average()
             value = withUnit(fmt(m), unit)
-            caption = "avg · ${values.size}d"
+            caption = uiStringOr(R.string.de_avg_1_sd_b0d613, "avg · %1\$sd", (values.size).toString())
         }
     }
 
@@ -354,17 +354,17 @@ private fun MetricTile(
 
 @Composable
 private fun HeartSection(data: AppleData, range: AppleRange) {
-    ChartSection("Heart & Vitals", "Cardiac", range) {
-        MetricChartCard(data, range, "resting_hr", "Resting heart rate", Palette.metricRose) {
+    ChartSection(uiStringOr(R.string.de_heart_vitals_b789ad, "Heart & Vitals"), uiStringOr(R.string.de_cardiac_a01482, "Cardiac"), range) {
+        MetricChartCard(data, range, "resting_hr", uiStringOr(R.string.de_resting_heart_rate_348928, "Resting heart rate"), Palette.metricRose) {
             "${it.roundToInt()} bpm"
         }
-        MetricChartCard(data, range, "hrv", "Heart rate variability", Palette.metricPurple) {
+        MetricChartCard(data, range, "hrv", uiStringOr(R.string.de_heart_rate_variability_5b2909, "Heart rate variability"), Palette.metricPurple) {
             "${it.roundToInt()} ms"
         }
-        MetricChartCard(data, range, "spo2", "Blood oxygen", Palette.metricCyan) {
+        MetricChartCard(data, range, "spo2", uiStringOr(R.string.de_blood_oxygen_8cd845, "Blood oxygen"), Palette.metricCyan) {
             String.format(Locale.US, "%.1f%%", it)
         }
-        MetricChartCard(data, range, "resp_rate", "Respiratory rate", Palette.accent) {
+        MetricChartCard(data, range, "resp_rate", uiStringOr(R.string.de_respiratory_rate_da7b89, "Respiratory rate"), Palette.accent) {
             String.format(Locale.US, "%.1f rpm", it)
         }
     }
@@ -372,9 +372,9 @@ private fun HeartSection(data: AppleData, range: AppleRange) {
 
 @Composable
 private fun ActivitySection(data: AppleData, range: AppleRange) {
-    ChartSection("Activity & Energy", "Movement", range) {
-        MetricChartCard(data, range, "steps", "Steps", Palette.metricCyan) { intString(it) }
-        MetricChartCard(data, range, "active_kcal", "Active energy", Palette.metricAmber) {
+    ChartSection(uiStringOr(R.string.de_activity_energy_1c075b, "Activity & Energy"), uiStringOr(R.string.de_movement_dc8127, "Movement"), range) {
+        MetricChartCard(data, range, "steps", uiStringOr(R.string.de_steps_cdde4f, "Steps"), Palette.metricCyan) { intString(it) }
+        MetricChartCard(data, range, "active_kcal", uiStringOr(R.string.de_active_energy_63a05d, "Active energy"), Palette.metricAmber) {
             "${intString(it)} kcal"
         }
     }
@@ -384,14 +384,14 @@ private fun ActivitySection(data: AppleData, range: AppleRange) {
 private fun BodySection(data: AppleData, range: AppleRange) {
     // Weight + lean mass (stored kg) re-label to lb under the imperial preference.
     val unitSystem = UnitPrefs.system(LocalContext.current)
-    ChartSection("Body Composition", "Slow threads", range) {
-        MetricChartCard(data, range, "weight", "Weight", Palette.accent) {
+    ChartSection(uiStringOr(R.string.de_body_composition_82c09f, "Body Composition"), uiStringOr(R.string.de_slow_threads_388dd4, "Slow threads"), range) {
+        MetricChartCard(data, range, "weight", uiStringOr(R.string.de_weight_69c0b8, "Weight"), Palette.accent) {
             UnitFormatter.massFromKilograms(it, unitSystem)
         }
-        MetricChartCard(data, range, "body_fat", "Body fat", Palette.metricAmber) {
+        MetricChartCard(data, range, "body_fat", uiStringOr(R.string.de_body_fat_8ce143, "Body fat"), Palette.metricAmber) {
             String.format(Locale.US, "%.1f%%", it)
         }
-        MetricChartCard(data, range, "lean_mass", "Lean body mass", Palette.accent) {
+        MetricChartCard(data, range, "lean_mass", uiStringOr(R.string.de_lean_body_mass_df1606, "Lean body mass"), Palette.accent) {
             UnitFormatter.massFromKilograms(it, unitSystem)
         }
         MetricChartCard(data, range, "bmi", "BMI", Palette.metricPurple) {
@@ -402,8 +402,8 @@ private fun BodySection(data: AppleData, range: AppleRange) {
 
 @Composable
 private fun SleepSection(data: AppleData, range: AppleRange) {
-    ChartSection("Sleep", "Rest", range) {
-        MetricChartCard(data, range, "asleep_min", "Asleep", Palette.metricPurple) { durationString(it) }
+    ChartSection(uiStringOr(R.string.de_sleep_3cac34, "Sleep"), uiStringOr(R.string.de_rest_b79e5f, "Rest"), range) {
+        MetricChartCard(data, range, "asleep_min", uiStringOr(R.string.de_asleep_b9692b, "Asleep"), Palette.metricPurple) { durationString(it) }
     }
 }
 
@@ -444,7 +444,7 @@ private fun MetricChartCard(
 
     val subtitle = run {
         val unit = if (n == 1) "reading" else "readings"
-        if (resolved.fellBack) "$n $unit · sparse - widened to ${resolved.effective.windowName}"
+        if (resolved.fellBack) uiStringOr(R.string.de_1_s_2_s_sparse_widened_to_3_s_d3f88a, "%1\$s %2\$s · sparse - widened to %3\$s", n.toString(), unit.toString(), (resolved.effective.windowName).toString())
         else "$n $unit · ${range.windowName}"
     }
 
@@ -476,13 +476,13 @@ private fun MetricChartCard(
             ChartFooterRow(
                 items = if (n > 0) {
                     listOf(
-                        "Avg" to fmt(values.average()),
-                        "Min" to fmt(values.min()),
-                        "Max" to fmt(values.max()),
-                        "Points" to "$n",
+                        uiStringOr(R.string.de_avg_cdc931, "Avg") to fmt(values.average()),
+                        uiStringOr(R.string.de_min_7eb0ce, "Min") to fmt(values.min()),
+                        uiStringOr(R.string.de_max_a95e85, "Max") to fmt(values.max()),
+                        uiStringOr(R.string.de_points_4b2a6a, "Points") to "$n",
                     )
                 } else {
-                    listOf("Avg" to "—", "Min" to "—", "Max" to "—", "Points" to "0")
+                    listOf(uiStringOr(R.string.de_avg_cdc931, "Avg") to "—", uiStringOr(R.string.de_min_7eb0ce, "Min") to "—", uiStringOr(R.string.de_max_a95e85, "Max") to "—", uiStringOr(R.string.de_points_4b2a6a, "Points") to "0")
                 },
             )
         }
@@ -497,7 +497,7 @@ private fun SinglePoint(value: Double, accent: Color, fmt: (Double) -> String) {
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Overline("Latest reading")
+            Overline(uiStringOr(R.string.de_latest_reading_98b87f, "Latest reading"))
             Text(fmt(value), style = NoopType.number(34f), color = accent)
         }
     }
