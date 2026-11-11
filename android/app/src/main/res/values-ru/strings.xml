@@ -2755,4 +2755,25 @@
     <string name="raw_diag_ecg_probe_running">На этом ремешке запись может всё ещё идти. Результат попадёт в strap log.</string>
     <string name="today_customize_live_session_availability">Появляется сегодня, если сессии в реальном времени включены в Настройках или сеанс уже активен.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">«Сегодня» на ваш вкус, пульс для любого приложения и итальянский язык</string>
+    <string name="ecg_rec_title">Записи ЭКГ MG</string>
+    <string name="ecg_rec_subtitle">Сохранённые записи браслета, показанные как есть</string>
+    <string name="ecg_rec_disclaimer">Экспериментальный инструмент, а не медицинская ЭКГ. NOOP рисует отсчёты, сохранённые вашим MG, и ничего из них не выводит: ни пульса, ни ритма, ни диагноза. Амплитуда указана в некалиброванных единицах, частота дискретизации не установлена.</string>
+    <string name="ecg_rec_no_strap">Подключите WHOOP MG, чтобы увидеть его сохранённые записи ЭКГ.</string>
+    <string name="ecg_rec_loading">Чтение сохранённых записей…</string>
+    <string name="ecg_rec_empty">Для этого браслета ещё нет сохранённых записей ЭКГ. Запустите запись ЭКГ в Тестовом центре, касайтесь электродов застёжки всё время записи, остановите её, а затем дайте браслету синхронизировать историю.</string>
+    <string name="ecg_rec_reading_meta">%1$s · %2$d с · записей: %3$d</string>
+    <string name="ecg_rec_stats">Отсчёты: %1$d · флаг присутствия в записях: %2$d из %3$d</string>
+    <string name="ecg_rec_missing">Пропущено в нумерации браслета: %1$d · не декодируется: %2$d</string>
+    <string name="ecg_rec_back">Все записи</string>
+    <string name="ecg_rec_window">Окно</string>
+    <string name="ecg_rec_window_seconds">%1$d с</string>
+    <string name="ecg_rec_position">с t+%1$d с до t+%2$d с (запись заканчивается на t+%3$d с)</string>
+    <string name="ecg_rec_earlier">Раньше</string>
+    <string name="ecg_rec_later">Позже</string>
+    <string name="ecg_rec_flat">В этом окне только нулевые отсчёты. Браслет передаёт нули, пока его измерительная часть стабилизируется, поэтому само по себе это ничего не говорит о контакте.</string>
+    <string name="ecg_rec_axis_note">Тонкие вертикальные линии отмечают начало каждой сохранённой записи, примерно одной в секунду браслета. Вертикальная шкала подстраивается под видимое окно. Полоса ниже отмечает записи с установленным флагом присутствия браслета; этот флаг не является оценкой контакта или качества.</string>
+    <string name="ecg_rec_share">Поделиться в CSV</string>
+    <string name="ecg_rec_share_failed">Не удалось экспортировать запись: %1$s</string>
+    <string name="ecg_rec_share_chooser">Поделиться записью ЭКГ</string>
+    <string name="ecg_rec_open">Сохранённые записи ЭКГ</string>
 </resources>

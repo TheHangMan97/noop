@@ -632,8 +632,9 @@ interface WhoopDao : DeviceRegistryDao {
      *
      * [limit] is supplied by the caller rather than defaulted, as every read here is, but note the scale:
      * a row is 1,572 bytes, so this is a thousand times heavier per row than [ppgWaveformSamples] above.
-     * INSTRUMENTATION: nothing in production calls it (#752 bounds what may be read off this signal at
-     * all). It exists so the banked bytes are reachable and the write path has a round-trip test.
+     * INSTRUMENTATION: its one production caller is the Test Centre's recordings viewer, which pages
+     * through it (`ui/EcgRecordings.readAll`) and draws the samples without deriving anything from them
+     * (#752 bounds what may be read off this signal at all). It also gives the write path a round-trip test.
      */
     @Query(
         "SELECT * FROM ecgWaveformSample WHERE deviceId = :deviceId AND ts >= :from AND ts <= :to " +

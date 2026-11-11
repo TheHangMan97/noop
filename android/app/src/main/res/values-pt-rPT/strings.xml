@@ -2852,4 +2852,25 @@
     <string name="raw_diag_ecg_probe_running">Pode ainda estar a decorrer uma captura nesta pulseira. O veredicto vai para o strap log.</string>
     <string name="today_customize_live_session_availability">Aparece hoje quando as sessões em direto estão ativadas nas Definições ou existe uma sessão ativa.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">Hoje à sua maneira, frequência cardíaca para qualquer aplicação e italiano</string>
+    <string name="ecg_rec_title">Registos de ECG do MG</string>
+    <string name="ecg_rec_subtitle">Registos guardados na pulseira, desenhados tal como estão</string>
+    <string name="ecg_rec_disclaimer">Instrumentação experimental, não um ECG médico. O NOOP desenha as amostras que o seu MG guardou e não retira nada delas: nem frequência cardíaca, nem ritmo, nem diagnóstico. A amplitude está em contagens não calibradas e a taxa de amostragem não está estabelecida.</string>
+    <string name="ecg_rec_no_strap">Emparelhe um WHOOP MG para ver os registos de ECG guardados.</string>
+    <string name="ecg_rec_loading">A ler os registos guardados…</string>
+    <string name="ecg_rec_empty">Ainda não há registos de ECG guardados para esta pulseira. Inicie uma captura de ECG no Centro de testes, toque nos elétrodos do fecho durante toda a captura, pare-a e deixe a pulseira sincronizar o histórico.</string>
+    <string name="ecg_rec_reading_meta">%1$s · %2$d s · registos: %3$d</string>
+    <string name="ecg_rec_stats">Amostras: %1$d · indicador de presença em %2$d de %3$d registos</string>
+    <string name="ecg_rec_missing">Em falta na numeração da pulseira: %1$d · não descodificáveis: %2$d</string>
+    <string name="ecg_rec_back">Todos os registos</string>
+    <string name="ecg_rec_window">Janela</string>
+    <string name="ecg_rec_window_seconds">%1$d s</string>
+    <string name="ecg_rec_position">t+%1$d s a t+%2$d s (o registo termina em t+%3$d s)</string>
+    <string name="ecg_rec_earlier">Anterior</string>
+    <string name="ecg_rec_later">Seguinte</string>
+    <string name="ecg_rec_flat">Esta janela só contém amostras a zero. A pulseira envia zeros enquanto a eletrónica de medição estabiliza, por isso isto, por si só, nada diz sobre o contacto.</string>
+    <string name="ecg_rec_axis_note">As linhas verticais finas assinalam onde começa cada registo guardado, cerca de um por segundo da pulseira. A escala vertical ajusta-se à janela visível. A barra por baixo assinala os registos com o indicador de presença da pulseira ativo; esse indicador não é um veredicto de contacto nem de qualidade.</string>
+    <string name="ecg_rec_share">Partilhar como CSV</string>
+    <string name="ecg_rec_share_failed">Não foi possível exportar o registo: %1$s</string>
+    <string name="ecg_rec_share_chooser">Partilhar registo de ECG</string>
+    <string name="ecg_rec_open">Ver registos de ECG guardados</string>
 </resources>

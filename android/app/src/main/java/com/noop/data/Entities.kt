@@ -748,9 +748,11 @@ data class PpgWaveformSampleEntity(
  * a reading is a DISCRETE EVENT, so any wall-clock cutoff empties the table for a user who takes one a
  * week. Swift twin: `WhoopStore.ecgWaveformRetentionRows`.
  *
- * NOTHING READS THESE ROWS YET, deliberately. #752 bounds what may be read off this signal at all: no
- * rhythm classification of ours, no alerts, no clinical wording. The rows exist so a later analysis can
- * run over the ORIGINAL samples instead of a summary invented at ingest time. Not dead code.
+ * NOTHING SCORES FROM THESE ROWS, deliberately. #752 bounds what may be read off this signal at all: no
+ * rhythm classification of ours, no alerts, no clinical wording. The one reader is the Test Centre's
+ * recordings viewer (`ui/EcgRecordingsScreen`), which draws and exports the samples as stored and derives
+ * nothing from them. The rows exist so a later analysis can run over the ORIGINAL samples instead of a
+ * summary invented at ingest time.
  */
 @Entity(tableName = "ecgWaveformSample", primaryKeys = ["deviceId", "ts", "sequence"])
 data class EcgWaveformSampleEntity(

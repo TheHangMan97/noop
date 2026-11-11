@@ -2889,4 +2889,25 @@
     <string name="raw_diag_ecg_probe_running">A capture may still be running on this strap. The verdict goes to the strap log.</string>
     <string name="today_customize_live_session_availability">Appears today when Live Sessions is enabled in Settings or a session is active.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">Today your way, heart rate any app can read, and Italian</string>
+    <string name="ecg_rec_title">MG ECG recordings</string>
+    <string name="ecg_rec_subtitle">Stored strap records, drawn as banked</string>
+    <string name="ecg_rec_disclaimer">Experimental instrumentation, not a medical ECG. NOOP draws the samples your MG stored and reads nothing from them: no heart rate, no rhythm, no diagnosis. Amplitude is in uncalibrated counts and the sample rate is not established.</string>
+    <string name="ecg_rec_no_strap">Pair a WHOOP MG to see its stored ECG recordings.</string>
+    <string name="ecg_rec_loading">Reading stored records…</string>
+    <string name="ecg_rec_empty">No ECG records stored for this strap yet. Start an ECG capture in the Test Centre, hold the clasp electrodes for the whole capture, stop it, then let the strap sync its history.</string>
+    <string name="ecg_rec_reading_meta">%1$s · %2$d s · records: %3$d</string>
+    <string name="ecg_rec_stats">Samples: %1$d · presence flag in %2$d of %3$d records</string>
+    <string name="ecg_rec_missing">Missing from the strap\'s numbering: %1$d · not decodable: %2$d</string>
+    <string name="ecg_rec_back">All recordings</string>
+    <string name="ecg_rec_window">Window</string>
+    <string name="ecg_rec_window_seconds">%1$d s</string>
+    <string name="ecg_rec_position">t+%1$d s to t+%2$d s (reading ends at t+%3$d s)</string>
+    <string name="ecg_rec_earlier">Earlier</string>
+    <string name="ecg_rec_later">Later</string>
+    <string name="ecg_rec_flat">This window holds only zero samples. The strap reports zeros while its front end settles, so this alone says nothing about contact.</string>
+    <string name="ecg_rec_axis_note">Thin vertical lines mark where each stored record starts, about one per strap second. The vertical scale fits the visible window. The bar below marks records with the strap\'s presence flag set; that flag is not a contact or quality verdict.</string>
+    <string name="ecg_rec_share">Share as CSV</string>
+    <string name="ecg_rec_share_failed">Couldn\'t export the recording: %1$s</string>
+    <string name="ecg_rec_share_chooser">Share ECG recording</string>
+    <string name="ecg_rec_open">View stored ECG recordings</string>
 </resources>

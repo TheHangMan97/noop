@@ -80,7 +80,11 @@ import kotlin.math.roundToInt
  * scheduled-export / experimental controls on the same bindings the Settings cards use. No em-dash.
  */
 @Composable
-fun TestCentreScreen(vm: AppViewModel, onOpenGroundTruthCollector: () -> Unit = {}) {
+fun TestCentreScreen(
+    vm: AppViewModel,
+    onOpenGroundTruthCollector: () -> Unit = {},
+    onOpenEcgRecordings: () -> Unit = {},
+) {
     val context = LocalContext.current
     val testCentre = remember { TestCentre.from(context) }
     // CAPTURE-D: a UI scope to emit the data-volume line off the toggle-on path (a store read, so it can't
@@ -399,6 +403,16 @@ fun TestCentreScreen(vm: AppViewModel, onOpenGroundTruthCollector: () -> Unit = 
                                 style = NoopType.caption, color = Palette.textSecondary,
                             )
                         }
+                    }
+                    // Read-only: draws the R16 records a capture banked once history has synced. Shown with
+                    // either ECG opt-in, since both are how such records come to exist.
+                    if (ecgProbe || ecgRawData || ecgMayBeRunning) {
+                        NoopButton(
+                            text = stringResource(R.string.ecg_rec_open),
+                            kind = NoopButtonKind.Secondary,
+                            fullWidth = true,
+                            onClick = onOpenEcgRecordings,
+                        )
                     }
                     DeveloperToggleRow(
                         title = stringResource(R.string.raw_diag_passive),

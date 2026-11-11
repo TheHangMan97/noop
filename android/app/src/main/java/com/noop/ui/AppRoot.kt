@@ -200,6 +200,9 @@ internal enum class Destination(
     ),
     TestCentre("test_centre", R.string.nav_test_centre, Icons.Filled.BugReport),
     GroundTruthCollector("ground_truth_collector", R.string.ground_truth_title, Icons.Filled.Sensors),
+    // Stored WHOOP MG ECG records, drawn as banked. Reached only from the Test Centre's ECG section, so like
+    // GroundTruthCollector it is absent from every drawer group.
+    EcgRecordings("ecg_recordings", R.string.ecg_rec_title, Icons.Filled.MonitorHeart),
 
     // The "More" tab: its own navigated page (mirroring the iOS More tab) that hosts the full
     // grouped destination list. It is NOT itself in any [DrawerGroup] — it's the door to them.
@@ -792,11 +795,14 @@ fun AppRoot(viewModel: AppViewModel = viewModel()) {
                 }
                 composable(Destination.SelfHostedPush.route) { SelfHostedPushScreen() }
                 composable(Destination.TestCentre.route) {
-                    TestCentreScreen(viewModel, onOpenGroundTruthCollector = {
-                        nav.navigate(Destination.GroundTruthCollector.route)
-                    })
+                    TestCentreScreen(
+                        viewModel,
+                        onOpenGroundTruthCollector = { nav.navigate(Destination.GroundTruthCollector.route) },
+                        onOpenEcgRecordings = { nav.navigate(Destination.EcgRecordings.route) },
+                    )
                 }
                 composable(Destination.GroundTruthCollector.route) { GroundTruthCollectorScreen(viewModel) }
+                composable(Destination.EcgRecordings.route) { EcgRecordingsScreen(viewModel) }
                 // The "More" page — the iOS More tab's twin: a navigated ScreenScaffold page hosting the
                 // full grouped destination list (was a pull-up sheet). A row pushes its destination so
                 // Android Back returns to More instead of skipping straight to Today.
