@@ -2867,13 +2867,6 @@
     <string name="ecg_rec_stats">Échantillons : %1$d · indicateur de présence dans %2$d enregistrements sur %3$d</string>
     <string name="ecg_rec_missing">Absents de la numérotation du bracelet : %1$d · non décodables : %2$d</string>
     <string name="ecg_rec_back">Tous les enregistrements</string>
-    <string name="ecg_rec_window">Fenêtre</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">t+%1$d s à t+%2$d s (l\'enregistrement se termine à t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Avant</string>
-    <string name="ecg_rec_later">Après</string>
-    <string name="ecg_rec_flat">Cette fenêtre ne contient que des échantillons nuls. Le bracelet envoie des zéros pendant que son électronique de mesure se stabilise ; cela seul ne dit rien du contact.</string>
-    <string name="ecg_rec_axis_note">De fines lignes verticales marquent le début de chaque enregistrement stocké, environ un par seconde du bracelet. L\'échelle verticale s\'adapte à la fenêtre visible. La barre du dessous marque les enregistrements dont l\'indicateur de présence du bracelet est actif ; cet indicateur n\'est pas un verdict de contact ni de qualité.</string>
     <string name="ecg_rec_share">Partager en CSV</string>
     <string name="ecg_rec_share_failed">Impossible d\'exporter l\'enregistrement : %1$s</string>
     <string name="ecg_rec_share_chooser">Partager l\'enregistrement ECG</string>
@@ -2904,4 +2897,8 @@
     <string name="ecg_consent_body">Il s\'agit d\'une fonction expérimentale, pas d\'un ECG médical ni d\'un diagnostic. NOOP demande à votre MG d\'enregistrer pendant 30 secondes et trace les échantillons envoyés. Il n\'en déduit rien : ni fréquence cardiaque, ni rythme, ni alerte. L\'amplitude est en valeurs brutes non étalonnées.</string>
     <string name="ecg_consent_accept">Compris, lancer</string>
     <string name="ecg_consent_cancel">Annuler</string>
+    <string name="ecg_view_filtered">Filtré</string>
+    <string name="ecg_view_raw">Brut</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s par ligne ; un grand carreau vaut 0,2 s. L\'axe du temps suit les horodatages en secondes des enregistrements. « Filtré » retire seulement la dérive lente de la ligne de base et lisse légèrement pour l\'affichage ; l\'export CSV reste brut. Sans étalonnage en millivolts, il n\'y a ni impulsion d\'étalonnage ni échelle d\'amplitude. La seconde initiale, pendant que l\'électronique se stabilise, n\'apparaît pas dans la bande.</string>
 </resources>

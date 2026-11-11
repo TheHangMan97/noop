@@ -8,19 +8,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,7 +45,6 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.text.DateFormat
 import java.util.Date
-import kotlin.math.roundToInt
 
 /**
  * The stored WHOOP MG ECG recordings, drawn as they were banked (#2847 rows, #752 limits).
@@ -178,18 +174,25 @@ private fun EcgMeasurementCard(vm: AppViewModel, canMeasure: Boolean, session: E
                 )
             }
 
-            val trace = EcgRecordings.Trace(
-                samples = session.samples,
-                recordStarts = session.packetStarts,
-                recordTs = LongArray(session.packets) { it.toLong() },
-                recordPresence = session.packetPresence,
+            val window = minOf(LIVE_WINDOW_PACKETS, session.packets)
+            val firstPacket = session.packets - window
+            val liveStrip = EcgRecordings.strip(
+                (firstPacket until session.packets).map { p ->
+                    val start = session.packetStarts[p]
+                    val end = if (p + 1 < session.packets) session.packetStarts[p + 1] else session.samples.size
+                    (p - firstPacket) to session.samples.copyOfRange(start, end).toList()
+                },
+                EcgRecordings.STRIP_SLOTS_LIVE,
             )
-            val window = minOf(LIVE_WINDOW_PACKETS, trace.recordCount)
-            val first = trace.recordCount - window
-            val from = trace.recordStart(first)
-            val to = trace.samples.size
-            if (window > 0 && to > from) {
-                EcgTraceCanvas(trace, from, to, first, window)
+            if (liveStrip.values.any { !it.isNaN() }) {
+                EcgPaperStrip(
+                    values = liveStrip.values,
+                    slotsPerSecond = liveStrip.slotsPerSecond,
+                    fromSecond = 0,
+                    secondsPerRow = LIVE_WINDOW_PACKETS,
+                    range = EcgRecordings.stripRange(liveStrip.values),
+                    labelOffsetSeconds = firstPacket,
+                )
                 Text(stringResource(R.string.ecg_live_note), style = NoopType.caption, color = Palette.textTertiary)
             } else if (session.running) {
                 Text(stringResource(R.string.ecg_measure_waiting), style = NoopType.caption, color = Palette.textSecondary)
@@ -289,16 +292,14 @@ private fun ReadingRow(reading: EcgRecordings.Reading, onOpen: () -> Unit) {
 /** One stored row as the viewer loads it; [record] is null when the bytes did not decode. */
 private class LoadedRow(val ts: Long, val sequence: Long, val record: LabradorR16?)
 
-private val WINDOW_RECORDS = listOf(2, 5, 10, 30)
-
 @Composable
 private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecordings.Reading, onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var records by remember(reading) { mutableStateOf<List<EcgRecordings.TimedRecord>?>(null) }
-    var trace by remember(reading) { mutableStateOf<EcgRecordings.Trace?>(null) }
-    var windowRecords by remember { mutableIntStateOf(5) }
-    var firstRecord by remember(reading) { mutableIntStateOf(0) }
+    var raw by remember(reading) { mutableStateOf<EcgRecordings.Strip?>(null) }
+    var filtered by remember(reading) { mutableStateOf<FloatArray?>(null) }
+    var showFiltered by remember { mutableStateOf(true) }
     var exporting by remember { mutableStateOf(false) }
     val chooserTitle = stringResource(R.string.ecg_rec_share_chooser)
 
@@ -316,7 +317,9 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
             }.mapNotNull { row -> row.record?.let { EcgRecordings.TimedRecord(row.ts, it) } }
         }
         records = loaded
-        trace = withContext(Dispatchers.Default) { EcgRecordings.trace(loaded) }
+        val strip = withContext(Dispatchers.Default) { EcgRecordings.strip(loaded) }
+        filtered = withContext(Dispatchers.Default) { EcgRecordings.displayFiltered(strip.values) }
+        raw = strip
     }
 
     NoopButton(text = stringResource(R.string.ecg_rec_back), kind = NoopButtonKind.Tertiary, onClick = onBack)
@@ -324,75 +327,49 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
         Column(verticalArrangement = Arrangement.spacedBy(Metrics.space4)) { ReadingFacts(reading) }
     }
 
-    val t = trace
-    if (t == null) {
+    val strip = raw
+    val loaded = records
+    if (strip == null || loaded == null) {
         EmptyNote(stringResource(R.string.ecg_rec_loading))
         return
     }
-    if (t.recordCount == 0) {
+    if (loaded.isEmpty()) {
         EmptyNote(stringResource(R.string.ecg_rec_empty))
         return
     }
-    if (t.samples.isEmpty()) {
+    if (strip.values.none { !it.isNaN() }) {
         // Records exist but every one declares a zero sample count: there is no waveform to draw. Said
-        // outright, because an empty chart reads as a drawing fault rather than as what the strap stored.
-        EmptyNote(stringResource(R.string.ecg_rec_no_samples, t.recordCount))
-    }
-    val window = windowRecords.coerceAtMost(t.recordCount)
-    val maxFirst = (t.recordCount - window).coerceAtLeast(0)
-    val first = firstRecord.coerceIn(0, maxFirst)
-    val from = t.recordStart(first)
-    val to = t.windowEnd(first, window)
-    val startOffset = t.recordTs[first] - t.recordTs[0]
-    val endOffset = t.recordTs[first + window - 1] - t.recordTs[0]
-
-    NoopCard {
-        Column(verticalArrangement = Arrangement.spacedBy(Metrics.space8)) {
-            Text(stringResource(R.string.ecg_rec_window), style = NoopType.subhead, color = Palette.textPrimary)
-            Row(horizontalArrangement = Arrangement.spacedBy(Metrics.space8)) {
-                WINDOW_RECORDS.forEach { n ->
+        // outright, because an empty strip reads as a drawing fault rather than as what the strap stored.
+        EmptyNote(stringResource(R.string.ecg_rec_no_samples, loaded.size))
+    } else {
+        val values = if (showFiltered) filtered ?: strip.values else strip.values
+        val range = remember(values) { EcgRecordings.stripRange(values) }
+        NoopCard {
+            Column(verticalArrangement = Arrangement.spacedBy(Metrics.space12)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(Metrics.space8)) {
                     NoopButton(
-                        text = stringResource(R.string.ecg_rec_window_seconds, n),
-                        kind = if (n == windowRecords) NoopButtonKind.Primary else NoopButtonKind.Secondary,
-                        onClick = { windowRecords = n },
+                        text = stringResource(R.string.ecg_view_filtered),
+                        kind = if (showFiltered) NoopButtonKind.Primary else NoopButtonKind.Secondary,
+                        onClick = { showFiltered = true },
+                    )
+                    NoopButton(
+                        text = stringResource(R.string.ecg_view_raw),
+                        kind = if (showFiltered) NoopButtonKind.Secondary else NoopButtonKind.Primary,
+                        onClick = { showFiltered = false },
                     )
                 }
-            }
-            if (t.samples.isNotEmpty()) EcgTraceCanvas(t, from, to, first, window)
-            Text(
-                stringResource(R.string.ecg_rec_position, startOffset, endOffset, t.recordTs.last() - t.recordTs[0]),
-                style = NoopType.captionNumber, color = Palette.textSecondary,
-            )
-            if (maxFirst > 0) {
-                Slider(
-                    value = first.toFloat(),
-                    onValueChange = { firstRecord = it.roundToInt() },
-                    valueRange = 0f..maxFirst.toFloat(),
-                    colors = SliderDefaults.colors(
-                        thumbColor = Palette.accent,
-                        activeTrackColor = Palette.accent,
-                        inactiveTrackColor = Palette.surfaceInset,
-                    ),
-                )
-                Row(horizontalArrangement = Arrangement.spacedBy(Metrics.space12)) {
-                    NoopButton(
-                        text = stringResource(R.string.ecg_rec_earlier),
-                        kind = NoopButtonKind.Secondary,
-                        enabled = first > 0,
-                        onClick = { firstRecord = (first - window).coerceAtLeast(0) },
-                    )
-                    NoopButton(
-                        text = stringResource(R.string.ecg_rec_later),
-                        kind = NoopButtonKind.Secondary,
-                        enabled = first < maxFirst,
-                        onClick = { firstRecord = (first + window).coerceAtMost(maxFirst) },
+                val perRow = EcgRecordings.STRIP_SECONDS_PER_ROW
+                for (rowStart in 0 until strip.seconds step perRow) {
+                    EcgPaperStrip(
+                        values = values,
+                        slotsPerSecond = strip.slotsPerSecond,
+                        fromSecond = rowStart,
+                        secondsPerRow = perRow,
+                        range = range,
                     )
                 }
+                Text(stringResource(R.string.ecg_strip_note), style = NoopType.caption, color = Palette.textTertiary)
             }
-            if (to > from && (from until to).all { t.samples[it] == 0 }) {
-                Text(stringResource(R.string.ecg_rec_flat), style = NoopType.caption, color = Palette.textSecondary)
-            }
-            Text(stringResource(R.string.ecg_rec_axis_note), style = NoopType.caption, color = Palette.textTertiary)
         }
     }
 
@@ -401,7 +378,7 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
         leadingIcon = Icons.Filled.Upload,
         kind = NoopButtonKind.Secondary,
         fullWidth = true,
-        enabled = !exporting && records != null,
+        enabled = !exporting,
         onClick = {
             val rows = records ?: return@NoopButton
             exporting = true
@@ -422,63 +399,94 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
     )
 }
 
+/** Minor grid divisions per second: 25, a 0.04 s square, as on ECG paper. */
+private const val GRID_MINOR_PER_SECOND = 25
+
+/** Minor squares per major square: five, a 0.2 s square. */
+private const val GRID_MINOR_PER_MAJOR = 5
+
+/** Row height in seconds of width, so grid squares stay square: 2.5 s, half a row of 5 s, a quarter of 10 s. */
+private const val STRIP_HEIGHT_SECONDS = 2.5f
+
 /**
- * The visible window: one line through the samples (min/max per pixel column once samples outnumber
- * pixels), hairlines at record boundaries, and a strip under the trace marking records whose presence
- * flag is set. The vertical scale fits the window ([EcgRecordings.displayRange]); there is no unit.
+ * One row of ECG paper: a square grid (a minor square is 1/25 s, a major one 1/5 s), the trace across
+ * [secondsPerRow] seconds from [fromSecond], and the second marks under it. Every row of a reading uses
+ * the same [range], so rows compare as they would on paper. The vertical grid carries no unit: there is no
+ * volts-per-count calibration, so there is no calibration pulse either. Gaps (NaN) break the line.
  */
 @Composable
-private fun EcgTraceCanvas(trace: EcgRecordings.Trace, from: Int, to: Int, firstRecord: Int, windowRecords: Int) {
-    val lineColor = Palette.accent
-    val gridColor = Palette.hairline
-    val presenceOn = Palette.statusPositive
-    val presenceOff = Palette.surfaceInset
-    Column(verticalArrangement = Arrangement.spacedBy(Metrics.space4)) {
-        Canvas(modifier = Modifier.fillMaxWidth().height(Metrics.chartHeight)) {
-            val n = to - from
-            if (n <= 0) return@Canvas
-            val range = EcgRecordings.displayRange(trace.samples, from, to)
-            val span = (range.last - range.first).toFloat()
-            fun y(v: Int): Float {
-                val clamped = v.coerceIn(range.first, range.last)
-                return size.height - (clamped - range.first) / span * size.height
+private fun EcgPaperStrip(
+    values: FloatArray,
+    slotsPerSecond: Int,
+    fromSecond: Int,
+    secondsPerRow: Int,
+    range: ClosedFloatingPointRange<Float>,
+    labelOffsetSeconds: Int = fromSecond,
+) {
+    val traceColor = Palette.metricRose
+    val minorColor = Palette.metricRose.copy(alpha = 0.10f)
+    val majorColor = Palette.metricRose.copy(alpha = 0.28f)
+    Column(verticalArrangement = Arrangement.spacedBy(Metrics.space2)) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(secondsPerRow / STRIP_HEIGHT_SECONDS),
+        ) {
+            val perSecond = size.width / secondsPerRow
+            val minor = perSecond / GRID_MINOR_PER_SECOND
+            val hair = Metrics.divider.toPx()
+            // Vertical lines left to right, horizontal ones bottom up, so both share the same square.
+            var k = 0
+            while (k * minor <= size.width + 0.5f) {
+                val x = k * minor
+                val major = k % GRID_MINOR_PER_MAJOR == 0
+                drawLine(if (major) majorColor else minorColor, Offset(x, 0f), Offset(x, size.height),
+                    strokeWidth = if (major) hair else hair * 0.6f)
+                k++
             }
-            for (r in firstRecord until firstRecord + windowRecords) {
-                val x = (trace.recordStart(r) - from).toFloat() / n * size.width
-                drawLine(gridColor, Offset(x, 0f), Offset(x, size.height), strokeWidth = Metrics.divider.toPx())
+            k = 0
+            while (k * minor <= size.height + 0.5f) {
+                val y = size.height - k * minor
+                val major = k % GRID_MINOR_PER_MAJOR == 0
+                drawLine(if (major) majorColor else minorColor, Offset(0f, y), Offset(size.width, y),
+                    strokeWidth = if (major) hair else hair * 0.6f)
+                k++
             }
+
+            val from = fromSecond * slotsPerSecond
+            val to = minOf(values.size, (fromSecond + secondsPerRow) * slotsPerSecond)
+            if (to <= from) return@Canvas
+            val span = (range.endInclusive - range.start).takeIf { it > 0f } ?: 1f
+            fun y(v: Float): Float =
+                size.height - (v.coerceIn(range.start, range.endInclusive) - range.start) / span * size.height
+            // Columns cover the row's full time width, so a short last row ends where its data ends.
+            val rowSlots = secondsPerRow * slotsPerSecond
             val columns = size.width.toInt().coerceAtLeast(1)
+            val (mins, maxs) = EcgRecordings.columnEnvelope(values, from, from + rowSlots, columns)
             val path = Path()
-            if (n <= columns) {
-                for (i in 0 until n) {
-                    val x = if (n == 1) 0f else i.toFloat() / (n - 1) * size.width
-                    val yy = y(trace.samples[from + i])
-                    if (i == 0) path.moveTo(x, yy) else path.lineTo(x, yy)
-                }
-            } else {
-                val (mins, maxs) = EcgRecordings.envelope(trace.samples, from, to, columns)
-                for (b in mins.indices) {
-                    val x = b.toFloat() / (columns - 1).coerceAtLeast(1) * size.width
-                    if (b == 0) path.moveTo(x, y(mins[b])) else path.lineTo(x, y(mins[b]))
-                    path.lineTo(x, y(maxs[b]))
-                }
+            var penDown = false
+            for (c in 0 until columns) {
+                val lo = mins[c]
+                val hi = maxs[c]
+                if (lo.isNaN() || hi.isNaN()) { penDown = false; continue }
+                val x = c.toFloat() / columns * size.width
+                if (penDown) path.lineTo(x, y(lo)) else path.moveTo(x, y(lo))
+                path.lineTo(x, y(hi))
+                penDown = true
             }
             drawPath(
                 path = path,
-                color = lineColor,
-                style = Stroke(width = Metrics.divider.toPx() * 1.5f, cap = StrokeCap.Round, join = StrokeJoin.Round),
+                color = traceColor,
+                style = Stroke(width = hair * 1.4f, cap = StrokeCap.Round, join = StrokeJoin.Round),
             )
         }
-        Canvas(modifier = Modifier.fillMaxWidth().height(Metrics.space6)) {
-            val n = to - from
-            if (n <= 0) return@Canvas
-            for (r in firstRecord until firstRecord + windowRecords) {
-                val x0 = (trace.recordStart(r) - from).toFloat() / n * size.width
-                val x1 = (trace.recordStart(r + 1) - from).toFloat() / n * size.width
-                drawRect(
-                    color = if (trace.recordPresence[r]) presenceOn else presenceOff,
-                    topLeft = Offset(x0, 0f),
-                    size = androidx.compose.ui.geometry.Size((x1 - x0).coerceAtLeast(1f), size.height),
+        Row(modifier = Modifier.fillMaxWidth()) {
+            for (sec in 0 until secondsPerRow) {
+                Text(
+                    stringResource(R.string.ecg_strip_second, labelOffsetSeconds + sec),
+                    style = NoopType.footnote,
+                    color = Palette.textTertiary,
+                    modifier = Modifier.weight(1f),
                 )
             }
         }

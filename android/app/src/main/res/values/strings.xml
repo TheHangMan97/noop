@@ -2897,13 +2897,6 @@
     <string name="ecg_rec_stats">Samples: %1$d · presence flag in %2$d of %3$d records</string>
     <string name="ecg_rec_missing">Missing from the strap\'s numbering: %1$d · not decodable: %2$d</string>
     <string name="ecg_rec_back">All recordings</string>
-    <string name="ecg_rec_window">Window</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">t+%1$d s to t+%2$d s (reading ends at t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Earlier</string>
-    <string name="ecg_rec_later">Later</string>
-    <string name="ecg_rec_flat">This window holds only zero samples. The strap reports zeros while its front end settles, so this alone says nothing about contact.</string>
-    <string name="ecg_rec_axis_note">Thin vertical lines mark where each stored record starts, about one per strap second. The vertical scale fits the visible window. The bar below marks records with the strap\'s presence flag set; that flag is not a contact or quality verdict.</string>
     <string name="ecg_rec_share">Share as CSV</string>
     <string name="ecg_rec_share_failed">Couldn\'t export the recording: %1$s</string>
     <string name="ecg_rec_share_chooser">Share ECG recording</string>
@@ -2934,4 +2927,8 @@
     <string name="ecg_consent_body">This is an experimental feature, not a medical ECG and not a diagnosis. NOOP asks your MG to record for 30 seconds and draws the samples it sends. It reads nothing from them: no heart rate, no rhythm, no warnings. Amplitude is in uncalibrated counts.</string>
     <string name="ecg_consent_accept">Understood, start</string>
     <string name="ecg_consent_cancel">Cancel</string>
+    <string name="ecg_view_filtered">Filtered</string>
+    <string name="ecg_view_raw">Raw</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s per row; a large square is 0.2 s. The time axis follows the records\' own second stamps. Filtered only removes the slow baseline drift and smooths lightly for display; the CSV export stays raw. With no millivolt calibration there is no calibration pulse and no amplitude scale. The opening second, while the front end settles, is left out of the strip.</string>
 </resources>

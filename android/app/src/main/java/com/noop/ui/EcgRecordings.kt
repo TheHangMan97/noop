@@ -68,28 +68,6 @@ object EcgRecordings {
     /** One decoded record with the wall-clock second it was stored under. */
     data class TimedRecord(val ts: Long, val record: LabradorR16)
 
-    /**
-     * A reading's samples laid end to end, in record order.
-     *
-     * [recordStarts] holds the index into [samples] where each record begins, so `recordStarts.size` is
-     * the record count and record `i` covers `recordStarts[i] until next start (or samples.size)`.
-     */
-    class Trace(
-        val samples: IntArray,
-        val recordStarts: IntArray,
-        val recordTs: LongArray,
-        val recordPresence: BooleanArray,
-    ) {
-        val recordCount: Int get() = recordStarts.size
-
-        /** First sample index of record [index] (clamped), or [samples].size past the end. */
-        fun recordStart(index: Int): Int =
-            if (index >= recordStarts.size) samples.size else recordStarts[index.coerceAtLeast(0)]
-
-        /** Sample index one past the last sample of the window of [count] records starting at [first]. */
-        fun windowEnd(first: Int, count: Int): Int = recordStart(first + count)
-    }
-
     /** Stored bytes to the decoder's integer view. */
     fun decode(row: EcgWaveformSampleEntity): LabradorR16? =
         Whoop5Ecg.parseR16(row.record.map { it.toInt() and 0xFF })
@@ -149,70 +127,6 @@ object EcgRecordings {
         )
     }
 
-    /** Lay a reading's records end to end, ordered by (ts, sequence). Records with no samples still mark a start. */
-    fun trace(records: List<TimedRecord>): Trace {
-        val sorted = records.sortedWith(compareBy<TimedRecord> { it.ts }.thenBy { it.record.sequence })
-        val total = sorted.sumOf { it.record.samples.size }
-        val samples = IntArray(total)
-        val starts = IntArray(sorted.size)
-        val ts = LongArray(sorted.size)
-        val presence = BooleanArray(sorted.size)
-        var at = 0
-        sorted.forEachIndexed { i, t ->
-            starts[i] = at
-            ts[i] = t.ts
-            presence[i] = t.record.presence
-            for (v in t.record.samples) samples[at++] = v
-        }
-        return Trace(samples, starts, ts, presence)
-    }
-
-    /**
-     * Min/max of each of [buckets] equal slices of `samples[from, to)`, for drawing more samples than
-     * there are pixels. A bucket that receives no sample (only when the range is shorter than [buckets])
-     * repeats its neighbour, so the drawn line never drops to zero. Empty range gives empty arrays.
-     */
-    fun envelope(samples: IntArray, from: Int, to: Int, buckets: Int): Pair<IntArray, IntArray> {
-        val lo = from.coerceIn(0, samples.size)
-        val hi = to.coerceIn(lo, samples.size)
-        val n = hi - lo
-        if (n == 0 || buckets <= 0) return IntArray(0) to IntArray(0)
-        val mins = IntArray(buckets) { Int.MAX_VALUE }
-        val maxs = IntArray(buckets) { Int.MIN_VALUE }
-        for (i in 0 until n) {
-            val b = ((i.toLong() * buckets) / n).toInt()
-            val v = samples[lo + i]
-            if (v < mins[b]) mins[b] = v
-            if (v > maxs[b]) maxs[b] = v
-        }
-        for (b in 0 until buckets) {
-            if (mins[b] == Int.MAX_VALUE) {
-                val prev = if (b > 0) b - 1 else (0 until buckets).first { mins[it] != Int.MAX_VALUE }
-                mins[b] = mins[prev]
-                maxs[b] = maxs[prev]
-            }
-        }
-        return mins to maxs
-    }
-
-    /**
-     * The vertical range to draw `samples[from, to)` in: the [tail] and `1 - tail` quantiles, so a single
-     * settling spike does not flatten the rest of the window. Never returns an empty range (a flat window
-     * is widened by one count each way); an empty slice gives `-1..1`.
-     */
-    fun displayRange(samples: IntArray, from: Int, to: Int, tail: Double = 0.005): IntRange {
-        val lo = from.coerceIn(0, samples.size)
-        val hi = to.coerceIn(lo, samples.size)
-        if (hi == lo) return -1..1
-        val slice = samples.copyOfRange(lo, hi)
-        slice.sort()
-        val last = slice.size - 1
-        val t = tail.coerceIn(0.0, 0.49)
-        val a = slice[(last * t).toInt()]
-        val b = slice[last - (last * t).toInt()]
-        return if (a == b) (a - 1)..(b + 1) else a..b
-    }
-
     /**
      * Read every row in `[from, to]` through a `(from, limit)`-paged, ts-ascending source.
      *
@@ -261,6 +175,152 @@ object EcgRecordings {
             }
         }
         return out
+    }
+
+    // ---- Paper-strip layout -------------------------------------------------------------------------
+
+    /** Slots per second in a stored reading's strip: one R16 record's capacity, one record per second. */
+    const val STRIP_SLOTS_STORED = Whoop5Ecg.R16_MAX_SAMPLES
+
+    /** Slots per second in the live strip: one R17 packet's capacity, one packet per second. */
+    const val STRIP_SLOTS_LIVE = Whoop5Ecg.R17_MAX_SAMPLES
+
+    /** Seconds per printed row, as on a 30 s ECG print-out. */
+    const val STRIP_SECONDS_PER_ROW = 10
+
+    /** Display filter: baseline window, in slots (about one second of a stored reading). */
+    const val DISPLAY_BASELINE_WINDOW = 501
+
+    /** Display filter: smoothing window, in slots (a few milliseconds of a stored reading). */
+    const val DISPLAY_SMOOTH_WINDOW = 5
+
+    /**
+     * A reading laid out on a time axis of whole seconds, [slotsPerSecond] slots each. NaN marks a slot
+     * with no sample: a second the strap numbered but we never stored, or the unused tail of a short
+     * record. The axis comes from the records' own second stamps; inside a second, samples are placed in
+     * order from the second's start, one per slot.
+     */
+    class Strip(val values: FloatArray, val slotsPerSecond: Int) {
+        val seconds: Int get() = if (slotsPerSecond == 0) 0 else values.size / slotsPerSecond
+    }
+
+    /**
+     * Lay out [segments] (second index, samples) on a [Strip]. Segments sharing a second continue where the
+     * previous one stopped, as the opening records of a reading can; samples past the end are dropped.
+     */
+    fun strip(segments: List<Pair<Int, List<Int>>>, slotsPerSecond: Int): Strip {
+        if (segments.isEmpty() || slotsPerSecond <= 0) return Strip(FloatArray(0), slotsPerSecond)
+        val seconds = segments.maxOf { it.first } + 1
+        val values = FloatArray(seconds * slotsPerSecond) { Float.NaN }
+        val cursor = HashMap<Int, Int>()
+        for ((second, samples) in segments) {
+            if (second < 0) continue
+            var at = second * slotsPerSecond + (cursor[second] ?: 0)
+            for (v in samples) {
+                if (at >= values.size) break
+                values[at++] = v.toFloat()
+            }
+            cursor[second] = at - second * slotsPerSecond
+        }
+        return Strip(values, slotsPerSecond)
+    }
+
+    /**
+     * A stored reading's strip: each record at its second offset from the strip's first record.
+     *
+     * Leading records shorter than a full second are left out. They are the front end's opening (a reading
+     * starts with records declaring 0, then a few hundred samples, before the first full 500), where it is
+     * not known which part of the second they cover and the signal is still settling. The CSV keeps them.
+     */
+    fun strip(records: List<TimedRecord>): Strip {
+        val sorted = records.sortedWith(compareBy<TimedRecord> { it.ts }.thenBy { it.record.sequence })
+            .dropWhile { it.record.samples.size < STRIP_SLOTS_STORED }
+        val first = sorted.firstOrNull()?.ts ?: return Strip(FloatArray(0), STRIP_SLOTS_STORED)
+        return strip(sorted.map { (it.ts - first).toInt() to it.record.samples }, STRIP_SLOTS_STORED)
+    }
+
+    /**
+     * A DISPLAY filter, for drawing only: subtract a centred moving average of [baselineWindow] slots (the
+     * slow wander of the raw signal), then smooth with a centred moving average of [smoothWindow] slots,
+     * applied twice (a triangular kernel, which suppresses the high-frequency hiss better than one pass).
+     * Each run of samples between gaps is filtered on its own, and gaps stay NaN. Nothing is measured from
+     * the result and the export stays raw.
+     */
+    fun displayFiltered(
+        values: FloatArray,
+        baselineWindow: Int = DISPLAY_BASELINE_WINDOW,
+        smoothWindow: Int = DISPLAY_SMOOTH_WINDOW,
+    ): FloatArray {
+        val out = FloatArray(values.size) { Float.NaN }
+        var i = 0
+        while (i < values.size) {
+            if (values[i].isNaN()) { i++; continue }
+            var j = i
+            while (j < values.size && !values[j].isNaN()) j++
+            val run = values.copyOfRange(i, j)
+            val base = movingAverage(run, baselineWindow)
+            val detrended = FloatArray(run.size) { run[it] - base[it] }
+            movingAverage(movingAverage(detrended, smoothWindow), smoothWindow).copyInto(out, i)
+            i = j
+        }
+        return out
+    }
+
+    /** Centred moving average, the window shrinking at the edges; a window of 1 or less returns a copy. */
+    fun movingAverage(x: FloatArray, window: Int): FloatArray {
+        if (window <= 1 || x.isEmpty()) return x.copyOf()
+        val half = window / 2
+        val prefix = DoubleArray(x.size + 1)
+        for (k in x.indices) prefix[k + 1] = prefix[k] + x[k]
+        return FloatArray(x.size) { k ->
+            val lo = maxOf(0, k - half)
+            val hi = minOf(x.size, k + half + 1)
+            ((prefix[hi] - prefix[lo]) / (hi - lo)).toFloat()
+        }
+    }
+
+    /**
+     * The vertical range for a whole strip: the [tail] and `1 - tail` quantiles of its samples, widened by
+     * [pad] of the span each way. One range for every row, as on paper, so rows compare. Ignores NaN; an
+     * empty or flat strip gets a small range around its value.
+     */
+    fun stripRange(values: FloatArray, tail: Double = 0.001, pad: Float = 0.1f): ClosedFloatingPointRange<Float> {
+        val finite = values.filter { !it.isNaN() }.sorted()
+        if (finite.isEmpty()) return -1f..1f
+        val last = finite.size - 1
+        val lo = finite[(last * tail).toInt()]
+        val hi = finite[last - (last * tail).toInt()]
+        if (hi <= lo) return (lo - 1f)..(hi + 1f)
+        val p = (hi - lo) * pad
+        return (lo - p)..(hi + p)
+    }
+
+    /**
+     * Min and max of `values[from, to)` per drawing column, NaN where a column holds no sample. A column
+     * narrower than a slot repeats the slot it falls in, so a short span still draws as a line.
+     */
+    fun columnEnvelope(values: FloatArray, from: Int, to: Int, columns: Int): Pair<FloatArray, FloatArray> {
+        val lo = from.coerceIn(0, values.size)
+        val hi = to.coerceIn(lo, values.size)
+        val n = hi - lo
+        val mins = FloatArray(maxOf(columns, 0)) { Float.NaN }
+        val maxs = FloatArray(maxOf(columns, 0)) { Float.NaN }
+        if (n == 0 || columns <= 0) return mins to maxs
+        for (c in 0 until columns) {
+            val a = lo + ((c.toLong() * n) / columns).toInt()
+            val b = maxOf(a + 1, lo + (((c + 1).toLong() * n) / columns).toInt())
+            var mn = Float.NaN
+            var mx = Float.NaN
+            for (k in a until minOf(b, hi)) {
+                val v = values[k]
+                if (v.isNaN()) continue
+                if (mn.isNaN() || v < mn) mn = v
+                if (mx.isNaN() || v > mx) mx = v
+            }
+            mins[c] = mn
+            maxs[c] = mx
+        }
+        return mins to maxs
     }
 
     /**

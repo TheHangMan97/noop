@@ -2884,13 +2884,6 @@
     <string name="ecg_rec_stats">Próbki: %1$d · flaga obecności w rekordach: %2$d z %3$d</string>
     <string name="ecg_rec_missing">Brak w numeracji opaski: %1$d · niemożliwe do zdekodowania: %2$d</string>
     <string name="ecg_rec_back">Wszystkie nagrania</string>
-    <string name="ecg_rec_window">Okno</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">od t+%1$d s do t+%2$d s (nagranie kończy się w t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Wcześniej</string>
-    <string name="ecg_rec_later">Później</string>
-    <string name="ecg_rec_flat">To okno zawiera wyłącznie próbki zerowe. Opaska wysyła zera, dopóki jej układ pomiarowy się stabilizuje, więc samo to nie mówi nic o kontakcie.</string>
-    <string name="ecg_rec_axis_note">Cienkie pionowe linie oznaczają początek każdego zapisanego rekordu, mniej więcej jednego na sekundę opaski. Skala pionowa dopasowuje się do widocznego okna. Pasek poniżej oznacza rekordy z ustawioną flagą obecności opaski; ta flaga nie jest oceną kontaktu ani jakości.</string>
     <string name="ecg_rec_share">Udostępnij jako CSV</string>
     <string name="ecg_rec_share_failed">Nie udało się wyeksportować nagrania: %1$s</string>
     <string name="ecg_rec_share_chooser">Udostępnij nagranie EKG</string>
@@ -2921,4 +2914,8 @@
     <string name="ecg_consent_body">To funkcja eksperymentalna, nie medyczne EKG i nie diagnoza. NOOP prosi Twoje MG o 30-sekundowe nagranie i rysuje wysłane próbki. Niczego z nich nie odczytuje: ani tętna, ani rytmu, ani ostrzeżeń. Amplituda jest w nieskalibrowanych jednostkach.</string>
     <string name="ecg_consent_accept">Rozumiem, rozpocznij</string>
     <string name="ecg_consent_cancel">Anuluj</string>
+    <string name="ecg_view_filtered">Filtrowane</string>
+    <string name="ecg_view_raw">Surowe</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s na wiersz; duży kwadrat to 0,2 s. Oś czasu podąża za sekundowymi znacznikami samych rekordów. „Filtrowane” usuwa tylko powolny dryf linii bazowej i lekko wygładza na potrzeby wyświetlania; eksport CSV pozostaje surowy. Bez kalibracji w miliwoltach nie ma impulsu kalibracyjnego ani skali amplitudy. Początkowa sekunda, gdy układ pomiarowy się stabilizuje, jest pominięta w pasku.</string>
 </resources>

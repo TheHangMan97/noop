@@ -2868,13 +2868,6 @@
     <string name="ecg_rec_stats">Muestras: %1$d · indicador de presencia en %2$d de %3$d registros</string>
     <string name="ecg_rec_missing">Faltan en la numeración de la pulsera: %1$d · no decodificables: %2$d</string>
     <string name="ecg_rec_back">Todos los registros</string>
-    <string name="ecg_rec_window">Ventana</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">t+%1$d s a t+%2$d s (el registro termina en t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Antes</string>
-    <string name="ecg_rec_later">Después</string>
-    <string name="ecg_rec_flat">Esta ventana solo contiene muestras a cero. La pulsera envía ceros mientras su electrónica de medida se estabiliza, así que esto por sí solo no dice nada sobre el contacto.</string>
-    <string name="ecg_rec_axis_note">Las líneas verticales finas marcan dónde empieza cada registro guardado, aproximadamente uno por segundo de la pulsera. La escala vertical se ajusta a la ventana visible. La barra inferior marca los registros con el indicador de presencia de la pulsera activado; ese indicador no es un veredicto de contacto ni de calidad.</string>
     <string name="ecg_rec_share">Compartir como CSV</string>
     <string name="ecg_rec_share_failed">No se pudo exportar el registro: %1$s</string>
     <string name="ecg_rec_share_chooser">Compartir registro de ECG</string>
@@ -2905,4 +2898,8 @@
     <string name="ecg_consent_body">Es una función experimental, no un ECG médico ni un diagnóstico. NOOP pide a tu MG que registre durante 30 segundos y dibuja las muestras que envía. No deduce nada de ellas: ni frecuencia cardíaca, ni ritmo, ni avisos. La amplitud está en cuentas sin calibrar.</string>
     <string name="ecg_consent_accept">Entendido, iniciar</string>
     <string name="ecg_consent_cancel">Cancelar</string>
+    <string name="ecg_view_filtered">Filtrado</string>
+    <string name="ecg_view_raw">Sin filtrar</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s por fila; un cuadro grande son 0,2 s. El eje de tiempo sigue las marcas de segundo de los propios registros. «Filtrado» solo elimina la deriva lenta de la línea base y suaviza un poco para mostrar; la exportación CSV sigue sin filtrar. Sin calibración en milivoltios no hay pulso de calibración ni escala de amplitud. El segundo inicial, mientras la electrónica se estabiliza, no se muestra en la tira.</string>
 </resources>

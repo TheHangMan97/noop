@@ -2881,13 +2881,6 @@
     <string name="ecg_rec_stats">Werte: %1$d · Präsenz-Flag in %2$d von %3$d Datensätzen</string>
     <string name="ecg_rec_missing">Fehlend in der Nummerierung des Bands: %1$d · nicht dekodierbar: %2$d</string>
     <string name="ecg_rec_back">Alle Aufnahmen</string>
-    <string name="ecg_rec_window">Ausschnitt</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">t+%1$d s bis t+%2$d s (Aufnahme endet bei t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Früher</string>
-    <string name="ecg_rec_later">Später</string>
-    <string name="ecg_rec_flat">Dieser Ausschnitt enthält nur Nullwerte. Das Band meldet Nullen, während sich die Messelektronik einschwingt; das allein sagt nichts über den Kontakt aus.</string>
-    <string name="ecg_rec_axis_note">Dünne senkrechte Linien markieren den Beginn jedes gespeicherten Datensatzes, etwa einer pro Sekunde des Bands. Die vertikale Skala passt sich dem sichtbaren Ausschnitt an. Der Balken darunter markiert Datensätze mit gesetztem Präsenz-Flag des Bands; dieses Flag ist kein Urteil über Kontakt oder Qualität.</string>
     <string name="ecg_rec_share">Als CSV teilen</string>
     <string name="ecg_rec_share_failed">Die Aufnahme konnte nicht exportiert werden: %1$s</string>
     <string name="ecg_rec_share_chooser">EKG-Aufnahme teilen</string>
@@ -2918,4 +2911,8 @@
     <string name="ecg_consent_body">Dies ist eine experimentelle Funktion, kein medizinisches EKG und keine Diagnose. NOOP bittet Ihr MG, 30 Sekunden lang aufzuzeichnen, und zeichnet die gesendeten Werte. Es liest nichts daraus ab: keine Herzfrequenz, kein Rhythmus, keine Warnungen. Die Amplitude ist in unkalibrierten Zählwerten angegeben.</string>
     <string name="ecg_consent_accept">Verstanden, starten</string>
     <string name="ecg_consent_cancel">Abbrechen</string>
+    <string name="ecg_view_filtered">Gefiltert</string>
+    <string name="ecg_view_raw">Roh</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s pro Zeile, ein großes Kästchen = 0,2 s. Die Zeitachse folgt den Sekundenstempeln der Datensätze. „Gefiltert“ entfernt nur für die Anzeige die langsame Grundlinienschwankung und glättet leicht; der CSV-Export bleibt roh. Ohne Millivolt-Kalibrierung gibt es keine Eichzacke und keine Amplitudenskala. Die Einschwingphase in der ersten Sekunde fehlt im Streifen.</string>
 </resources>

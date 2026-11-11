@@ -2838,13 +2838,6 @@
     <string name="ecg_rec_stats">采样值：%1$d · 在 %3$d 条记录中有 %2$d 条带存在标志</string>
     <string name="ecg_rec_missing">手环编号中缺失：%1$d · 无法解码：%2$d</string>
     <string name="ecg_rec_back">全部记录</string>
-    <string name="ecg_rec_window">窗口</string>
-    <string name="ecg_rec_window_seconds">%1$d 秒</string>
-    <string name="ecg_rec_position">t+%1$d 秒至 t+%2$d 秒（记录结束于 t+%3$d 秒）</string>
-    <string name="ecg_rec_earlier">更早</string>
-    <string name="ecg_rec_later">更晚</string>
-    <string name="ecg_rec_flat">此窗口只包含零值采样。手环的测量电路稳定期间会发送零值，因此仅凭这一点无法说明接触情况。</string>
-    <string name="ecg_rec_axis_note">细竖线标出每条存储记录的起点，大约每秒一条手环记录。纵向刻度随可见窗口自动调整。下方色条标出手环存在标志已置位的记录；该标志不代表接触或质量判断。</string>
     <string name="ecg_rec_share">以 CSV 分享</string>
     <string name="ecg_rec_share_failed">无法导出记录：%1$s</string>
     <string name="ecg_rec_share_chooser">分享心电图记录</string>
@@ -2875,4 +2868,8 @@
     <string name="ecg_consent_body">这是一项实验性功能，不是医用心电图，也不是诊断。NOOP 请求您的 MG 记录 30 秒，并绘制其发送的采样。NOOP 不从中得出任何结论：不计算心率，不判断节律，不发出警告。幅度为未校准的原始计数。</string>
     <string name="ecg_consent_accept">明白，开始</string>
     <string name="ecg_consent_cancel">取消</string>
+    <string name="ecg_view_filtered">已滤波</string>
+    <string name="ecg_view_raw">原始</string>
+    <string name="ecg_strip_second">%1$d 秒</string>
+    <string name="ecg_strip_note">每行 10 秒，一个大方格为 0.2 秒。时间轴依据各条记录自身的秒时间戳。“已滤波”仅为显示去除缓慢的基线漂移并做轻度平滑；CSV 导出保持原始数据。由于没有毫伏校准，因此没有定标脉冲，也没有幅度刻度。测量电路稳定期间的起始一秒不显示在波形条中。</string>
 </resources>

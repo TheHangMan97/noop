@@ -3,7 +3,6 @@ package com.noop.ui
 import com.noop.data.EcgWaveformSampleEntity
 import com.noop.protocol.Whoop5Ecg
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -120,59 +119,6 @@ class EcgRecordingsTest {
         assertTrue(EcgRecordings.groupReadings(emptyList()).isEmpty())
     }
 
-    @Test
-    fun `the trace lays records end to end in time and sequence order`() {
-        val trace = EcgRecordings.trace(
-            listOf(
-                timed(row(101, 3, listOf(30, 31), presence = false)),
-                timed(row(100, 2, listOf(20))),
-                timed(row(100, 1, emptyList())),
-            ),
-        )
-        assertArrayEquals(intArrayOf(20, 30, 31), trace.samples)
-        assertArrayEquals(intArrayOf(0, 0, 1), trace.recordStarts)
-        assertArrayEquals(longArrayOf(100, 100, 101), trace.recordTs)
-        assertEquals(listOf(true, true, false), trace.recordPresence.toList())
-        assertEquals(3, trace.recordCount)
-        assertEquals(1, trace.windowEnd(0, 2))
-        assertEquals(3, trace.windowEnd(1, 2))
-        assertEquals(3, trace.recordStart(9))
-    }
-
-    @Test
-    fun `the envelope keeps each bucket's extremes`() {
-        val samples = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        val (mins, maxs) = EcgRecordings.envelope(samples, 0, 10, 5)
-        assertArrayEquals(intArrayOf(0, 2, 4, 6, 8), mins)
-        assertArrayEquals(intArrayOf(1, 3, 5, 7, 9), maxs)
-        val (subMins, subMaxs) = EcgRecordings.envelope(samples, 4, 8, 2)
-        assertArrayEquals(intArrayOf(4, 6), subMins)
-        assertArrayEquals(intArrayOf(5, 7), subMaxs)
-    }
-
-    @Test
-    fun `an envelope with more buckets than samples never drops to zero`() {
-        val (mins, maxs) = EcgRecordings.envelope(intArrayOf(-5, 7), 0, 2, 4)
-        assertArrayEquals(intArrayOf(-5, -5, 7, 7), mins)
-        assertArrayEquals(intArrayOf(-5, -5, 7, 7), maxs)
-        assertEquals(0, EcgRecordings.envelope(intArrayOf(1, 2), 1, 1, 4).first.size)
-    }
-
-    @Test
-    fun `the display range ignores a lone settling spike`() {
-        val samples = IntArray(1_000) { it % 100 } + intArrayOf(120_000)
-        val range = EcgRecordings.displayRange(samples, 0, samples.size)
-        assertTrue(range.last < 120_000)
-        assertTrue(range.first <= 1 && range.last >= 98)
-    }
-
-    @Test
-    fun `a flat or empty window still gets a drawable range`() {
-        assertEquals(-1..1, EcgRecordings.displayRange(IntArray(20), 0, 20))
-        assertEquals(-1..1, EcgRecordings.displayRange(IntArray(0), 0, 0))
-        assertEquals(41..43, EcgRecordings.displayRange(intArrayOf(42, 42), 0, 2))
-    }
-
     /** A ts-ascending table with the DAO's `ts >= from ORDER BY ts LIMIT` shape. */
     private fun source(rows: List<Pair<Long, Long>>): suspend (Long, Int) -> List<Pair<Long, Long>> {
         val sorted = rows.sortedWith(compareBy({ it.first }, { it.second }))
@@ -254,6 +200,85 @@ class EcgRecordingsTest {
         EcgRecordings.writeCsv(out, listOf(timed(row(10, 1, emptyList())), timed(row(11, 2, emptyList()))), "x")
         assertTrue(out.lines().contains("# records: 2, samples: 0, records declaring 0 samples: 2"))
         assertEquals(EcgRecordings.CSV_COLUMNS, out.lines().last { it.isNotEmpty() })
+    }
+
+    @Test
+    fun `records land on their second, sharing seconds and leaving gaps as NaN`() {
+        val strip = EcgRecordings.strip(
+            listOf(
+                0 to listOf(1, 2),
+                0 to listOf(3),      // a second record in the same second continues after the first
+                2 to listOf(9),      // second 1 never arrived
+            ),
+            slotsPerSecond = 4,
+        )
+        assertEquals(3, strip.seconds)
+        val v = strip.values
+        assertEquals(listOf(1f, 2f, 3f), v.take(3))
+        assertTrue(v[3].isNaN())
+        assertTrue((4 until 8).all { v[it].isNaN() })
+        assertEquals(9f, v[8])
+        assertTrue((9 until 12).all { v[it].isNaN() })
+    }
+
+    @Test
+    fun `a stored reading is laid out from its records' own second stamps, opening partials left out`() {
+        val full = List(EcgRecordings.STRIP_SLOTS_STORED) { it }
+        val strip = EcgRecordings.strip(
+            listOf(
+                timed(row(99, 1, emptyList())),          // the opening: 0 samples,
+                timed(row(99, 2, listOf(-50, -40))),     // then a partial second,
+                timed(row(102, 4, listOf(7))),           // a short record later on is kept,
+                timed(row(100, 3, full)),                // and the first full second starts the strip.
+            ),
+        )
+        assertEquals(EcgRecordings.STRIP_SLOTS_STORED, strip.slotsPerSecond)
+        assertEquals(3, strip.seconds)
+        assertEquals(0f, strip.values[0])
+        assertEquals(499f, strip.values[EcgRecordings.STRIP_SLOTS_STORED - 1])
+        assertTrue(strip.values[EcgRecordings.STRIP_SLOTS_STORED].isNaN())      // second 101 missing
+        assertEquals(7f, strip.values[2 * EcgRecordings.STRIP_SLOTS_STORED])
+        assertEquals(0, EcgRecordings.strip(listOf(timed(row(5, 1, listOf(1))))).seconds)
+    }
+
+    @Test
+    fun `the display filter removes a slow offset and keeps gaps`() {
+        val values = FloatArray(41) { if (it == 20) Float.NaN else 1000f + (if (it == 10) 50f else 0f) }
+        val f = EcgRecordings.displayFiltered(values, baselineWindow = 9, smoothWindow = 1)
+        assertTrue(f[20].isNaN())
+        assertEquals(0f, f[0], 0.01f)                       // a constant offset filters to zero
+        assertTrue(f[10] > 40f)                             // a short spike survives
+        assertEquals(0f, f[30], 0.01f)                      // the run after the gap is filtered on its own
+    }
+
+    @Test
+    fun `the moving average shrinks its window at the edges`() {
+        val m = EcgRecordings.movingAverage(floatArrayOf(0f, 3f, 6f), 3)
+        assertEquals(1.5f, m[0], 1e-6f)
+        assertEquals(3f, m[1], 1e-6f)
+        assertEquals(4.5f, m[2], 1e-6f)
+    }
+
+    @Test
+    fun `the strip range is padded, ignores gaps, and never collapses`() {
+        val r = EcgRecordings.stripRange(floatArrayOf(Float.NaN, 0f, 10f), tail = 0.0, pad = 0.1f)
+        assertEquals(-1f, r.start, 1e-6f)
+        assertEquals(11f, r.endInclusive, 1e-6f)
+        assertEquals(-1f..1f, EcgRecordings.stripRange(floatArrayOf(Float.NaN)))
+        val flat = EcgRecordings.stripRange(floatArrayOf(5f, 5f))
+        assertTrue(flat.endInclusive > flat.start)
+    }
+
+    @Test
+    fun `the column envelope keeps extremes and marks empty columns`() {
+        val v = floatArrayOf(0f, 9f, Float.NaN, Float.NaN, 4f, -2f)
+        val (mins, maxs) = EcgRecordings.columnEnvelope(v, 0, 6, 3)
+        assertEquals(0f, mins[0]); assertEquals(9f, maxs[0])
+        assertTrue(mins[1].isNaN() && maxs[1].isNaN())
+        assertEquals(-2f, mins[2]); assertEquals(4f, maxs[2])
+        // More columns than slots: each column repeats the slot it falls in.
+        val (m2, _) = EcgRecordings.columnEnvelope(floatArrayOf(1f, 2f), 0, 2, 4)
+        assertEquals(listOf(1f, 1f, 2f, 2f), m2.toList())
     }
 
     @Test

@@ -2763,13 +2763,6 @@
     <string name="ecg_rec_stats">Отсчёты: %1$d · флаг присутствия в записях: %2$d из %3$d</string>
     <string name="ecg_rec_missing">Пропущено в нумерации браслета: %1$d · не декодируется: %2$d</string>
     <string name="ecg_rec_back">Все записи</string>
-    <string name="ecg_rec_window">Окно</string>
-    <string name="ecg_rec_window_seconds">%1$d с</string>
-    <string name="ecg_rec_position">с t+%1$d с до t+%2$d с (запись заканчивается на t+%3$d с)</string>
-    <string name="ecg_rec_earlier">Раньше</string>
-    <string name="ecg_rec_later">Позже</string>
-    <string name="ecg_rec_flat">В этом окне только нулевые отсчёты. Браслет передаёт нули, пока его измерительная часть стабилизируется, поэтому само по себе это ничего не говорит о контакте.</string>
-    <string name="ecg_rec_axis_note">Тонкие вертикальные линии отмечают начало каждой сохранённой записи, примерно одной в секунду браслета. Вертикальная шкала подстраивается под видимое окно. Полоса ниже отмечает записи с установленным флагом присутствия браслета; этот флаг не является оценкой контакта или качества.</string>
     <string name="ecg_rec_share">Поделиться в CSV</string>
     <string name="ecg_rec_share_failed">Не удалось экспортировать запись: %1$s</string>
     <string name="ecg_rec_share_chooser">Поделиться записью ЭКГ</string>
@@ -2800,4 +2793,8 @@
     <string name="ecg_consent_body">Это экспериментальная функция, а не медицинская ЭКГ и не диагноз. NOOP просит ваш MG записывать 30 секунд и рисует присланные отсчёты. Ничего из них не выводится: ни пульс, ни ритм, ни предупреждения. Амплитуда в некалиброванных единицах.</string>
     <string name="ecg_consent_accept">Понятно, начать</string>
     <string name="ecg_consent_cancel">Отмена</string>
+    <string name="ecg_view_filtered">Фильтр.</string>
+    <string name="ecg_view_raw">Исходные</string>
+    <string name="ecg_strip_second">%1$d с</string>
+    <string name="ecg_strip_note">10 с в строке; большая клетка — 0,2 с. Ось времени следует секундным меткам самих записей. «Фильтр.» только убирает медленный дрейф изолинии и слегка сглаживает для отображения; экспорт CSV остаётся исходным. Без калибровки в милливольтах нет калибровочного импульса и шкалы амплитуды. Начальная секунда, пока измерительная часть стабилизируется, в ленту не входит.</string>
 </resources>

@@ -2860,13 +2860,6 @@
     <string name="ecg_rec_stats">Amostras: %1$d · indicador de presença em %2$d de %3$d registos</string>
     <string name="ecg_rec_missing">Em falta na numeração da pulseira: %1$d · não descodificáveis: %2$d</string>
     <string name="ecg_rec_back">Todos os registos</string>
-    <string name="ecg_rec_window">Janela</string>
-    <string name="ecg_rec_window_seconds">%1$d s</string>
-    <string name="ecg_rec_position">t+%1$d s a t+%2$d s (o registo termina em t+%3$d s)</string>
-    <string name="ecg_rec_earlier">Anterior</string>
-    <string name="ecg_rec_later">Seguinte</string>
-    <string name="ecg_rec_flat">Esta janela só contém amostras a zero. A pulseira envia zeros enquanto a eletrónica de medição estabiliza, por isso isto, por si só, nada diz sobre o contacto.</string>
-    <string name="ecg_rec_axis_note">As linhas verticais finas assinalam onde começa cada registo guardado, cerca de um por segundo da pulseira. A escala vertical ajusta-se à janela visível. A barra por baixo assinala os registos com o indicador de presença da pulseira ativo; esse indicador não é um veredicto de contacto nem de qualidade.</string>
     <string name="ecg_rec_share">Partilhar como CSV</string>
     <string name="ecg_rec_share_failed">Não foi possível exportar o registo: %1$s</string>
     <string name="ecg_rec_share_chooser">Partilhar registo de ECG</string>
@@ -2897,4 +2890,8 @@
     <string name="ecg_consent_body">Esta é uma função experimental, não um ECG médico nem um diagnóstico. O NOOP pede ao seu MG que registe durante 30 segundos e desenha as amostras enviadas. Não retira nada delas: nem frequência cardíaca, nem ritmo, nem avisos. A amplitude está em contagens não calibradas.</string>
     <string name="ecg_consent_accept">Entendido, iniciar</string>
     <string name="ecg_consent_cancel">Cancelar</string>
+    <string name="ecg_view_filtered">Filtrado</string>
+    <string name="ecg_view_raw">Bruto</string>
+    <string name="ecg_strip_second">%1$d s</string>
+    <string name="ecg_strip_note">10 s por linha; um quadrado grande corresponde a 0,2 s. O eixo do tempo segue as marcas de segundo dos próprios registos. «Filtrado» apenas remove a deriva lenta da linha de base e suaviza ligeiramente para visualização; a exportação CSV permanece em bruto. Sem calibração em milivolts não há impulso de calibração nem escala de amplitude. O segundo inicial, enquanto a eletrónica estabiliza, não aparece na faixa.</string>
 </resources>
