@@ -120,7 +120,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
     // accessibility-walked on scroll.
     LazyScreenScaffold(
         title = uiString(R.string.l10n_automations_screen_automations_82542d6d),
-        subtitle = "Make the strap do things: tap to act, walk away to lock, train by feel.",
+        subtitle = uiStringOr(R.string.de_make_the_strap_do_things_tap_to_act_walk_f0de13, "Make the strap do things: tap to act, walk away to lock, train by feel."),
     ) {
         // #haptics (#1115): per-event in-session haptic toggles, default ON (opt-out) — turn off any cue you
         // find noisy; the feature keeps working, just without that wrist buzz.
@@ -128,33 +128,33 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.Vibration,
             title = uiString(R.string.haptics_section_title),
-            blurb = "Choose which in-session cues buzz your wrist during a breathing session, timer, or workout.",
+            blurb = uiStringOr(R.string.de_choose_which_in_session_cues_buzz_your_w_4f0f0e, "Choose which in-session cues buzz your wrist during a breathing session, timer, or workout."),
             active = breathingHaptic || intervalsHaptic || liveSessionHaptic || workoutHaptic,
         ) {
             ToggleRow(
                 label = uiString(R.string.haptics_breathing_label),
-                help = "Buzz each inhale and exhale during a breathing or resonance session.",
+                help = uiStringOr(R.string.de_buzz_each_inhale_and_exhale_during_a_bre_8453ca, "Buzz each inhale and exhale during a breathing or resonance session."),
                 checked = breathingHaptic,
                 onChange = { breathingHaptic = it; HapticPrefs.setEnabled(ctx, HapticPrefs.BREATHING, it) },
             )
             RowDivider()
             ToggleRow(
                 label = uiString(R.string.haptics_intervals_label),
-                help = "Buzz on each interval change.",
+                help = uiStringOr(R.string.de_buzz_on_each_interval_change_20f3be, "Buzz on each interval change."),
                 checked = intervalsHaptic,
                 onChange = { intervalsHaptic = it; HapticPrefs.setEnabled(ctx, HapticPrefs.INTERVALS, it) },
             )
             RowDivider()
             ToggleRow(
                 label = uiString(R.string.haptics_live_session_label),
-                help = "Coaching buzzes during a live workout session.",
+                help = uiStringOr(R.string.de_coaching_buzzes_during_a_live_workout_se_4642e5, "Coaching buzzes during a live workout session."),
                 checked = liveSessionHaptic,
                 onChange = { liveSessionHaptic = it; HapticPrefs.setEnabled(ctx, HapticPrefs.LIVE_SESSION, it) },
             )
             RowDivider()
             ToggleRow(
                 label = uiString(R.string.haptics_workout_label),
-                help = "A buzz confirms a workout starting and saving.",
+                help = uiStringOr(R.string.de_a_buzz_confirms_a_workout_starting_and_s_0263ba, "A buzz confirms a workout starting and saving."),
                 checked = workoutHaptic,
                 onChange = { workoutHaptic = it; HapticPrefs.setEnabled(ctx, HapticPrefs.WORKOUT, it) },
             )
@@ -167,7 +167,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.TouchApp,
             title = uiString(R.string.l10n_automations_screen_double_tap_8d2f1646),
-            blurb = "Double-tap the strap to trigger an action on this device. (The strap exposes a single double-tap gesture.)",
+            blurb = uiStringOr(R.string.de_double_tap_the_strap_to_trigger_an_actio_f1273b, "Double-tap the strap to trigger an action on this device. (The strap exposes a single double-tap gesture.)"),
             active = doubleTapAction != DoubleTapAction.NONE,
         ) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -191,7 +191,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 }
                 Spacer(Modifier.weight(1f))
                 StatePill(
-                    if (live.bonded) "Strap bonded" else "Not connected",
+                    if (live.bonded) uiStringOr(R.string.de_strap_bonded_cbf39b, "Strap bonded") else uiStringOr(R.string.de_not_connected_8b02f3, "Not connected"),
                     tone = if (live.bonded) StrandTone.Positive else StrandTone.Warning,
                 )
             }
@@ -203,12 +203,12 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.Bolt,
             title = uiString(R.string.l10n_automations_screen_haptic_coaching_e2fab286),
-            blurb = "Train by feel. The strap buzzes so you don't have to watch a screen.",
+            blurb = uiStringOr(R.string.de_train_by_feel_the_strap_buzzes_so_you_do_463f60, "Train by feel. The strap buzzes so you don't have to watch a screen."),
             active = zoneCoaching,
         ) {
             ToggleRow(
                 label = uiString(R.string.l10n_automations_screen_hr_zone_coaching_9306e6e1),
-                help = "A triple-buzz when you climb into your top zone (Zone 5, ≥ $zone5Bpm bpm), a cue to ease off. Max HR comes from Settings.",
+                help = uiStringOr(R.string.de_a_triple_buzz_when_you_climb_into_your_t_6bd9fb, "A triple-buzz when you climb into your top zone (Zone 5, ≥ %1\$s bpm), a cue to ease off. Max HR comes from Settings.", zone5Bpm.toString()),
                 checked = zoneCoaching,
                 onChange = { viewModel.setZoneCoaching(it) },
             )
@@ -216,7 +216,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 RowDivider()
                 ToggleRow(
                     label = uiString(R.string.l10n_automations_screen_recovery_buzz_1abc9a51),
-                    help = "Also buzz once when your heart rate drops back to Zone 1, a cue that you've recovered.",
+                    help = uiStringOr(R.string.de_also_buzz_once_when_your_heart_rate_drop_b96aee, "Also buzz once when your heart rate drops back to Zone 1, a cue that you've recovered."),
                     checked = zoneCoachRecovery,
                     onChange = { viewModel.setZoneCoachRecovery(it) },
                 )
@@ -233,12 +233,12 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.Timer,
             title = uiString(R.string.l10n_automations_screen_inactivity_reminder_ca49b1ba),
-            blurb = "A gentle wrist buzz when you've been sitting too long, a nudge to get up and move. Inferred from the strap's motion on each history sync, so it lags real time by a sync or two.",
+            blurb = uiStringOr(R.string.de_a_gentle_wrist_buzz_when_you_ve_been_sit_022719, "A gentle wrist buzz when you've been sitting too long, a nudge to get up and move. Inferred from the strap's motion on each history sync, so it lags real time by a sync or two."),
             active = inactivityEnabled,
         ) {
             ToggleRow(
                 label = uiString(R.string.l10n_automations_screen_enable_inactivity_reminder_468c3017),
-                help = "Buzzes after you've been sitting past your threshold.",
+                help = uiStringOr(R.string.de_buzzes_after_you_ve_been_sitting_past_yo_1597d7, "Buzzes after you've been sitting past your threshold."),
                 checked = inactivityEnabled,
                 onChange = {
                     inactivityEnabled = it
@@ -256,7 +256,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 RowDivider()
                 StepperRow(
                     label = uiString(R.string.l10n_automations_screen_sitting_for_e464c472),
-                    help = "Minutes seated before the first nudge.",
+                    help = uiStringOr(R.string.de_minutes_seated_before_the_first_nudge_7d30de, "Minutes seated before the first nudge."),
                     value = inactivityThreshold, suffix = "min", range = 15..120, step = 15,
                     onChange = {
                         inactivityThreshold = it
@@ -266,7 +266,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 RowDivider()
                 StepperRow(
                     label = uiString(R.string.l10n_automations_screen_re_nudge_every_646023cd),
-                    help = "If you're still seated, buzz again this often.",
+                    help = uiStringOr(R.string.de_if_you_re_still_seated_buzz_again_this_o_e248b0, "If you're still seated, buzz again this often."),
                     value = inactivityReNudge, suffix = "min", range = 15..120, step = 15,
                     onChange = {
                         inactivityReNudge = it
@@ -276,7 +276,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 RowDivider()
                 StepperRow(
                     label = uiString(R.string.l10n_automations_screen_buzz_strength_e895f99e),
-                    help = "How strong the buzz is.",
+                    help = uiStringOr(R.string.de_how_strong_the_buzz_is_6ccd86, "How strong the buzz is."),
                     value = inactivityBuzzLoops, suffix = "×", range = 1..4, step = 1,
                     onChange = {
                         inactivityBuzzLoops = it
@@ -286,7 +286,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                 RowDivider()
                 ToggleRow(
                     label = uiString(R.string.l10n_automations_screen_only_during_active_hours_29c53fc9),
-                    help = "Only nudge during your active hours.",
+                    help = uiStringOr(R.string.de_only_nudge_during_your_active_hours_f308e0, "Only nudge during your active hours."),
                     checked = inactivityActiveHours,
                     onChange = {
                         inactivityActiveHours = it
@@ -300,7 +300,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                         Spacer(Modifier.weight(1f))
                         TimeChip(
                             minutes = inactivityActiveStart,
-                            accessibilityLabel = "Active hours start",
+                            accessibilityLabel = uiStringOr(R.string.de_active_hours_start_0e4bea, "Active hours start"),
                             onPicked = {
                                 inactivityActiveStart = it
                                 InactivityPrefs.setInt(ctx, InactivityPrefs.ACTIVE_START_MIN, it)
@@ -311,7 +311,7 @@ fun AutomationsScreen(viewModel: AppViewModel) {
                         Spacer(Modifier.width(8.dp))
                         TimeChip(
                             minutes = inactivityActiveEnd,
-                            accessibilityLabel = "Active hours end",
+                            accessibilityLabel = uiStringOr(R.string.de_active_hours_end_9c4838, "Active hours end"),
                             onPicked = {
                                 inactivityActiveEnd = it
                                 InactivityPrefs.setInt(ctx, InactivityPrefs.ACTIVE_END_MIN, it)
@@ -333,12 +333,12 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.MonitorHeart,
             title = uiString(R.string.l10n_automations_screen_illness_early_warning_453ab477),
-            blurb = "Watches your resting HR, HRV, skin temperature and respiration against your own 28-day baseline. On-device and approximate: informational only, not a diagnosis.",
+            blurb = uiStringOr(R.string.de_watches_your_resting_hr_hrv_skin_tempera_1cac89, "Watches your resting HR, HRV, skin temperature and respiration against your own 28-day baseline. On-device and approximate: informational only, not a diagnosis."),
             active = illnessWatch,
         ) {
             ToggleRow(
                 label = uiString(R.string.l10n_automations_screen_watch_for_early_illness_signs_4c22e127),
-                help = "Needs at least 14 days of history. When two or more signals drift together you get a banner on Today and a notification, at most once a day.",
+                help = uiStringOr(R.string.de_needs_at_least_14_days_of_history_when_t_8db356, "Needs at least 14 days of history. When two or more signals drift together you get a banner on Today and a notification, at most once a day."),
                 checked = illnessWatch,
                 onChange = { viewModel.setIllnessWatchEnabled(it) },
             )
@@ -350,19 +350,19 @@ fun AutomationsScreen(viewModel: AppViewModel) {
         SettingsSection(
             icon = Icons.Filled.BatteryStd,
             title = uiString(R.string.l10n_automations_screen_battery_alerts_f3679d60),
-            blurb = "A heads-up when the strap battery gets low so you can recharge before bed, and a note when it's finished charging.",
+            blurb = uiStringOr(R.string.de_a_heads_up_when_the_strap_battery_gets_l_ab7d84, "A heads-up when the strap battery gets low so you can recharge before bed, and a note when it's finished charging."),
             active = batteryAlerts,
         ) {
             ToggleRow(
                 label = uiString(R.string.l10n_automations_screen_notify_on_low_and_full_battery_d1903bb8),
-                help = "Sends a notification when the strap drops to 15% or reaches a full charge, at most once per charge cycle.",
+                help = uiStringOr(R.string.de_sends_a_notification_when_the_strap_drop_28d36e, "Sends a notification when the strap drops to 15% or reaches a full charge, at most once per charge cycle."),
                 checked = batteryAlerts,
                 onChange = { viewModel.setBatteryAlertsEnabled(it) },
             )
             if (batteryAlerts) {
                 ToggleRow(
                     label = uiString(R.string.l10n_automations_screen_predictive_runtime_warning_4d85f5a6),
-                    help = "An early \"recharge tonight\" heads-up when the strap has about a day of estimated runtime left, at most once per discharge cycle. Turn off to keep only the 15% warning.",
+                    help = uiStringOr(R.string.de_an_early_recharge_tonight_heads_up_when_c470e1, "An early \"recharge tonight\" heads-up when the strap has about a day of estimated runtime left, at most once per discharge cycle. Turn off to keep only the 15% warning."),
                     checked = predictiveBatteryAlerts,
                     onChange = { viewModel.setPredictiveBatteryAlertsEnabled(it) },
                 )
@@ -390,12 +390,12 @@ private fun NapDetectionSection(viewModel: AppViewModel) {
     SettingsSection(
         icon = Icons.Filled.Bedtime,
         title = uiString(R.string.l10n_automations_screen_nap_detection_ca2dedf5),
-        blurb = "Spots a likely daytime nap from the strap's motion and heart rate on each history sync, then asks you to confirm it. Inferred and approximate: NOOP never adds a nap to your sleep without your OK.",
+        blurb = uiStringOr(R.string.de_spots_a_likely_daytime_nap_from_the_stra_694ebb, "Spots a likely daytime nap from the strap's motion and heart rate on each history sync, then asks you to confirm it. Inferred and approximate: NOOP never adds a nap to your sleep without your OK."),
         active = enabled,
     ) {
         ToggleRow(
             label = uiString(R.string.l10n_automations_screen_detect_short_naps_bbfd136d),
-            help = "When a sync shows a quiet, settled stretch in the day, NOOP offers it here for you to keep or skip.",
+            help = uiStringOr(R.string.de_when_a_sync_shows_a_quiet_settled_stretc_2140e9, "When a sync shows a quiet, settled stretch in the day, NOOP offers it here for you to keep or skip."),
             checked = enabled,
             onChange = {
                 viewModel.setNapDetectionEnabled(it)
@@ -434,9 +434,9 @@ private fun NapReviewRow(nap: NapCandidate, onAccept: () -> Unit, onDismiss: () 
             Text(napDetailLabel(nap), style = NoopType.footnote, color = Palette.textTertiary)
         }
         Spacer(Modifier.width(8.dp))
-        NapActionButton(Icons.Filled.Check, "Keep this nap", Palette.statusPositive, onAccept)
+        NapActionButton(Icons.Filled.Check, uiStringOr(R.string.de_keep_this_nap_ddc2e8, "Keep this nap"), Palette.statusPositive, onAccept)
         Spacer(Modifier.width(8.dp))
-        NapActionButton(Icons.Filled.Close, "Skip this nap", Palette.textTertiary, onDismiss)
+        NapActionButton(Icons.Filled.Close, uiStringOr(R.string.de_skip_this_nap_c84ac7, "Skip this nap"), Palette.textTertiary, onDismiss)
     }
 }
 
@@ -463,11 +463,11 @@ private fun napWindowLabel(nap: NapCandidate, ctx: android.content.Context): Str
     val start = fmt.format(java.util.Date(nap.start * 1000L))
     val end = fmt.format(java.util.Date(nap.end * 1000L))
     val mins = nap.durationS / 60
-    return "$start-$end · ~$mins min"
+    return uiStringOr(R.string.de_1_s_2_s_3_s_min_361c49, "%1\$s-%2\$s · ~%3\$s min", start.toString(), end.toString(), mins.toString())
 }
 
 private fun napDetailLabel(nap: NapCandidate): String =
-    if (nap.meanHr != null) "Quiet and settled, mean HR ~${nap.meanHr} bpm." else "Quiet and settled."
+    if (nap.meanHr != null) uiStringOr(R.string.de_quiet_and_settled_mean_hr_1_s_bpm_dadced, "Quiet and settled, mean HR ~%1\$s bpm.", (nap.meanHr).toString()) else uiStringOr(R.string.de_quiet_and_settled_d11e7d, "Quiet and settled.")
 
 // MARK: - Per-weekday wake-time overrides (PR #554 reimpl under NoopApp)
 
@@ -509,7 +509,7 @@ internal fun AlarmDayOverridePicker(
                 }
                 TimeChip(
                     minutes = effective,
-                    accessibilityLabel = "${smartAlarmWeekdayName(dow)} wake time",
+                    accessibilityLabel = uiStringOr(R.string.de_1_s_wake_time_20e25a, "%1\$s wake time", (smartAlarmWeekdayName(dow)).toString()),
                     onPicked = { onSetOverride(dow, it) },
                 )
             }
@@ -535,7 +535,7 @@ private fun SettingsSection(
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Overline("Automation")
+                    Overline(uiStringOr(R.string.de_automation_a15fde, "Automation"))
                     if (active) Overline("ON", color = Palette.accent)
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -694,9 +694,9 @@ internal fun toggledSmartAlarmWeekday(dow: Int, days: Set<Int>): Set<Int> {
 
 /** Human-readable summary of the selection. Pure for tests. Mirrors macOS `weekdaySummary`. */
 internal fun smartAlarmWeekdaySummary(days: Set<Int>): String = when {
-    days.isEmpty() || days.size == 7 -> "Every day"
-    days == setOf(2, 3, 4, 5, 6) -> "Weekdays"
-    days == setOf(1, 7) -> "Weekends"
+    days.isEmpty() || days.size == 7 -> uiStringOr(R.string.de_every_day_3b2eb5, "Every day")
+    days == setOf(2, 3, 4, 5, 6) -> uiStringOr(R.string.de_weekdays_4ffc67, "Weekdays")
+    days == setOf(1, 7) -> uiStringOr(R.string.de_weekends_2f92a0, "Weekends")
     else -> SMART_ALARM_WEEKDAY_ORDER.filter { days.contains(it) }
         .joinToString(", ") { smartAlarmWeekdayName(it) }
 }
@@ -706,7 +706,7 @@ private fun smartAlarmWeekdayInitial(dow: Int): String = when (dow) {
 }
 
 private fun smartAlarmWeekdayName(dow: Int): String = when (dow) {
-    1 -> "Sun"; 2 -> "Mon"; 3 -> "Tue"; 4 -> "Wed"; 5 -> "Thu"; 6 -> "Fri"; 7 -> "Sat"; else -> "?"
+    1 -> uiStringOr(R.string.de_sun_48c98c, "Sun"); 2 -> uiStringOr(R.string.de_mon_24b2a0, "Mon"); 3 -> uiStringOr(R.string.de_tue_529541, "Tue"); 4 -> uiStringOr(R.string.de_wed_23408b, "Wed"); 5 -> uiStringOr(R.string.de_thu_3593cc, "Thu"); 6 -> uiStringOr(R.string.de_fri_bbd6e3, "Fri"); 7 -> uiStringOr(R.string.de_sat_6b782d, "Sat"); else -> "?"
 }
 
 /** A label/help row with a −[value]+ stepper, clamped to [range] and moved by [step]. */
@@ -726,7 +726,7 @@ private fun StepperRow(
             Text(help, style = NoopType.footnote, color = Palette.textTertiary)
         }
         Spacer(Modifier.width(12.dp))
-        StepButton(Icons.Filled.Remove, "Decrease $label", enabled = value > range.first) {
+        StepButton(Icons.Filled.Remove, uiStringOr(R.string.de_decrease_1_s_ef806b, "Decrease %1\$s", label.toString()), enabled = value > range.first) {
             onChange((value - step).coerceAtLeast(range.first))
         }
         Text(
@@ -736,7 +736,7 @@ private fun StepperRow(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp).widthIn(min = 56.dp),
         )
-        StepButton(Icons.Filled.Add, "Increase $label", enabled = value < range.last) {
+        StepButton(Icons.Filled.Add, uiStringOr(R.string.de_increase_1_s_a93be6, "Increase %1\$s", label.toString()), enabled = value < range.last) {
             onChange((value + step).coerceAtMost(range.last))
         }
     }

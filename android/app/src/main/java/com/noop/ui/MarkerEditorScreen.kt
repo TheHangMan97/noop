@@ -156,18 +156,18 @@ fun MarkerEditorScreen(
             )
 
             // --- Marker picker ---
-            SectionHeader("Marker", overline = "what are you logging?")
+            SectionHeader(uiStringOr(R.string.de_marker_4290a8, "Marker"), overline = uiStringOr(R.string.de_what_are_you_logging_b4b4f1, "what are you logging?"))
             NoopCard {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     when {
                         addingCustom -> {
-                            EditorField("Name") {
-                                EditorTextField(customName, { customName = it }, "e.g. Magnesium")
+                            EditorField(uiStringOr(R.string.de_name_709a23, "Name")) {
+                                EditorTextField(customName, { customName = it }, uiStringOr(R.string.de_e_g_magnesium_0e3a0d, "e.g. Magnesium"))
                             }
-                            EditorField("Unit") {
-                                EditorTextField(customUnit, { customUnit = it }, "e.g. mmol/L")
+                            EditorField(uiStringOr(R.string.de_unit_f6b935, "Unit")) {
+                                EditorTextField(customUnit, { customUnit = it }, uiStringOr(R.string.de_e_g_mmol_l_6d38f4, "e.g. mmol/L"))
                             }
-                            LinkText("Back to the marker list") { addingCustom = false }
+                            LinkText(uiStringOr(R.string.de_back_to_the_marker_list_2fbb2d, "Back to the marker list")) { addingCustom = false }
                         }
                         selection != null -> {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -175,7 +175,7 @@ fun MarkerEditorScreen(
                                     Text(selection!!.displayName, style = NoopType.headline, color = Palette.textPrimary)
                                     Text(selection!!.category.displayName, style = NoopType.footnote, color = Palette.textTertiary)
                                 }
-                                LinkText("Change") {
+                                LinkText(uiStringOr(R.string.de_change_64fbd9, "Change")) {
                                     selection = null; valueText = ""; diastolicText = ""; unitChoice = 0; search = ""
                                 }
                             }
@@ -193,7 +193,7 @@ fun MarkerEditorScreen(
                             CatalogList(search) { def ->
                                 selection = def; unitChoice = 0
                             }
-                            LinkText("+ Add a custom marker") { addingCustom = true }
+                            LinkText(uiStringOr(R.string.de_add_a_custom_marker_e30949, "+ Add a custom marker")) { addingCustom = true }
                         }
                     }
                 }
@@ -201,15 +201,15 @@ fun MarkerEditorScreen(
 
             // --- Reading inputs ---
             if (selection != null || addingCustom) {
-                SectionHeader("Reading", overline = "your number, date and any note")
+                SectionHeader(uiStringOr(R.string.de_reading_cffa2a, "Reading"), overline = uiStringOr(R.string.de_your_number_date_and_any_note_b36e5c, "your number, date and any note"))
                 NoopCard {
                     Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         if (isBloodPressure) {
                             Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                                EditorField("Systolic", modifier = Modifier.weight(1f)) {
+                                EditorField(uiStringOr(R.string.de_systolic_9b2c3e, "Systolic"), modifier = Modifier.weight(1f)) {
                                     NumberBox(valueText, { valueText = it }, "e.g. 120", "mmHg")
                                 }
-                                EditorField("Diastolic", modifier = Modifier.weight(1f)) {
+                                EditorField(uiStringOr(R.string.de_diastolic_2d173b, "Diastolic"), modifier = Modifier.weight(1f)) {
                                     NumberBox(diastolicText, { diastolicText = it }, "e.g. 80", "mmHg")
                                 }
                             }
@@ -219,7 +219,7 @@ fun MarkerEditorScreen(
                                 color = Palette.textTertiary,
                             )
                         } else {
-                            EditorField("Value") {
+                            EditorField(uiStringOr(R.string.de_value_8dce17, "Value")) {
                                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                     if (unitOptions.size > 1) {
                                         SegmentedPillControl(
@@ -240,14 +240,14 @@ fun MarkerEditorScreen(
                                 }
                             }
                         }
-                        EditorField("Date taken") {
+                        EditorField(uiStringOr(R.string.de_date_taken_76edfc, "Date taken")) {
                             DateRow(takenAtMillis) { picked -> takenAtMillis = picked }
                         }
-                        EditorField("Note (optional)") {
-                            EditorTextField(note, { note = it }, "e.g. fasting, morning draw")
+                        EditorField(uiStringOr(R.string.de_note_optional_4e3956, "Note (optional)")) {
+                            EditorTextField(note, { note = it }, uiStringOr(R.string.de_e_g_fasting_morning_draw_93e0c4, "e.g. fasting, morning draw"))
                         }
-                        EditorField("Reference range from my report (optional)") {
-                            EditorTextField(referenceText, { referenceText = it }, "e.g. 2.0-5.0 (your report's own range)")
+                        EditorField(uiStringOr(R.string.de_reference_range_from_my_report_optional_32247b, "Reference range from my report (optional)")) {
+                            EditorTextField(referenceText, { referenceText = it }, uiStringOr(R.string.de_e_g_2_0_5_0_your_report_s_own_range_56e32b, "e.g. 2.0-5.0 (your report's own range)"))
                         }
                         Text(
                             uiString(R.string.l10n_marker_editor_screen_noop_never_fills_this_in_it_7be9653b),
@@ -265,10 +265,10 @@ fun MarkerEditorScreen(
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                LinkText("Cancel", color = Palette.textSecondary) { onDismiss() }
+                LinkText(uiStringOr(R.string.de_cancel_77dfd2, "Cancel"), color = Palette.textSecondary) { onDismiss() }
                 Spacer(Modifier.weight(1f))
                 Box(modifier = Modifier.width(160.dp)) {
-                    PrimaryActionButton("Save", Icons.Filled.Add, enabled = drafts.isNotEmpty()) {
+                    PrimaryActionButton(uiStringOr(R.string.de_save_efc007, "Save"), Icons.Filled.Add, enabled = drafts.isNotEmpty()) {
                         if (drafts.isNotEmpty()) onSave(drafts)
                     }
                 }
