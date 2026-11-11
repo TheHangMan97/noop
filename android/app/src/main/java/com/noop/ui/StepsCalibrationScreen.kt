@@ -64,9 +64,9 @@ object StepsCalibrationFormat {
     /** A 0–1 confidence as Low / Medium / High. Thirds: < 0.34 Low, < 0.67 Medium, else High. A manual
      *  coefficient is confidence 1.0 → "High". */
     fun confidenceLabel(confidence: Double): String = when {
-        confidence < 0.34 -> "Low"
-        confidence < 0.67 -> "Medium"
-        else -> "High"
+        confidence < 0.34 -> uiStringOr(R.string.de_low_a12494, "Low")
+        confidence < 0.67 -> uiStringOr(R.string.de_medium_d40496, "Medium")
+        else -> uiStringOr(R.string.de_high_b1a595, "High")
     }
 }
 
@@ -196,7 +196,7 @@ private fun Header(onClose: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Overline("Steps estimate", color = Palette.textTertiary)
+            Overline(uiStringOr(R.string.de_steps_estimate_ce7a60, "Steps estimate"), color = Palette.textTertiary)
             Text(uiString(R.string.l10n_steps_calibration_screen_calibrate_your_steps_38b4e814), style = NoopType.display(26f), color = Palette.textPrimary)
             Text(uiString(R.string.l10n_steps_calibration_screen_whoop_4_0_motion_steps_a63239dc), style = NoopType.caption, color = Palette.textSecondary)
         }
@@ -284,7 +284,7 @@ private fun NoMotionNote() {
 private fun CurrentFitCard(profile: ProfileStore, matchedDays: Int) {
     NoopCard(padding = 20.dp, tint = Palette.accent) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Overline("Current calibration")
+            Overline(uiStringOr(R.string.de_current_calibration_79aef7, "Current calibration"))
             if (profile.stepsCalibrationCoefficient > 0 || profile.stepsManualCoefficient > 0) {
                 val coeff = if (profile.stepsManualCoefficient > 0) {
                     profile.stepsManualCoefficient
@@ -296,12 +296,12 @@ private fun CurrentFitCard(profile: ProfileStore, matchedDays: Int) {
                     Text(uiString(R.string.l10n_steps_calibration_screen_steps_per_motion_unit_a2c2ac56), style = NoopType.footnote, color = Palette.textTertiary, modifier = Modifier.padding(bottom = 4.dp))
                 }
                 if (profile.stepsManualCoefficient > 0) {
-                    StatLine("Source", "Manual (you set this by hand)")
+                    StatLine(uiStringOr(R.string.de_source_6da13a, "Source"), uiStringOr(R.string.de_manual_you_set_this_by_hand_05029b, "Manual (you set this by hand)"))
                 } else {
                     val days = profile.stepsCalibrationSampleDays
-                    StatLine("Fitted from", "$days day${if (days == 1) "" else "s"} your phone also counted")
+                    StatLine(uiStringOr(R.string.de_fitted_from_a1b2c6, "Fitted from"), "$days day${if (days == 1) "" else "s"} your phone also counted")
                     StatLine(
-                        "Confidence",
+                        uiStringOr(R.string.de_confidence_82fa7d, "Confidence"),
                         "${StepsCalibrationFormat.confidenceLabel(profile.stepsCalibrationConfidence)} · ${(profile.stepsCalibrationConfidence * 100).roundToInt()}%",
                     )
                 }
@@ -345,7 +345,7 @@ private fun stepsCalibrationHeadline(headline: StepsEstimateEngine.CalibrationSt
 private fun ComparisonCard(rows: List<StepsComparisonRow>) {
     NoopCard(padding = 20.dp) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Overline("Estimated vs your phone")
+            Overline(uiStringOr(R.string.de_estimated_vs_your_phone_3f59c4, "Estimated vs your phone"))
             if (rows.isEmpty()) {
                 Text(
                     uiString(R.string.l10n_steps_calibration_screen_no_days_yet_where_both_noop_71d6005b),
@@ -418,7 +418,7 @@ private fun ManualAdjustCard(
 
     NoopCard(padding = 20.dp) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Overline("Adjust manually")
+            Overline(uiStringOr(R.string.de_adjust_manually_74ac25, "Adjust manually"))
             Text(
                 uiString(R.string.l10n_steps_calibration_screen_override_the_automatic_fit_with_your_36a7b6fa),
                 style = NoopType.footnote,
@@ -441,9 +441,9 @@ private fun ManualAdjustCard(
                 StepperField(
                     value = if (manual > 0) String.format(Locale.US, "%.1f", manual) else uiString(R.string.steps_cal_auto),
                     accessibility = if (manual > 0) {
-                        String.format(Locale.US, "Manual steps coefficient, %.1f steps per motion unit", manual)
+                        String.format(Locale.US, uiStringOr(R.string.de_manual_steps_coefficient_1f_steps_per_mo_176d9e, "Manual steps coefficient, %.1f steps per motion unit"), manual)
                     } else {
-                        "Manual steps coefficient, automatic"
+                        uiStringOr(R.string.de_manual_steps_coefficient_automatic_b672e1, "Manual steps coefficient, automatic")
                     },
                     onMinus = { step(-STEPS_COEFFICIENT_STEP) },
                     onPlus = { step(STEPS_COEFFICIENT_STEP) },
@@ -453,7 +453,7 @@ private fun ManualAdjustCard(
             if (sampleMotion != null && effective > 0) {
                 val preview = (sampleMotion * effective).roundToInt()
                 StatLine(
-                    "A typical recent day",
+                    uiStringOr(R.string.de_a_typical_recent_day_a8cc34, "A typical recent day"),
                     "≈ ${grouped(preview)} steps${if (manual > 0) " at this setting" else " (auto)"}",
                 )
             }

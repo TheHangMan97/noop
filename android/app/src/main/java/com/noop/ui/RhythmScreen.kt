@@ -113,16 +113,16 @@ object RhythmConsent {
     /** The points the user must read before turning the feature on (spec §9). No condition
      *  name, no diagnosis, no "consider a clinician" verdict. Kept identical to macOS. */
     val points: List<Pair<String, String>> = listOf(
-        "Experimental, and not a medical device" to
-            "This is an experimental wellness visualization of your beat-to-beat timing. It is NOT an ECG, and it cannot diagnose, detect, or rule out any heart condition.",
-        "It is a picture, not a verdict" to
-            "It shows the shape of your heartbeat timing and a plain-language description of how steady it looked. It does not tell you whether anything is right or wrong.",
-        "Variation is normal and often benign" to
-            "Beat-to-beat timing varies for many ordinary reasons: breathing, movement, an imperfect optical reading, or the occasional extra or skipped beat that most healthy people have.",
-        "It is not a substitute for a professional" to
-            "If you feel unwell or are worried about your heart, contact a qualified professional; in an emergency, your local emergency service. Do not rely on NOOP.",
-        "Everything stays on your device" to
-            "All of this is computed on your own device from data you already have. No heartbeat data leaves it.",
+        uiStringOr(R.string.de_experimental_and_not_a_medical_device_895e91, "Experimental, and not a medical device") to
+            uiStringOr(R.string.de_this_is_an_experimental_wellness_visuali_4a2a81, "This is an experimental wellness visualization of your beat-to-beat timing. It is NOT an ECG, and it cannot diagnose, detect, or rule out any heart condition."),
+        uiStringOr(R.string.de_it_is_a_picture_not_a_verdict_6a9810, "It is a picture, not a verdict") to
+            uiStringOr(R.string.de_it_shows_the_shape_of_your_heartbeat_tim_2ccc3f, "It shows the shape of your heartbeat timing and a plain-language description of how steady it looked. It does not tell you whether anything is right or wrong."),
+        uiStringOr(R.string.de_variation_is_normal_and_often_benign_7a27f1, "Variation is normal and often benign") to
+            uiStringOr(R.string.de_beat_to_beat_timing_varies_for_many_ordi_029937, "Beat-to-beat timing varies for many ordinary reasons: breathing, movement, an imperfect optical reading, or the occasional extra or skipped beat that most healthy people have."),
+        uiStringOr(R.string.de_it_is_not_a_substitute_for_a_professiona_7caa00, "It is not a substitute for a professional") to
+            uiStringOr(R.string.de_if_you_feel_unwell_or_are_worried_about_16a447, "If you feel unwell or are worried about your heart, contact a qualified professional; in an emergency, your local emergency service. Do not rely on NOOP."),
+        uiStringOr(R.string.de_everything_stays_on_your_device_575125, "Everything stays on your device") to
+            uiStringOr(R.string.de_all_of_this_is_computed_on_your_own_devi_c8bd49, "All of this is computed on your own device from data you already have. No heartbeat data leaves it."),
     )
 }
 
@@ -257,7 +257,7 @@ private fun RhythmVisualization(
     // reproducing the eager column's inter-card spacing exactly. The Poincaré PlotCard is the heavy one.
     LazyScreenScaffold(
         title = uiString(R.string.l10n_rhythm_screen_rhythm_c715bb28),
-        subtitle = "An experimental picture of your beat-to-beat timing",
+        subtitle = uiStringOr(R.string.de_an_experimental_picture_of_your_beat_to_4a22be, "An experimental picture of your beat-to-beat timing"),
         trailing = if (onClose != null) {
             {
                 IconButton(onClick = onClose) {
@@ -268,7 +268,7 @@ private fun RhythmVisualization(
             null
         },
     ) {
-        item { SourceBadge("Experimental", tint = Palette.restColor) }
+        item { SourceBadge(uiStringOr(R.string.de_experimental_b718f8, "Experimental"), tint = Palette.restColor) }
 
         if (allPoints.isEmpty()) {
             item { RhythmEmptyStateNote(emptyReason) }
@@ -299,15 +299,15 @@ private fun RhythmEmptyStateNote(reason: RhythmEmptyState) {
     when (reason) {
         RhythmEmptyState.DEVICE_BANKS_BEATS -> DataPendingNote(
             title = uiString(R.string.l10n_rhythm_screen_this_device_can_t_support_a_bb41aada),
-            body = "Rhythm needs beat-to-beat timing measured one beat at a time. Your device stores its heartbeats in batches, so the exact spacing between them isn't recoverable. Nothing is wrong with your night.",
+            body = uiStringOr(R.string.de_rhythm_needs_beat_to_beat_timing_measure_28bb77, "Rhythm needs beat-to-beat timing measured one beat at a time. Your device stores its heartbeats in batches, so the exact spacing between them isn't recoverable. Nothing is wrong with your night."),
         )
         RhythmEmptyState.DEVICE_NO_MOTION -> DataPendingNote(
             title = uiString(R.string.l10n_rhythm_screen_this_device_can_t_support_a_bb41aada),
-            body = "Rhythm reads only during still, resting windows, and this device doesn't record the stillness signal it needs to find them. Nothing is wrong with your night.",
+            body = uiStringOr(R.string.de_rhythm_reads_only_during_still_resting_w_81377d, "Rhythm reads only during still, resting windows, and this device doesn't record the stillness signal it needs to find them. Nothing is wrong with your night."),
         )
         RhythmEmptyState.NONE, RhythmEmptyState.GATHERING_DATA -> DataPendingNote(
             title = uiString(R.string.l10n_rhythm_screen_no_clear_reading_yet_92f40443),
-            body = "Rhythm only looks during quiet, still, resting windows, so it needs a calm night's worth of steady beats. Once there's a clean window, the scatter and its description show here.",
+            body = uiStringOr(R.string.de_rhythm_only_looks_during_quiet_still_res_8fc6fd, "Rhythm only looks during quiet, still, resting windows, so it needs a calm night's worth of steady beats. Once there's a clean window, the scatter and its description show here."),
         )
     }
 }
@@ -323,7 +323,7 @@ private fun SummaryCard(
     NoopCard(padding = 18.dp, tint = Palette.restColor) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Overline("Last night", modifier = Modifier.weight(1f))
+                Overline(uiStringOr(R.string.de_last_night_6eaba4, "Last night"), modifier = Modifier.weight(1f))
                 ConfidencePill(headline = headline, readable = night?.readableWindows)
             }
             StatusChip(label)
@@ -370,14 +370,14 @@ private fun StatusChip(label: RhythmRegularity) {
 private fun ConfidencePill(headline: RhythmScreener.WindowResult?, readable: Int?) {
     when (headline?.confidence ?: RhythmConfidence.CALIBRATING) {
         RhythmConfidence.SOLID ->
-            StatePill("Solid", tone = StrandTone.Accent)
+            StatePill(uiStringOr(R.string.de_solid_d00635, "Solid"), tone = StrandTone.Accent)
         RhythmConfidence.BUILDING ->
             StatePill(
-                if ((readable ?: 0) <= 1) "Building · 1 window" else "Building",
+                if ((readable ?: 0) <= 1) uiStringOr(R.string.de_building_1_window_eafcb9, "Building · 1 window") else uiStringOr(R.string.de_building_9d914b, "Building"),
                 tone = StrandTone.Warning,
             )
         RhythmConfidence.CALIBRATING ->
-            StatePill("Calibrating", tone = StrandTone.Neutral)
+            StatePill(uiStringOr(R.string.de_calibrating_37c2c9, "Calibrating"), tone = StrandTone.Neutral)
     }
 }
 
@@ -387,7 +387,7 @@ private fun ConfidencePill(headline: RhythmScreener.WindowResult?, readable: Int
 private fun PlotCard(points: List<RhythmScreener.PoincarePoint>) {
     NoopCard(padding = 18.dp, tint = Palette.restColor) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Overline("Beat-to-beat scatter")
+            Overline(uiStringOr(R.string.de_beat_to_beat_scatter_f1dfef, "Beat-to-beat scatter"))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -472,7 +472,7 @@ private fun PoincarePlot(
 @Composable
 private fun StatsCard(headline: RhythmScreener.WindowResult?) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader(title = uiString(R.string.l10n_rhythm_screen_the_numbers_7b3cbf64), overline = "Descriptive stats")
+        SectionHeader(title = uiString(R.string.l10n_rhythm_screen_the_numbers_7b3cbf64), overline = uiStringOr(R.string.de_descriptive_stats_3aa6b9, "Descriptive stats"))
         Row(horizontalArrangement = Arrangement.spacedBy(Metrics.gap)) {
             StatTile(
                 label = uiString(R.string.l10n_rhythm_screen_short_axis_66a0b7bf), value = fmt(headline?.sd1, "%.0f"),
@@ -488,24 +488,24 @@ private fun StatsCard(headline: RhythmScreener.WindowResult?) {
         Row(horizontalArrangement = Arrangement.spacedBy(Metrics.gap)) {
             StatTile(
                 label = uiString(R.string.l10n_rhythm_screen_cloud_shape_2a745ff0), value = fmt(headline?.sd1sd2, "%.2f"),
-                caption = "SD1:SD2 ratio", accent = Palette.metricCyan,
+                caption = uiStringOr(R.string.de_sd1_sd2_ratio_236002, "SD1:SD2 ratio"), accent = Palette.metricCyan,
                 modifier = Modifier.weight(1f),
             )
             StatTile(
                 label = uiString(R.string.l10n_rhythm_screen_beat_to_beat_34a3a652), value = percent(headline?.normRmssd),
-                caption = "variation index", accent = Palette.metricPurple,
+                caption = uiStringOr(R.string.de_variation_index_7900d8, "variation index"), accent = Palette.metricPurple,
                 modifier = Modifier.weight(1f),
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(Metrics.gap)) {
             StatTile(
                 label = uiString(R.string.l10n_rhythm_screen_extra_skipped_4a153489), value = percent(headline?.ectopicFraction),
-                caption = "of beats", accent = Palette.restColor,
+                caption = uiStringOr(R.string.de_of_beats_f6a121, "of beats"), accent = Palette.restColor,
                 modifier = Modifier.weight(1f),
             )
             StatTile(
                 label = uiString(R.string.l10n_rhythm_screen_beats_read_15da45e3), value = headline?.nBeats?.toString() ?: "—",
-                caption = "clean intervals", accent = Palette.textSecondary,
+                caption = uiStringOr(R.string.de_clean_intervals_3e604c, "clean intervals"), accent = Palette.textSecondary,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -518,7 +518,7 @@ private fun StatsCard(headline: RhythmScreener.WindowResult?) {
 private fun MethodologyCard() {
     NoopCard {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Overline("How this is measured")
+            Overline(uiStringOr(R.string.de_how_this_is_measured_ca8c20, "How this is measured"))
             Text(
                 uiString(R.string.l10n_rhythm_screen_during_quiet_still_resting_windows_noop_45488969),
                 style = NoopType.footnote, color = Palette.textTertiary,
@@ -557,21 +557,21 @@ private fun RhythmDisclaimerNote() {
 /** SHORT neutral status word inside the status chip (compact, so the chip reads like OpenStrap's; the
  *  sentence-length [headlineDetail] carries the description below). Twin of Swift `chipLabel`. */
 private fun chipLabel(label: RhythmRegularity): String = when (label) {
-    RhythmRegularity.STEADY -> "Steady"
-    RhythmRegularity.OCCASIONAL_ECTOPY -> "Some variation"
-    RhythmRegularity.VARIED -> "More varied"
-    RhythmRegularity.UNREADABLE -> "No clear reading"
+    RhythmRegularity.STEADY -> uiStringOr(R.string.de_steady_b3012d, "Steady")
+    RhythmRegularity.OCCASIONAL_ECTOPY -> uiStringOr(R.string.de_some_variation_009c64, "Some variation")
+    RhythmRegularity.VARIED -> uiStringOr(R.string.de_more_varied_7bd4a0, "More varied")
+    RhythmRegularity.UNREADABLE -> uiStringOr(R.string.de_no_clear_reading_a570a0, "No clear reading")
 }
 
 private fun headlineDetail(label: RhythmRegularity): String = when (label) {
     RhythmRegularity.STEADY ->
-        "Across the quiet windows we could read, your beat-to-beat timing held a tight, even shape."
+        uiStringOr(R.string.de_across_the_quiet_windows_we_could_read_y_7a2593, "Across the quiet windows we could read, your beat-to-beat timing held a tight, even shape.")
     RhythmRegularity.OCCASIONAL_ECTOPY ->
-        "Mostly steady, with a few isolated extra or skipped beats. Very common and usually nothing."
+        uiStringOr(R.string.de_mostly_steady_with_a_few_isolated_extra_7390d1, "Mostly steady, with a few isolated extra or skipped beats. Very common and usually nothing.")
     RhythmRegularity.VARIED ->
-        "The scatter looked rounder and more spread out than a tight, steady beat. This has many ordinary causes and is not a diagnosis."
+        uiStringOr(R.string.de_the_scatter_looked_rounder_and_more_spre_ef50fb, "The scatter looked rounder and more spread out than a tight, steady beat. This has many ordinary causes and is not a diagnosis.")
     RhythmRegularity.UNREADABLE ->
-        "There wasn't a calm, still window clean enough to describe. Try again after a settled night."
+        uiStringOr(R.string.de_there_wasn_t_a_calm_still_window_clean_e_de3dd2, "There wasn't a calm, still window clean enough to describe. Try again after a settled night.")
 }
 
 // ── Formatting ────────────────────────────────────────────────────────────────────────────

@@ -103,7 +103,7 @@ fun IntelligenceScreen(vm: AppViewModel) {
 
     LazyScreenScaffold(
         title = uiString(R.string.l10n_intelligence_screen_intelligence_c698f940),
-        subtitle = "Charge, effort and rest - scored with the model, explained in plain terms.",
+        subtitle = uiStringOr(R.string.de_charge_effort_and_rest_scored_with_the_m_801fda, "Charge, effort and rest - scored with the model, explained in plain terms."),
     ) {
         item { forecast?.let { ForecastCard(it) } }
         item { ExplainerCard(effortScale) }
@@ -125,7 +125,7 @@ fun IntelligenceScreen(vm: AppViewModel) {
                     horizontalArrangement = Arrangement.spacedBy(Metrics.gap),
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Overline("Recent")
+                        Overline(uiStringOr(R.string.de_recent_76eec7, "Recent"))
                         Text(uiString(R.string.l10n_intelligence_screen_by_day_2e5d14ca), style = NoopType.title2, color = Palette.textPrimary)
                     }
                     SegmentedPillControl(
@@ -179,7 +179,7 @@ private fun ForecastCard(f: RecoveryForecast) {
     val charge = f.charge.roundToInt()
     val band = f.band.roundToInt()
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Tomorrow's Charge", overline = "Evening forecast", trailing = "Estimate")
+        SectionHeader(uiStringOr(R.string.de_tomorrow_s_charge_b98be3, "Tomorrow's Charge"), overline = uiStringOr(R.string.de_evening_forecast_0cf05d, "Evening forecast"), trailing = uiStringOr(R.string.de_estimate_235223, "Estimate"))
         NoopCard(padding = 20.dp) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -296,12 +296,12 @@ private fun EmptyNote() {
 private fun ModelBreakdownCard(effortScale: EffortScale) {
     NoopCard(padding = 20.dp, tint = Palette.chargeColor) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Overline("Charge model")
-            WeightRow("Heart-rate variability", "~55%", 0.55f, Palette.metricPurple)
-            WeightRow("Resting heart rate", "~20%", 0.20f, Palette.metricRose)
-            WeightRow("Rest quality", "~15%", 0.15f, Palette.metricCyan)
-            WeightRow("Respiration", "~5%", 0.05f, Palette.accent)
-            WeightRow("Skin-temperature deviation", "~5%", 0.05f, Palette.metricAmber)
+            Overline(uiStringOr(R.string.de_charge_model_e86b0e, "Charge model"))
+            WeightRow(uiStringOr(R.string.de_heart_rate_variability_a13758, "Heart-rate variability"), "~55%", 0.55f, Palette.metricPurple)
+            WeightRow(uiStringOr(R.string.de_resting_heart_rate_348928, "Resting heart rate"), "~20%", 0.20f, Palette.metricRose)
+            WeightRow(uiStringOr(R.string.de_rest_quality_0d9fbf, "Rest quality"), "~15%", 0.15f, Palette.metricCyan)
+            WeightRow(uiStringOr(R.string.de_respiration_59da5e, "Respiration"), "~5%", 0.05f, Palette.accent)
+            WeightRow(uiStringOr(R.string.de_skin_temperature_deviation_2a1a46, "Skin-temperature deviation"), "~5%", 0.05f, Palette.metricAmber)
 
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = 2.dp),
@@ -388,19 +388,19 @@ private fun DayCard(d: DailyMetric, effortScale: EffortScale) {
 
             Row(modifier = Modifier.fillMaxWidth()) {
                 DayStat(
-                    "Charge",
+                    uiStringOr(R.string.de_charge_d4e1ae, "Charge"),
                     d.recovery?.let { "${it.roundToInt()}%" } ?: "—",
                     d.recovery?.let { Palette.recoveryColor(it) } ?: Palette.textSecondary,
                     Modifier.weight(1f),
                 )
                 DayStat(
-                    "Effort",
+                    uiStringOr(R.string.de_effort_8c974b, "Effort"),
                     d.strain?.let { UnitFormatter.effortDisplay(it, effortScale) } ?: "—",
                     d.strain?.let { Palette.strainColor(it) } ?: Palette.textSecondary,
                     Modifier.weight(1f),
                 )
                 DayStat(
-                    "Rest",
+                    uiStringOr(R.string.de_rest_b79e5f, "Rest"),
                     sleepValue(d.totalSleepMin),
                     Palette.restColor,
                     Modifier.weight(1f),
@@ -467,7 +467,7 @@ private fun sleepValue(totalMin: Double?): String {
  * "Apple Health"); imports use the accent tint, computed rows the charge tint. (Sleep overhaul §2.6.)
  */
 internal fun daySourceBadge(deviceId: String): Pair<String, Color> = when {
-    deviceId.endsWith("-noop") -> "On-device" to Palette.chargeColor
+    deviceId.endsWith("-noop") -> uiStringOr(R.string.de_on_device_1e0b0d, "On-device") to Palette.chargeColor
     deviceId == com.noop.data.WhoopRepository.APPLE_HEALTH_SOURCE ||
         deviceId == com.noop.data.WhoopRepository.HEALTH_CONNECT_SOURCE -> "Apple Health" to Palette.accent
     // An Oura night is persisted under the ring's "oura-<uuid>" id (the ring PROVIDES its own SleepNet
@@ -491,12 +491,12 @@ private fun prettyDay(day: String): String {
         val mo = parts[1].toInt()
         val da = parts[2].toInt()
         val cal = Calendar.getInstance().apply { set(y, mo - 1, da) }
-        val dow = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")[
+        val dow = arrayOf(uiStringOr(R.string.de_sun_48c98c, "Sun"), uiStringOr(R.string.de_mon_24b2a0, "Mon"), uiStringOr(R.string.de_tue_529541, "Tue"), uiStringOr(R.string.de_wed_23408b, "Wed"), uiStringOr(R.string.de_thu_3593cc, "Thu"), uiStringOr(R.string.de_fri_bbd6e3, "Fri"), uiStringOr(R.string.de_sat_6b782d, "Sat"))[
             cal.get(Calendar.DAY_OF_WEEK) - 1,
         ]
         val month = arrayOf(
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            uiStringOr(R.string.de_jan_efed36, "Jan"), uiStringOr(R.string.de_feb_dc8415, "Feb"), uiStringOr(R.string.de_mar_c4ba08, "Mar"), uiStringOr(R.string.de_apr_befde5, "Apr"), uiStringOr(R.string.de_may_c94f47, "May"), uiStringOr(R.string.de_jun_6d90df, "Jun"),
+            uiStringOr(R.string.de_jul_b73755, "Jul"), uiStringOr(R.string.de_aug_75629a, "Aug"), uiStringOr(R.string.de_sep_fdd289, "Sep"), uiStringOr(R.string.de_oct_51327a, "Oct"), uiStringOr(R.string.de_nov_bb9bfe, "Nov"), uiStringOr(R.string.de_dec_997f59, "Dec"),
         )[mo - 1]
         "$dow $da $month"
     } catch (_: Exception) {

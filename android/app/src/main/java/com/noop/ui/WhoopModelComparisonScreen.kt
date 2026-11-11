@@ -58,22 +58,22 @@ private enum class Support { YES, NO, PARTIAL }
 
 private val CAPABILITIES: List<CapabilityRow> = listOf(
     CapabilityRow(
-        "Live heart rate",
+        uiStringOr(R.string.de_live_heart_rate_135939, "Live heart rate"),
         Support.YES, Support.YES,
-        "Both stream live HR to NOOP over Bluetooth.",
+        uiStringOr(R.string.de_both_stream_live_hr_to_noop_over_bluetoo_3227e6, "Both stream live HR to NOOP over Bluetooth."),
     ),
     CapabilityRow(
-        "Sleep, recovery & strain history",
+        uiStringOr(R.string.de_sleep_recovery_strain_history_e4d293, "Sleep, recovery & strain history"),
         Support.YES, Support.PARTIAL,
-        "The 4.0's history is fully decoded. On a 5/MG, history decoding is experimental: live HR works, deeper history is still being mapped.",
+        uiStringOr(R.string.de_the_4_0_s_history_is_fully_decoded_on_a_3de004, "The 4.0's history is fully decoded. On a 5/MG, history decoding is experimental: live HR works, deeper history is still being mapped."),
     ),
     CapabilityRow(
-        "NOOP re-broadcasts your HR (gym / Zwift / Garmin)",
+        uiStringOr(R.string.de_noop_re_broadcasts_your_hr_gym_zwift_gar_8690a9, "NOOP re-broadcasts your HR (gym / Zwift / Garmin)"),
         Support.YES, Support.YES,
-        "Data Sources → \"Broadcast heart rate\" turns your PHONE into a standard BLE HR sensor using whatever HR NOOP is reading, so this works on a 4.0 too. It's local Bluetooth; nothing leaves your phone.",
+        uiStringOr(R.string.de_data_sources_broadcast_heart_rate_turns_cf51a7, "Data Sources → \"Broadcast heart rate\" turns your PHONE into a standard BLE HR sensor using whatever HR NOOP is reading, so this works on a 4.0 too. It's local Bluetooth; nothing leaves your phone."),
     ),
     CapabilityRow(
-        "Strap broadcasts its own HR",
+        uiStringOr(R.string.de_strap_broadcasts_its_own_hr_418b35, "Strap broadcasts its own HR"),
         Support.PARTIAL, Support.YES,
         // PARTIAL on the 4.0, not YES: the strap is asked over TOGGLE_GENERIC_HR_PROFILE (14) and
         // answers, but nothing reads back whether it actually advertises 0x180D, and the opcode was
@@ -81,20 +81,20 @@ private val CAPABILITIES: List<CapabilityRow> = listOf(
         // confirmed" for the same reason, and this row is where a 4.0 owner decides whether to rely on
         // it, so it must not claim more than the code does. The 5/MG column keeps YES: its
         // device-config write is read back on opcode 121.
-        "A 4.0 is asked over its own broadcast command and answers, but nothing can read back whether it really advertises, and it has been confirmed on one strap on one firmware. A 5/MG uses the whoop_live_hr_in_adv_ind_pkt firmware setting, which NOOP reads back.",
+        uiStringOr(R.string.de_a_4_0_is_asked_over_its_own_broadcast_co_e600f6, "A 4.0 is asked over its own broadcast command and answers, but nothing can read back whether it really advertises, and it has been confirmed on one strap on one firmware. A 5/MG uses the whoop_live_hr_in_adv_ind_pkt firmware setting, which NOOP reads back."),
     ),
     CapabilityRow(
-        "Steps",
+        uiStringOr(R.string.de_steps_cdde4f, "Steps"),
         Support.PARTIAL, Support.YES,
-        "A 4.0 sends no step count, so NOOP ESTIMATES steps from motion, calibrated to your phone (Settings → Profile → Steps estimate). A 5/MG reports a motion counter NOOP reads directly.",
+        uiStringOr(R.string.de_a_4_0_sends_no_step_count_so_noop_estima_5e45a0, "A 4.0 sends no step count, so NOOP ESTIMATES steps from motion, calibrated to your phone (Settings → Profile → Steps estimate). A 5/MG reports a motion counter NOOP reads directly."),
     ),
     CapabilityRow(
-        "Rename the strap's Bluetooth name",
+        uiStringOr(R.string.de_rename_the_strap_s_bluetooth_name_b96782, "Rename the strap's Bluetooth name"),
         Support.YES, Support.NO,
-        "Renaming works over the 4.0's firmware command; the 5/MG path isn't supported.",
+        uiStringOr(R.string.de_renaming_works_over_the_4_0_s_firmware_c_6ecfac, "Renaming works over the 4.0's firmware command; the 5/MG path isn't supported."),
     ),
     CapabilityRow(
-        "Buzz the strap (alarms, haptics, time)",
+        uiStringOr(R.string.de_buzz_the_strap_alarms_haptics_time_8537a9, "Buzz the strap (alarms, haptics, time)"),
         Support.YES, Support.YES,
     ),
 )
@@ -142,7 +142,7 @@ private fun IntroCard() {
 private fun CapabilityTableCard() {
     NoopCard(padding = 20.dp) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Overline("Feature by strap")
+            Overline(uiStringOr(R.string.de_feature_by_strap_a8a1a0, "Feature by strap"))
             // Column header.
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(uiString(R.string.l10n_whoop_model_comparison_screen_feature_ad565d9d), style = NoopType.caption, color = Palette.textTertiary, modifier = Modifier.weight(1f))
@@ -176,9 +176,9 @@ private fun CapabilityTableCard() {
 private fun SupportCell(support: Support) {
     Box(modifier = Modifier.width(48.dp), contentAlignment = Alignment.Center) {
         when (support) {
-            Support.YES -> SupportGlyph(Icons.Filled.Check, Palette.statusPositive, "Yes")
+            Support.YES -> SupportGlyph(Icons.Filled.Check, Palette.statusPositive, uiStringOr(R.string.de_yes_5397e0, "Yes"))
             Support.NO -> SupportGlyph(Icons.Filled.Close, Palette.textTertiary, "No")
-            Support.PARTIAL -> SupportGlyph(Icons.Filled.Remove, Palette.statusWarning, "Partly")
+            Support.PARTIAL -> SupportGlyph(Icons.Filled.Remove, Palette.statusWarning, uiStringOr(R.string.de_partly_ed03c6, "Partly"))
         }
     }
 }
@@ -212,7 +212,7 @@ private fun Header(onClose: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Overline("Your strap", color = Palette.textTertiary)
+            Overline(uiStringOr(R.string.de_your_strap_12f048, "Your strap"), color = Palette.textTertiary)
             Text(uiString(R.string.l10n_whoop_model_comparison_screen_4_0_vs_5_0_mg_56099a02), style = NoopType.display(26f), color = Palette.textPrimary)
             Text(uiString(R.string.l10n_whoop_model_comparison_screen_what_each_can_read_and_why_4348bd67), style = NoopType.caption, color = Palette.textSecondary)
         }

@@ -206,21 +206,21 @@ fun IntervalsScreen(vm: AppViewModel) {
     // semantics-walked. Order/spacing unchanged (LazyColumn reproduces the eager `spacedBy(20.dp)`).
     LazyScreenScaffold(
         title = uiString(R.string.l10n_intervals_screen_interval_timer_1d703deb),
-        subtitle = "Silent haptic HIIT - the strap buzzes the transitions",
+        subtitle = uiStringOr(R.string.de_silent_haptic_hiit_the_strap_buzzes_the_4d4134, "Silent haptic HIIT - the strap buzzes the transitions"),
     ) {
         // --- Status row ---
         item {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             if (live.bonded) {
-                StatePill("Buzz cues on", tone = StrandTone.Positive)
+                StatePill(uiStringOr(R.string.de_buzz_cues_on_513116, "Buzz cues on"), tone = StrandTone.Positive)
             } else {
-                StatePill("Connect strap for buzz cues", tone = StrandTone.Warning)
+                StatePill(uiStringOr(R.string.de_connect_strap_for_buzz_cues_3ae5d3, "Connect strap for buzz cues"), tone = StrandTone.Warning)
             }
             Spacer(Modifier.weight(1f))
             when {
-                running -> StatePill("Running", tone = StrandTone.Accent, pulsing = true)
-                isFinished -> StatePill("Complete", tone = StrandTone.Positive)
-                else -> StatePill("Paused", tone = StrandTone.Neutral, showsDot = false)
+                running -> StatePill(uiStringOr(R.string.de_running_73989d, "Running"), tone = StrandTone.Accent, pulsing = true)
+                isFinished -> StatePill(uiStringOr(R.string.de_complete_1f5a1a, "Complete"), tone = StrandTone.Positive)
+                else -> StatePill(uiStringOr(R.string.de_paused_c7dfb6, "Paused"), tone = StrandTone.Neutral, showsDot = false)
             }
         }
         }
@@ -344,7 +344,7 @@ fun IntervalsScreen(vm: AppViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Overline("Session")
+                    Overline(uiStringOr(R.string.de_session_f7f199, "Session"))
                     Spacer(Modifier.weight(1f))
                     Text(
                         uiString(R.string.l10n_intervals_screen_timestring_elapsed_timestring_totalplanned_7b68f8d7, timeString(elapsed), timeString(totalPlanned)),
@@ -380,11 +380,11 @@ fun IntervalsScreen(vm: AppViewModel) {
                 }
 
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    OverviewStat(Modifier.weight(1f), "Work", "${workSeconds}s", Palette.effortColor)
-                    OverviewStat(Modifier.weight(1f), "Rest", "${restSeconds}s", Palette.restColor)
-                    OverviewStat(Modifier.weight(1f), "Rounds", rounds.toString(), Palette.textPrimary)
+                    OverviewStat(Modifier.weight(1f), uiStringOr(R.string.de_work_00040b, "Work"), "${workSeconds}s", Palette.effortColor)
+                    OverviewStat(Modifier.weight(1f), uiStringOr(R.string.de_rest_b79e5f, "Rest"), "${restSeconds}s", Palette.restColor)
+                    OverviewStat(Modifier.weight(1f), uiStringOr(R.string.de_rounds_ceeac4, "Rounds"), rounds.toString(), Palette.textPrimary)
                     OverviewStat(
-                        Modifier.weight(1f), "Remaining",
+                        Modifier.weight(1f), uiStringOr(R.string.de_remaining_cc632b, "Remaining"),
                         timeString(max(0, totalPlanned - elapsed)), Palette.textSecondary,
                     )
                 }
@@ -396,7 +396,7 @@ fun IntervalsScreen(vm: AppViewModel) {
         item {
         NoopCard {
             Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                Overline("Configure")
+                Overline(uiStringOr(R.string.de_configure_792c81, "Configure"))
                 ConfigStepper(
                     title = uiString(R.string.l10n_intervals_screen_work_00040bab), unit = "sec", value = workSeconds,
                     range = 5..600, step = 5, tint = Palette.effortColor, enabled = !running,
@@ -458,7 +458,7 @@ private fun RoundChip(currentRound: Int, rounds: Int) {
             .border(1.dp, Palette.hairline, shape)
             .padding(horizontal = 12.dp, vertical = 7.dp),
     ) {
-        Overline("Round")
+        Overline(uiStringOr(R.string.de_round_ec7b59, "Round"))
         Spacer(Modifier.width(6.dp))
         Text(currentRound.toString(), style = NoopType.number(18f), color = Palette.textPrimary)
         Spacer(Modifier.width(2.dp))
@@ -536,14 +536,14 @@ private fun ConfigStepper(
         Spacer(Modifier.width(12.dp))
         StepperButton(
             icon = Icons.Filled.Remove,
-            description = "Decrease $title",
+            description = uiStringOr(R.string.de_decrease_1_s_ef806b, "Decrease %1\$s", title.toString()),
             enabled = enabled && value > range.first,
             tint = tint,
         ) { onChange((value - step).coerceIn(range.first, range.last)) }
         Spacer(Modifier.width(8.dp))
         StepperButton(
             icon = Icons.Filled.Add,
-            description = "Increase $title",
+            description = uiStringOr(R.string.de_increase_1_s_a93be6, "Increase %1\$s", title.toString()),
             enabled = enabled && value < range.last,
             tint = tint,
         ) { onChange((value + step).coerceIn(range.first, range.last)) }

@@ -180,21 +180,21 @@ fun HrvSnapshotScreen(
     // spacing identical (LazyColumn reproduces the eager `spacedBy(20.dp)`).
     LazyScreenScaffold(
         title = uiString(R.string.l10n_hrv_snapshot_screen_hrv_reading_a2cf71f3),
-        subtitle = "A still, seated snapshot of your heart-rate variability",
+        subtitle = uiStringOr(R.string.de_a_still_seated_snapshot_of_your_heart_ra_8eab36, "A still, seated snapshot of your heart-rate variability"),
     ) {
         // Status row.
         item {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             when (phase) {
-                HrvPhase.Idle -> StatePill("Ready", tone = StrandTone.Neutral)
-                HrvPhase.Capturing -> StatePill("Capturing", tone = StrandTone.Accent, pulsing = true)
-                HrvPhase.Done -> StatePill("Reading complete", tone = StrandTone.Positive)
+                HrvPhase.Idle -> StatePill(uiStringOr(R.string.de_ready_20c7c5, "Ready"), tone = StrandTone.Neutral)
+                HrvPhase.Capturing -> StatePill(uiStringOr(R.string.de_capturing_e94b07, "Capturing"), tone = StrandTone.Accent, pulsing = true)
+                HrvPhase.Done -> StatePill(uiStringOr(R.string.de_reading_complete_5d10e3, "Reading complete"), tone = StrandTone.Positive)
             }
             Spacer(Modifier.width(8.dp))
             if (bonded) {
-                StatePill("Strap live", tone = StrandTone.Positive)
+                StatePill(uiStringOr(R.string.de_strap_live_726581, "Strap live"), tone = StrandTone.Positive)
             } else {
-                StatePill("Not connected", tone = StrandTone.Warning)
+                StatePill(uiStringOr(R.string.de_not_connected_8b02f3, "Not connected"), tone = StrandTone.Warning)
             }
             Spacer(Modifier.weight(1f))
             IconButton(onClick = onClose) {
@@ -231,7 +231,7 @@ fun HrvSnapshotScreen(
                         value = dialValue(phase, runningRmssd, result),
                         unit = if (phase == HrvPhase.Idle) "RMSSD" else "MS RMSSD",
                         sub = if (phase == HrvPhase.Capturing) {
-                            "${secondsRemaining}s left · ${captureBuffer.value.size} beats"
+                            uiStringOr(R.string.de_1_ss_left_2_s_beats_9fc286, "%1\$ss left · %2\$s beats", secondsRemaining.toString(), (captureBuffer.value.size).toString())
                         } else null,
                     )
                 }
@@ -324,7 +324,7 @@ fun HrvSnapshotScreen(
         item {
         NoopCard(tint = Palette.restColor) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Overline("How this is measured")
+                Overline(uiStringOr(R.string.de_how_this_is_measured_ca8c20, "How this is measured"))
                 Text(
                     uiString(R.string.l10n_hrv_snapshot_screen_a_60_second_snapshot_of_your_35f03f7c),
                     style = NoopType.footnote, color = Palette.textTertiary,
@@ -415,7 +415,7 @@ private fun CaptureDial(fraction: Float, value: String, unit: String, sub: Strin
 private fun ResultCard(result: HrvAnalyzer.HrvResult) {
     NoopCard(padding = 18.dp, tint = Palette.restColor) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Overline("Your reading")
+            Overline(uiStringOr(R.string.de_your_reading_c8d0b4, "Your reading"))
 
             if (result.rmssd == null) {
                 Row(
@@ -526,23 +526,23 @@ private fun dialValue(phase: HrvPhase, runningRmssd: Double?, result: HrvAnalyze
     }
 
 private fun primaryLabel(phase: HrvPhase): String = when (phase) {
-    HrvPhase.Idle -> "Take an HRV reading"
-    HrvPhase.Capturing -> "Cancel"
-    HrvPhase.Done -> "Take another reading"
+    HrvPhase.Idle -> uiStringOr(R.string.de_take_an_hrv_reading_20ecb2, "Take an HRV reading")
+    HrvPhase.Capturing -> uiStringOr(R.string.de_cancel_77dfd2, "Cancel")
+    HrvPhase.Done -> uiStringOr(R.string.de_take_another_reading_6bb37f, "Take another reading")
 }
 
 private fun instruction(phase: HrvPhase, bonded: Boolean, result: HrvAnalyzer.HrvResult?): String =
     when (phase) {
         HrvPhase.Idle -> if (bonded) {
-            "Sit still and breathe normally. Tap below to take a 60-second reading."
+            uiStringOr(R.string.de_sit_still_and_breathe_normally_tap_below_afb045, "Sit still and breathe normally. Tap below to take a 60-second reading.")
         } else {
-            "Connect your strap on the Live screen to take a reading."
+            uiStringOr(R.string.de_connect_your_strap_on_the_live_screen_to_bd0adf, "Connect your strap on the Live screen to take a reading.")
         }
-        HrvPhase.Capturing -> "Sit still, breathe normally. Keep your wrist relaxed and steady."
+        HrvPhase.Capturing -> uiStringOr(R.string.de_sit_still_breathe_normally_keep_your_wri_833e4e, "Sit still, breathe normally. Keep your wrist relaxed and steady.")
         HrvPhase.Done -> if (result != null && result.rmssd == null) {
-            "Not enough clean beats - sit still and try again."
+            uiStringOr(R.string.de_not_enough_clean_beats_sit_still_and_try_48c867, "Not enough clean beats - sit still and try again.")
         } else {
-            "Done. Save this reading to keep it in your trends."
+            uiStringOr(R.string.de_done_save_this_reading_to_keep_it_in_you_4b0afa, "Done. Save this reading to keep it in your trends.")
         }
     }
 
