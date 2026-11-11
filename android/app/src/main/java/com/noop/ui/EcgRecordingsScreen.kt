@@ -181,6 +181,11 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
         EmptyNote(stringResource(R.string.ecg_rec_empty))
         return
     }
+    if (t.samples.isEmpty()) {
+        // Records exist but every one declares a zero sample count: there is no waveform to draw. Said
+        // outright, because an empty chart reads as a drawing fault rather than as what the strap stored.
+        EmptyNote(stringResource(R.string.ecg_rec_no_samples, t.recordCount))
+    }
     val window = windowRecords.coerceAtMost(t.recordCount)
     val maxFirst = (t.recordCount - window).coerceAtLeast(0)
     val first = firstRecord.coerceIn(0, maxFirst)
@@ -201,7 +206,7 @@ private fun ReadingViewer(dao: WhoopDao, deviceId: String, reading: EcgRecording
                     )
                 }
             }
-            EcgTraceCanvas(t, from, to, first, window)
+            if (t.samples.isNotEmpty()) EcgTraceCanvas(t, from, to, first, window)
             Text(
                 stringResource(R.string.ecg_rec_position, startOffset, endOffset, t.recordTs.last() - t.recordTs[0]),
                 style = NoopType.captionNumber, color = Palette.textSecondary,

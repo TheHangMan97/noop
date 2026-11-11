@@ -2873,4 +2873,5 @@
     <string name="ecg_rec_share_failed">Não foi possível exportar o registo: %1$s</string>
     <string name="ecg_rec_share_chooser">Partilhar registo de ECG</string>
     <string name="ecg_rec_open">Ver registos de ECG guardados</string>
+    <string name="ecg_rec_no_samples">A pulseira guardou registos desta medição, mas cada um declara 0 amostras de onda (registos: %1$d), por isso não há nada para desenhar. O próprio registo não diz porquê.</string>
 </resources>

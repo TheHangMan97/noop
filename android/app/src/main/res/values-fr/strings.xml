@@ -2880,4 +2880,5 @@
     <string name="ecg_rec_share_failed">Impossible d\'exporter l\'enregistrement : %1$s</string>
     <string name="ecg_rec_share_chooser">Partager l\'enregistrement ECG</string>
     <string name="ecg_rec_open">Voir les enregistrements ECG stockés</string>
+    <string name="ecg_rec_no_samples">Le bracelet a stocké des enregistrements pour cette mesure, mais chacun déclare 0 échantillon de tracé (enregistrements : %1$d) : il n\'y a rien à tracer. L\'enregistrement lui-même n\'en donne pas la raison.</string>
 </resources>

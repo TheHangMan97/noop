@@ -2851,4 +2851,5 @@
     <string name="ecg_rec_share_failed">无法导出记录：%1$s</string>
     <string name="ecg_rec_share_chooser">分享心电图记录</string>
     <string name="ecg_rec_open">查看存储的心电图记录</string>
+    <string name="ecg_rec_no_samples">手环为这次记录存储了数据记录，但每条记录声明的波形采样数都是 0（记录：%1$d），因此没有可绘制的内容。记录本身没有说明原因。</string>
 </resources>

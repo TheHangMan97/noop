@@ -275,6 +275,12 @@ object EcgRecordings {
         out.append("# no volts-per-count calibration and no sample rate are established (docs/PROTOCOL_ECG.md).\n")
         out.append("# flag6/flag7/presence_flag/quality_code are wire fields with no established clinical meaning.\n")
         out.append("# Not a medical ECG. Not for diagnosis.\n")
+        // Counted here so an export whose records all declare zero samples still says what it holds,
+        // rather than arriving as a header with nothing under it.
+        val emptyRecords = sorted.count { it.record.samples.isEmpty() }
+        out.append("# records: ").append(sorted.size.toString())
+            .append(", samples: ").append(sorted.sumOf { it.record.samples.size }.toString())
+            .append(", records declaring 0 samples: ").append(emptyRecords.toString()).append('\n')
         out.append(CSV_COLUMNS).append('\n')
         val first = sorted.firstOrNull()?.ts ?: return
         for (t in sorted) {

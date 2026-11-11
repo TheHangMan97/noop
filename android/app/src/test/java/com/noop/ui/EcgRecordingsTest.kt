@@ -235,6 +235,7 @@ class EcgRecordingsTest {
         assertTrue(comments.first().contains("1.2.3"))
         assertTrue(comments.any { it.contains("no volts-per-count") })
         assertTrue(comments.any { it.contains("Not a medical ECG") })
+        assertTrue(comments.contains("# records: 2, samples: 3, records declaring 0 samples: 0"))
         assertEquals(EcgRecordings.CSV_COLUMNS, lines[comments.size])
         assertEquals(
             listOf(
@@ -245,6 +246,14 @@ class EcgRecordingsTest {
             lines.drop(comments.size + 1),
         )
         assertEquals(EcgRecordings.CSV_COLUMNS.split(',').size, lines.last().split(',').size)
+    }
+
+    @Test
+    fun `records that declare no samples are counted in the CSV header`() {
+        val out = StringBuilder()
+        EcgRecordings.writeCsv(out, listOf(timed(row(10, 1, emptyList())), timed(row(11, 2, emptyList()))), "x")
+        assertTrue(out.lines().contains("# records: 2, samples: 0, records declaring 0 samples: 2"))
+        assertEquals(EcgRecordings.CSV_COLUMNS, out.lines().last { it.isNotEmpty() })
     }
 
     @Test

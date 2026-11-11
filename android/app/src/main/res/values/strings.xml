@@ -2910,4 +2910,5 @@
     <string name="ecg_rec_share_failed">Couldn\'t export the recording: %1$s</string>
     <string name="ecg_rec_share_chooser">Share ECG recording</string>
     <string name="ecg_rec_open">View stored ECG recordings</string>
+    <string name="ecg_rec_no_samples">The strap stored records for this reading, but each one declares 0 waveform samples (records: %1$d), so there is nothing to draw. The record itself does not say why.</string>
 </resources>

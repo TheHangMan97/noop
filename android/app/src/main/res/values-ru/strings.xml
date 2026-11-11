@@ -2776,4 +2776,5 @@
     <string name="ecg_rec_share_failed">Не удалось экспортировать запись: %1$s</string>
     <string name="ecg_rec_share_chooser">Поделиться записью ЭКГ</string>
     <string name="ecg_rec_open">Сохранённые записи ЭКГ</string>
+    <string name="ecg_rec_no_samples">Браслет сохранил записи этого измерения, но в каждой указано 0 отсчётов кривой (записей: %1$d), поэтому рисовать нечего. Сама запись не сообщает причину.</string>
 </resources>

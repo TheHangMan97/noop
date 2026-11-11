@@ -2897,4 +2897,5 @@
     <string name="ecg_rec_share_failed">Nie udało się wyeksportować nagrania: %1$s</string>
     <string name="ecg_rec_share_chooser">Udostępnij nagranie EKG</string>
     <string name="ecg_rec_open">Pokaż zapisane nagrania EKG</string>
+    <string name="ecg_rec_no_samples">Opaska zapisała rekordy tego nagrania, ale każdy deklaruje 0 próbek przebiegu (rekordy: %1$d), więc nie ma czego rysować. Sam rekord nie mówi dlaczego.</string>
 </resources>

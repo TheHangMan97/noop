@@ -2849,4 +2849,5 @@
     <string name="ecg_rec_share_failed">Impossibile esportare la registrazione: %1$s</string>
     <string name="ecg_rec_share_chooser">Condividi registrazione ECG</string>
     <string name="ecg_rec_open">Vedi registrazioni ECG salvate</string>
+    <string name="ecg_rec_no_samples">Il bracciale ha salvato dei record per questa registrazione, ma ognuno dichiara 0 campioni di traccia (record: %1$d), quindi non c\'è nulla da disegnare. Il record stesso non dice perché.</string>
 </resources>

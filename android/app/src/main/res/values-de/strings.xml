@@ -2894,4 +2894,5 @@
     <string name="ecg_rec_share_failed">Die Aufnahme konnte nicht exportiert werden: %1$s</string>
     <string name="ecg_rec_share_chooser">EKG-Aufnahme teilen</string>
     <string name="ecg_rec_open">Gespeicherte EKG-Aufnahmen ansehen</string>
+    <string name="ecg_rec_no_samples">Das Band hat für diese Aufnahme Datensätze gespeichert, aber jeder meldet 0 Kurvenwerte (Datensätze: %1$d). Es gibt also nichts zu zeichnen. Der Datensatz selbst sagt nicht, warum.</string>
 </resources>
