@@ -536,7 +536,7 @@ private fun FilterBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             FilterPillMenu(
-                title = filter.sport ?: "All sports",
+                title = filter.sport ?: uiString(R.string.l10n_workouts_screen_all_sports_dfad56f1),
                 active = filter.sport != null,
                 contentDescription = uiString(R.string.l10n_workouts_screen_filter_by_sport_bcbbcb3b),
             ) { dismiss ->
@@ -552,7 +552,7 @@ private fun FilterBar(
                 }
             }
             FilterPillMenu(
-                title = filter.sourceClass?.let { sourceFilterLabel(it) } ?: "All sources",
+                title = filter.sourceClass?.let { sourceFilterLabel(it) } ?: uiString(R.string.l10n_workouts_screen_all_sources_c0e8e58c),
                 active = filter.sourceClass != null,
                 contentDescription = uiString(R.string.l10n_workouts_screen_filter_by_source_db11bbb7),
             ) { dismiss ->
@@ -826,8 +826,8 @@ private fun CalorieHeatmapSection(recentDays: List<com.noop.data.DailyMetric>) {
     val labelArgb = Palette.textTertiary.toArgb()
     NoopCard(tint = Palette.effortColor) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Active calories", style = NoopType.title2, color = Palette.textPrimary)
-            Text("Last 13 weeks · daily burn", style = NoopType.footnote, color = Palette.textTertiary)
+            Text(uiString(R.string.workouts_active_calories), style = NoopType.title2, color = Palette.textPrimary)
+            Text(uiString(R.string.workouts_heatmap_subtitle), style = NoopType.footnote, color = Palette.textTertiary)
             // Quarter total + current streak (streak reuses the Settings streak plural — no new string;
             // the "Active calories" title above supplies the kcal unit for the big number).
             Row(verticalAlignment = Alignment.Bottom) {
@@ -854,7 +854,7 @@ private fun CalorieHeatmapSection(recentDays: List<com.noop.data.DailyMetric>) {
                     Modifier
                         .fillMaxWidth()
                         .height(cell * 7 + gap * 6 + topInset)
-                        .semantics { contentDescription = "Active-calorie heatmap, last 13 weeks" },
+                        .semantics { contentDescription = uiString(R.string.workouts_heatmap_a11y) },
                 ) {
                     val gapPx = gap.toPx()
                     val cellPx = cell.toPx()
@@ -915,7 +915,7 @@ private fun CalorieHeatmapSection(recentDays: List<com.noop.data.DailyMetric>) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                Text("Less", style = NoopType.caption, color = Palette.textTertiary)
+                Text(uiString(R.string.workouts_heatmap_less), style = NoopType.caption, color = Palette.textTertiary)
                 for (lvl in 0..4) {
                     Box(
                         Modifier
@@ -924,7 +924,7 @@ private fun CalorieHeatmapSection(recentDays: List<com.noop.data.DailyMetric>) {
                             .background(colorFor(lvl)),
                     )
                 }
-                Text("More", style = NoopType.caption, color = Palette.textTertiary)
+                Text(uiString(R.string.workouts_heatmap_more), style = NoopType.caption, color = Palette.textTertiary)
             }
         }
     }
@@ -1244,12 +1244,12 @@ private fun SelectPill(selectionMode: Boolean, onToggle: () -> Unit) {
             .clickable(onClick = onToggle)
             .padding(horizontal = 12.dp, vertical = 6.dp)
             .semantics {
-                contentDescription = if (selectionMode) "Finish selecting" else "Select sessions to merge or delete"
+                contentDescription = if (selectionMode) uiString(R.string.workouts_select_finish_a11y) else uiString(R.string.workouts_select_a11y)
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            if (selectionMode) "Done" else "Select",
+            if (selectionMode) uiString(R.string.l10n_fused_record_screen_done_e9b450d1) else uiString(R.string.workouts_select),
             style = NoopType.footnote,
             color = if (selectionMode) Palette.effortColor else Palette.accent,
         )
@@ -1370,9 +1370,9 @@ private fun SessionRow(
     val rowLabel = "${WorkoutEditing.displaySport(row.sport)}, ${dateLabel(row.startTs)}" +
         if (selectionMode) {
             when {
-                !selectable -> ". Imported, can't be merged."
-                selected -> ". Selected."
-                else -> ". Not selected."
+                !selectable -> ". " + uiString(R.string.workouts_row_not_mergeable_a11y)
+                selected -> ". " + uiString(R.string.workouts_row_selected_a11y)
+                else -> ". " + uiString(R.string.workouts_row_not_selected_a11y)
             }
         } else ""
     // liquidPress on the whole tappable row — it settles inward on press (the iOS LiquidPressStyle feel).
@@ -1634,7 +1634,7 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Overline("HR zones", modifier = Modifier.weight(1f))
                         Text(
-                            if (zonesFromImport) "Whoop import" else "From strap HR",
+                            if (zonesFromImport) uiString(R.string.workouts_zones_from_import) else uiString(R.string.workouts_zones_from_strap),
                             style = NoopType.footnote,
                             color = Palette.textTertiary,
                         )
@@ -1648,8 +1648,8 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                         z.forEachIndexed { i, m -> ZoneStat(i + 1, m, total, Modifier.weight(1f)) }
                     }
                     Text(
-                        if (zonesFromImport) "WHOOP's imported per-zone split for this session."
-                        else "Time in each %HRmax zone, derived from the strap's heart rate over this window (approximate).",
+                        if (zonesFromImport) uiString(R.string.workouts_zones_from_import_detail)
+                        else uiString(R.string.workouts_zones_from_strap_detail),
                         style = NoopType.footnote,
                         color = Palette.textTertiary,
                     )
@@ -1669,10 +1669,9 @@ internal fun WorkoutDetailSheet(vm: AppViewModel, row: WorkoutRow, onDismiss: ()
                     val exportCtx = LocalContext.current
                     val exportScope = rememberCoroutineScope()
                     CardDivider()
-                    Text("Export route", style = NoopType.subhead, color = Palette.textPrimary)
+                    Text(uiString(R.string.workouts_export_route), style = NoopType.subhead, color = Palette.textPrimary)
                     Text(
-                        "Save this GPS route as a file to import into Strava, Garmin Connect, or another app. " +
-                            "Built on your phone — nothing is uploaded until you choose to share it.",
+                        uiString(R.string.workouts_export_route_detail),
                         style = NoopType.footnote,
                         color = Palette.textTertiary,
                     )
@@ -1909,7 +1908,7 @@ private fun SessionEffortCard(strain: Double, effortScale: EffortScale) {
                         contentDescription = uiString(
                             R.string.l10n_workouts_screen_this_session_s_effort_onedecimal_shown_74eed8be,
                             oneDecimal(shown),
-                            if (effortScale == EffortScale.WHOOP) "0 to 21 strain" else "0 to 100 Effort",
+                            if (effortScale == EffortScale.WHOOP) uiString(R.string.workouts_scale_strain_a11y) else uiString(R.string.workouts_scale_effort_a11y),
                         )
                     },
                 ) {
@@ -1920,7 +1919,7 @@ private fun SessionEffortCard(strain: Double, effortScale: EffortScale) {
                         color = Palette.effortBright,
                     )
                     Text(
-                        if (effortScale == EffortScale.WHOOP) "strain (0-21)" else "Effort (0-100)",
+                        if (effortScale == EffortScale.WHOOP) uiString(R.string.workouts_scale_strain) else uiString(R.string.workouts_scale_effort),
                         style = NoopType.footnote,
                         color = Palette.textTertiary,
                     )
@@ -2142,7 +2141,7 @@ private fun ManualWorkoutDialog(
                     )
                 }
                 Spacer(Modifier.width(10.dp))
-                Text(if (editing == null) "Add Workout" else "Edit Workout",
+                Text(if (editing == null) uiString(R.string.workouts_add_workout) else uiString(R.string.workouts_edit_workout),
                     style = NoopType.title2, color = Palette.textPrimary)
             }
         },
@@ -2228,7 +2227,7 @@ private fun ManualWorkoutDialog(
                     onSave(it, replacing)
                 }
             }, enabled = built != null) {
-                Text(if (editing == null) "Add" else "Save",
+                Text(if (editing == null) uiString(R.string.l10n_add_device_wizard_add_61cc55aa) else uiString(R.string.l10n_sleep_screen_save_efc007a3),
                     style = NoopType.body, color = if (built != null) Palette.accent else Palette.textTertiary)
             }
         },

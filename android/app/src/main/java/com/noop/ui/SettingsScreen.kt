@@ -972,7 +972,7 @@ fun SettingsScreen(
                 ) {
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         NoopButton(
-                            text = if (ProfileAvatarStore.hasAvatar) "Change photo" else "Choose photo",
+                            text = if (ProfileAvatarStore.hasAvatar) uiString(R.string.settings_change_photo) else uiString(R.string.settings_choose_photo),
                             kind = NoopButtonKind.Secondary,
                             modifier = Modifier.weight(1f),
                             onClick = {
@@ -1177,9 +1177,9 @@ fun SettingsScreen(
                         Spacer(Modifier.height(6.dp))
                         Text(
                             text = if (profile.hrMaxOverride > 0) {
-                                "Manual override"
+                                uiString(R.string.settings_hr_max_manual)
                             } else {
-                                "Auto · ${profile.hrMaxAuto} bpm (Tanaka)"
+                                uiString(R.string.settings_hr_max_auto, profile.hrMaxAuto.toString())
                             },
                             style = NoopType.footnote,
                             color = if (profile.hrMaxOverride > 0) Palette.accent else Palette.textTertiary,
@@ -1654,7 +1654,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 44.dp).padding(vertical = 4.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Text("Sleep chart", style = NoopType.body, color = Palette.textPrimary)
+                Text(uiString(R.string.settings_sleep_chart), style = NoopType.body, color = Palette.textPrimary)
                 SegmentedPillControl(
                     items = listOf(SleepChartStyle.CLASSIC, SleepChartStyle.FILLED,
                                    SleepChartStyle.GARMIN_FILLED, SleepChartStyle.RIBBON),
@@ -1790,9 +1790,9 @@ fun SettingsScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Transparent cards", style = NoopType.subhead, color = Palette.textPrimary)
+                    Text(uiString(R.string.settings_transparent_cards), style = NoopType.subhead, color = Palette.textPrimary)
                     Text(
-                        "Let the background show through every card. Tune how much just below.",
+                        uiString(R.string.settings_transparent_cards_detail),
                         style = NoopType.footnote,
                         color = Palette.textTertiary,
                     )
@@ -1984,16 +1984,15 @@ fun SettingsScreen(
         // controls + the live backdrop update the instant an image is set, removed, or re-scaled.
         SettingsCard(
             icon = Icons.Outlined.Image,
-            title = "Background image",
-            blurb = "Optional. Use your own photo behind every tab, in place of the day-cycle sky. " +
-                "Stored only on this phone. Pair it with Transparent cards above to let it show through.",
+            title = uiString(R.string.settings_background_image),
+            blurb = uiString(R.string.settings_background_image_blurb),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 NoopButton(
-                    text = if (BackgroundImageStore.hasImage) "Replace from Photos" else "Choose from Photos",
+                    text = if (BackgroundImageStore.hasImage) uiString(R.string.settings_replace_from_photos) else uiString(R.string.settings_choose_from_photos),
                     kind = NoopButtonKind.Secondary,
                     modifier = Modifier.weight(1f),
                     onClick = {
@@ -2003,7 +2002,7 @@ fun SettingsScreen(
                     },
                 )
                 NoopButton(
-                    text = "Browse files",
+                    text = uiString(R.string.settings_browse_files),
                     kind = NoopButtonKind.Secondary,
                     modifier = Modifier.weight(1f),
                     onClick = { backgroundFileLauncher.launch(arrayOf("image/*")) },
@@ -2016,7 +2015,7 @@ fun SettingsScreen(
                 val recents = BackgroundImageStore.recents
                 if (recents.isNotEmpty()) {
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text("Recent", style = NoopType.footnote, color = Palette.textSecondary)
+                        Text(uiString(R.string.settings_recent), style = NoopType.footnote, color = Palette.textSecondary)
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             recents.forEachIndexed { i, r ->
                                 BackgroundRecentThumb(
@@ -2034,8 +2033,8 @@ fun SettingsScreen(
                 }
                 // Master gate + scaling only make sense once an image exists.
                 SettingsToggleRow(
-                    title = "Show custom background",
-                    detail = "Draw your photo behind every tab, replacing the day-cycle sky.",
+                    title = uiString(R.string.settings_show_custom_background),
+                    detail = uiString(R.string.settings_show_custom_background_detail),
                     checked = BackgroundImageStore.enabled,
                     onCheckedChange = { BackgroundImageStore.setEnabled(context, it) },
                 )
@@ -2044,16 +2043,16 @@ fun SettingsScreen(
                 // to ~0px, which wrapped "Scaling" one letter per line and blew the row up to a tall
                 // empty gap. A stacked label sidesteps that entirely.
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text("Scaling", style = NoopType.footnote, color = Palette.textSecondary)
+                    Text(uiString(R.string.settings_scaling), style = NoopType.footnote, color = Palette.textSecondary)
                     SegmentedPillControl(
                         items = BackgroundFillMode.entries,
                         selection = BackgroundImageStore.fillMode,
                         label = { mode ->
                             when (mode) {
-                                BackgroundFillMode.FILL -> "Fill"
-                                BackgroundFillMode.FIT -> "Fit"
-                                BackgroundFillMode.STRETCH -> "Stretch"
-                                BackgroundFillMode.TILE -> "Tile"
+                                BackgroundFillMode.FILL -> uiString(R.string.settings_fill_mode_fill)
+                                BackgroundFillMode.FIT -> uiString(R.string.settings_fill_mode_fit)
+                                BackgroundFillMode.STRETCH -> uiString(R.string.settings_fill_mode_stretch)
+                                BackgroundFillMode.TILE -> uiString(R.string.settings_fill_mode_tile)
                             }
                         },
                         onSelect = { BackgroundImageStore.setFillMode(context, it) },
@@ -2062,7 +2061,7 @@ fun SettingsScreen(
                     )
                 }
                 NoopButton(
-                    text = "Remove image",
+                    text = uiString(R.string.settings_remove_image),
                     kind = NoopButtonKind.Tertiary,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -2129,7 +2128,7 @@ fun SettingsScreen(
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     NoopButton(
-                        text = if (live.scanning) "Searching…" else "Re-scan",
+                        text = if (live.scanning) uiString(R.string.l10n_add_device_wizard_searching_1a6a5ba8) else uiString(R.string.live_rescan),
                         leadingIcon = Icons.Filled.Refresh,
                         kind = NoopButtonKind.Primary,
                         enabled = !live.scanning,
@@ -4428,10 +4427,10 @@ private fun BackgroundRecentThumb(
         }
         Text(
             text = when (mode) {
-                BackgroundFillMode.FILL -> "Fill"
-                BackgroundFillMode.FIT -> "Fit"
-                BackgroundFillMode.STRETCH -> "Stretch"
-                BackgroundFillMode.TILE -> "Tile"
+                BackgroundFillMode.FILL -> uiString(R.string.settings_fill_mode_fill)
+                BackgroundFillMode.FIT -> uiString(R.string.settings_fill_mode_fit)
+                BackgroundFillMode.STRETCH -> uiString(R.string.settings_fill_mode_stretch)
+                BackgroundFillMode.TILE -> uiString(R.string.settings_fill_mode_tile)
             },
             style = NoopType.caption,
             color = if (active) Palette.accent else Palette.textTertiary,
