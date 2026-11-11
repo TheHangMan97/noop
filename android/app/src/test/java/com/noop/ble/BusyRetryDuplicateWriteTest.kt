@@ -18,8 +18,8 @@ import org.junit.Test
  * callback — the proof that the refused write actually landed — left the retry armed. Now a completion
  * cancels it.
  *
- * Limited to WITH-response writes by nature, since a without-response write gets no completion callback at
- * all. That covers the reported command and the ones where a duplicate actually harms — `GET_DATA_RANGE`,
+ * Written for WITH-response writes, on the premise that a without-response write gets no completion callback
+ * at all. That premise does not hold on every stack (see the earlier-write case below). That covers the reported command and the ones where a duplicate actually harms — `GET_DATA_RANGE`,
  * `SET_CLOCK`, the historical acks, haptics and `RUN_ALARM` are all sent with response — but it is a limit,
  * not a general guarantee.
  *
@@ -37,13 +37,13 @@ class BusyRetryDuplicateWriteTest {
     /** The bug: a completion arrived for a frame still held for retry, and the retry fired anyway. */
     @Test
     fun completionWhileAFrameIsHeldForRetryCancelsIt() {
-        assertTrue(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop4Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false))
+        assertTrue(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop4Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
     }
 
     /** Both families write commands on their own characteristic; neither may duplicate. */
     @Test
     fun bothFamiliesCommandChannelsQualify() {
-        assertTrue(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop5Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false))
+        assertTrue(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop5Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
     }
 
     /**
@@ -53,8 +53,8 @@ class BusyRetryDuplicateWriteTest {
      */
     @Test
     fun completionWithNothingHeldIsANoOp() {
-        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop4Cmd, hasFrameHeldForRetry = false, isBondWriteCompletion = false))
-        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop5Cmd, hasFrameHeldForRetry = false, isBondWriteCompletion = false))
+        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop4Cmd, hasFrameHeldForRetry = false, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
+        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(whoop5Cmd, hasFrameHeldForRetry = false, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
     }
 
     /**
@@ -63,8 +63,8 @@ class BusyRetryDuplicateWriteTest {
      */
     @Test
     fun completionOnAnotherCharacteristicNeverCancels() {
-        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(someOtherChar, hasFrameHeldForRetry = true, isBondWriteCompletion = false))
-        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(null, hasFrameHeldForRetry = true, isBondWriteCompletion = false))
+        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(someOtherChar, hasFrameHeldForRetry = true, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
+        assertFalse(WhoopBleClient.shouldCancelBusyRetryOnCompletion(null, hasFrameHeldForRetry = true, isBondWriteCompletion = false, earlierWriteAwaitingCompletion = false))
     }
 
     /**
@@ -78,11 +78,47 @@ class BusyRetryDuplicateWriteTest {
         assertFalse(
             WhoopBleClient.shouldCancelBusyRetryOnCompletion(
                 whoop4Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = true,
+                earlierWriteAwaitingCompletion = false,
             ),
         )
         assertFalse(
             WhoopBleClient.shouldCancelBusyRetryOnCompletion(
                 whoop5Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = true,
+                earlierWriteAwaitingCompletion = false,
+            ),
+        )
+    }
+
+    /**
+     * The field log behind the fourth argument. On a Galaxy running Android 17 the ECG START burst is four
+     * without-response writes; `124` was refused BUSY while `20` was still with the stack, `20`'s completion
+     * arrived, and the old rule read it as proof that `124` had gone out. The retry was cancelled and the
+     * strap never started generating, in six runs of seven. A completion while an ACCEPTED write is still
+     * awaiting its own callback belongs to that write, so the held frame keeps its retry.
+     */
+    @Test
+    fun aCompletionOwedToAnEarlierAcceptedWriteNeverCancels() {
+        assertFalse(
+            WhoopBleClient.shouldCancelBusyRetryOnCompletion(
+                whoop5Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false,
+                earlierWriteAwaitingCompletion = true,
+            ),
+        )
+        assertFalse(
+            WhoopBleClient.shouldCancelBusyRetryOnCompletion(
+                whoop4Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false,
+                earlierWriteAwaitingCompletion = true,
+            ),
+        )
+    }
+
+    /** Once nothing accepted is outstanding, a completion with a frame held is still the #791 duplicate. */
+    @Test
+    fun withNothingAcceptedOutstandingTheDuplicateIsStillCancelled() {
+        assertTrue(
+            WhoopBleClient.shouldCancelBusyRetryOnCompletion(
+                whoop5Cmd, hasFrameHeldForRetry = true, isBondWriteCompletion = false,
+                earlierWriteAwaitingCompletion = false,
             ),
         )
     }

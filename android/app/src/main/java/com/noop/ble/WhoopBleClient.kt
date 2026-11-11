@@ -1377,6 +1377,17 @@ class WhoopBleClient(
          * the historical acks, haptics and RUN_ALARM are all sent with response — but it is a real limit, not
          * a general guarantee.
          *
+         * [earlierWriteAwaitingCompletion] is the second exception, and the one a field log forced. The
+         * premise above, that a without-response write gets no completion, does not hold on every stack: a
+         * Galaxy on Android 17 delivers one. There the ECG START burst (`139, 125, 20, 124`, all without
+         * response) had `124` refused BUSY while `20` was still with the stack; `20`'s completion then
+         * arrived, was read as proof that `124` went out, and cancelled its retry. `124` never reached the
+         * strap, which kept streaming empty state-0 status records, in six runs of seven. The one run where
+         * BUSY landed on `20` instead started generation normally. So a completion that may belong to a
+         * write the stack ACCEPTED and has not yet called back for is not evidence about the held frame.
+         * Erring that way risks the duplicate #791 is about; erring the other way loses the command, which
+         * is strictly worse.
+         *
          * Pure so it can be tested: the instance-level path cannot be, since the constructor needs a real
          * Looper and Context (see [GattCrashSafetyTest]'s infra note).
          */
@@ -1384,9 +1395,11 @@ class WhoopBleClient(
             writtenChar: UUID?,
             hasFrameHeldForRetry: Boolean,
             isBondWriteCompletion: Boolean,
+            earlierWriteAwaitingCompletion: Boolean,
         ): Boolean =
             hasFrameHeldForRetry &&
                 !isBondWriteCompletion &&
+                !earlierWriteAwaitingCompletion &&
                 (writtenChar == CMD_WRITE_CHAR || writtenChar == WHOOP5_CMD_WRITE_CHAR)
 
         fun writeStatusLabel(status: Int?): String = when (status) {
@@ -3714,6 +3727,12 @@ class WhoopBleClient(
      *  not mistaken for evidence about a frame held for retry. @Volatile: set on the main looper, read and
      *  cleared from the GATT binder thread in onCharacteristicWrite. */
     @Volatile private var bondWriteOutstanding = false
+    /** #791: set when the stack ACCEPTS a queued write and cleared by the next write completion, so that
+     *  completion can be told apart from one for a frame the stack refused BUSY and sent anyway. Set for
+     *  without-response writes too, because some stacks call back for those (see
+     *  [shouldCancelBusyRetryOnCompletion]). @Volatile: set on the main looper, read and cleared from the
+     *  GATT binder thread in onCharacteristicWrite. */
+    @Volatile private var acceptedWriteAwaitingCompletion = false
 
     /** A frame being retried after a transient BUSY rejection. Held here rather than re-added to the
      *  queue so it keeps its place AHEAD of later commands — command order matters (e.g. SET_CLOCK
@@ -3736,8 +3755,15 @@ class WhoopBleClient(
      *
      * No-op when nothing is held for retry, which is the normal case for every successful write.
      */
-    private fun cancelRetryOfWriteDeliveredDespiteBusy(writtenChar: UUID?, fromBondWrite: Boolean) {
-        if (!shouldCancelBusyRetryOnCompletion(writtenChar, pendingRetry != null, fromBondWrite)) return
+    private fun cancelRetryOfWriteDeliveredDespiteBusy(
+        writtenChar: UUID?,
+        fromBondWrite: Boolean,
+        earlierWriteAwaitingCompletion: Boolean,
+    ) {
+        if (!shouldCancelBusyRetryOnCompletion(
+                writtenChar, pendingRetry != null, fromBondWrite, earlierWriteAwaitingCompletion,
+            )
+        ) return
         val delivered = pendingRetry ?: return
         pendingRetry = null
         writeRetries = 0
@@ -7993,7 +8019,14 @@ class WhoopBleClient(
             // bond flag is consumed HERE, on the callback, so a later completion cannot inherit it.
             val wasBondWrite = bondWriteOutstanding
             bondWriteOutstanding = false
-            handler.post { cancelRetryOfWriteDeliveredDespiteBusy(characteristic.uuid, wasBondWrite) }
+            // Consumed here for the same reason: this completion belongs to the accepted write if one was
+            // still awaiting its callback, and only otherwise can it be the held frame's (#791).
+            // The out-of-queue bond write's completion is not the queued write's, so it leaves the flag alone.
+            val earlierWriteAwaiting = acceptedWriteAwaitingCompletion
+            if (!wasBondWrite) acceptedWriteAwaitingCompletion = false
+            handler.post {
+                cancelRetryOfWriteDeliveredDespiteBusy(characteristic.uuid, wasBondWrite, earlierWriteAwaiting)
+            }
 
             // This with-response write is done; release the in-flight slot and send the next.
             writeInFlight = false
@@ -10193,9 +10226,15 @@ class WhoopBleClient(
         // link down and returns false. After teardown the queues are cleared and gatt is null, so the
         // recursive re-drain below immediately no-ops; we don't fall through into a retry against a dead
         // binder.
+        // Raised BEFORE the call, because a fast completion can reach the binder thread before
+        // writeCharacteristic returns; put back if the stack refused this frame. A completion for an earlier
+        // write racing that restore can leave it raised, which errs toward a retry, the safe direction.
+        val awaitingBefore = acceptedWriteAwaitingCompletion
+        acceptedWriteAwaitingCompletion = true
         val ok = safeGatt("writeCharacteristic") {
             ops.writeCharacteristicCompat(ch, item.frame, writeType)
         }
+        if (!ok) acceptedWriteAwaitingCompletion = awaitingBefore
 
         if (!ok) {
             // Transient BUSY — the stack hasn't freed the previous write yet (common on Android 13+/16,
@@ -12290,6 +12329,7 @@ class WhoopBleClient(
         pendingRetry = null
         writeRetries = 0
         bondWriteOutstanding = false   // #791: a stale flag would suppress a legitimate cancel next session
+        acceptedWriteAwaitingCompletion = false   // #791: likewise, per connection
         // Cancel any scheduled BUSY-retry kicks so a queued retry can't fire after teardown and
         // re-enter a dead write/descriptor (#314).
         handler.removeCallbacks(drainWriteRetryRunnable)
