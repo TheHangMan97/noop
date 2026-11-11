@@ -5837,11 +5837,14 @@ class WhoopBleClient(
         if (disRead) return false
         val g = gatt ?: return false
         if (connectedFamily == DeviceFamily.WHOOP4) return false
-        val ops = gattOps ?: return false
+        if (gattOps == null) return false
         val ch = g.getService(DIS_SERVICE)?.getCharacteristic(DIS_SERIAL_CHAR)
         if (ch != null && (ch.properties and BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
             disRead = true
-            safeGatt("readCharacteristic(dis-serial)") { ops.readCharacteristicCompat(ch) }
+            // Through issueDisRead, not a bare readCharacteristic: posted a few seconds after the handshake,
+            // this read lands in the offload's first writes, and a `false` from the stack used to drop it
+            // for the whole link with no log line, leaving an MG's variant UNKNOWN.
+            issueDisRead(g, ch, "serial")
             return true
         }
         log("DIS: serial characteristic unavailable — hardware variant stays unknown")
@@ -6197,18 +6200,20 @@ class WhoopBleClient(
     /** Chained second half of [readDisIdentity] — issued only after the serial read has landed. */
     private fun readDisHardwareRevision() {
         val g = gatt ?: return
-        val ops = gattOps ?: return
-        val ch = g.getService(DIS_SERVICE)?.getCharacteristic(DIS_HW_REV_CHAR) ?: return
-        if ((ch.properties and BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
-            safeGatt("readCharacteristic(dis-hwrev)") { ops.readCharacteristicCompat(ch) }
+        val ch = g.getService(DIS_SERVICE)?.getCharacteristic(DIS_HW_REV_CHAR)
+        if (ch == null || (ch.properties and BluetoothGattCharacteristic.PROPERTY_READ) == 0) {
+            // Skip and carry on, as the rest of the chain does. Returning here used to end the chain, so a
+            // strap without 0x2A27 never had its model number read, the one string that names an MG.
+            readDisFirmwareRevision()
+            return
         }
+        issueDisRead(g, ch, "hardware-revision")
     }
 
     /** Chained third read — issued after the hardware revision lands. Gives an unbonded 5/MG a firmware
      *  string it otherwise has no source for at all. */
     private fun readDisFirmwareRevision() {
         val g = gatt ?: return
-        val ops = gattOps ?: return
         // A strap that does not publish a firmware revision must not cost us the rest of DIS. The extras
         // chain is kicked when this read LANDS, so returning here without starting it would mean a strap
         // with a manufacturer string but no 0x2A26 yielded nothing at all — and "not implemented" is
@@ -6219,7 +6224,7 @@ class WhoopBleClient(
             readNextDisExtra(DIS_FW_REV_CHAR)
             return
         }
-        safeGatt("readCharacteristic(dis-fwrev)") { ops.readCharacteristicCompat(ch) }
+        issueDisRead(g, ch, "firmware")
     }
 
     /**
@@ -6244,14 +6249,38 @@ class WhoopBleClient(
             else -> { disChainInFlight = false; return }
         }
         val g = gatt ?: run { disChainInFlight = false; return }
-        val ops = gattOps ?: run { disChainInFlight = false; return }
         val ch = g.getService(DIS_SERVICE)?.getCharacteristic(next)
         if (ch == null || (ch.properties and BluetoothGattCharacteristic.PROPERTY_READ) == 0) {
             // Not present on this strap: skip it and carry on down the chain rather than stopping.
             readNextDisExtra(next)
             return
         }
-        safeGatt("readCharacteristic(dis-extra)") { ops.readCharacteristicCompat(ch) }
+        issueDisRead(g, ch, "extra")
+    }
+
+    /**
+     * Issue one DIS read on [g] without losing it when Android does not accept it.
+     *
+     * `readCharacteristic` returning false is not a refusal by the strap (that arrives as a failed status
+     * in `onCharacteristicRead`, see [noteReadFailure]); it means the request was never sent. So the read
+     * is re-issued on the same link per [disReadRetryDelayMs], and given up only after the bounded attempts,
+     * which also releases [disChainInFlight]. A retry posted for a link that has since gone is dropped by
+     * the `gatt === g` check. Logged on the first and last unaccepted attempt only.
+     */
+    @SuppressLint("MissingPermission")
+    private fun issueDisRead(
+        g: BluetoothGatt,
+        ch: BluetoothGattCharacteristic,
+        label: String,
+        attemptsMade: Int = 0,
+    ) {
+        val ops = gattOps ?: run { disChainInFlight = false; return }
+        if (safeGatt("readCharacteristic(dis-$label)") { ops.readCharacteristicCompat(ch) }) return
+        if (gatt !== g) return   // safeGatt tore the link down, or it changed: nothing left to retry on
+        val made = attemptsMade + 1
+        if (shouldLogDisReadNotAccepted(made)) log(disReadNotAcceptedLine(label, made))
+        val delay = disReadRetryDelayMs(made) ?: run { disChainInFlight = false; return }
+        handler.postDelayed({ if (gatt === g) issueDisRead(g, ch, label, made) }, delay)
     }
 
     /**
