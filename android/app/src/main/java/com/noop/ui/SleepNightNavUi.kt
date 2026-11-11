@@ -212,7 +212,7 @@ internal fun NightNavHeader(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Overline("Bedtime", color = Palette.textTertiary)
+                            Overline(uiStringOr(R.string.de_bedtime_e3cb8b, "Bedtime"), color = Palette.textTertiary)
                             Spacer(Modifier.height(Metrics.space4))
                             Text(bedText, style = NoopType.headline, color = Palette.textPrimary)
                         }
@@ -228,7 +228,7 @@ internal fun NightNavHeader(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Overline("Wake-up", color = Palette.textTertiary)
+                            Overline(uiStringOr(R.string.de_wake_up_5c3d54, "Wake-up"), color = Palette.textTertiary)
                             Spacer(Modifier.height(Metrics.space4))
                             Text(wakeText, style = NoopType.headline, color = Palette.textPrimary)
                         }
@@ -302,7 +302,7 @@ internal fun NightNavHeader(
                         },
                         startCal.get(Calendar.HOUR_OF_DAY), startCal.get(Calendar.MINUTE), true,
                     ).apply {
-                        setTitle("Bedtime")
+                        setTitle(uiStringOr(R.string.de_bedtime_e3cb8b, "Bedtime"))
                         setOnDismissListener {
                             editingBed = false
                             if (sleepEditDraft != null) showTimeChoice = true
@@ -356,7 +356,7 @@ internal fun NightNavHeader(
                         },
                         endCal.get(Calendar.HOUR_OF_DAY), endCal.get(Calendar.MINUTE), true,
                     ).apply {
-                        setTitle("Wake-up time")
+                        setTitle(uiStringOr(R.string.de_wake_up_time_222ac3, "Wake-up time"))
                         setOnDismissListener {
                             editingWake = false
                             if (sleepEditDraft != null) showTimeChoice = true
@@ -367,7 +367,7 @@ internal fun NightNavHeader(
                 endCal.get(Calendar.YEAR), endCal.get(Calendar.MONTH), endCal.get(Calendar.DAY_OF_MONTH),
             ).apply {
                 datePicker.maxDate = System.currentTimeMillis()
-                setTitle("Wake-up date")
+                setTitle(uiStringOr(R.string.de_wake_up_date_d30e14, "Wake-up date"))
                 setOnDismissListener {
                     if (editingWake && !dateChosen) {
                         editingWake = false
@@ -436,7 +436,7 @@ internal fun NightNavHeader(
                 startCal.get(Calendar.HOUR_OF_DAY),
                 startCal.get(Calendar.MINUTE),
                 true,
-            ).apply { setTitle("Nap started") }
+            ).apply { setTitle(uiStringOr(R.string.de_nap_started_d5b588, "Nap started")) }
             dialog.setOnDismissListener { addingNapStart = false }
             dialog.show()
             onDispose { runCatching { dialog.dismiss() } }
@@ -466,7 +466,7 @@ internal fun NightNavHeader(
                 endCal.get(Calendar.HOUR_OF_DAY),
                 endCal.get(Calendar.MINUTE),
                 true,
-            ).apply { setTitle("Nap ended") }
+            ).apply { setTitle(uiStringOr(R.string.de_nap_ended_f5b406, "Nap ended")) }
             dialog.setOnDismissListener { addingNapEnd = false }
             dialog.show()
             onDispose { runCatching { dialog.dismiss() } }
@@ -526,7 +526,7 @@ internal fun NightNavHeader(
                     // the gold pop lives only on the date text below.
                     .background(Palette.surfaceInset)
                     .border(Metrics.divider, Palette.hairline, blockShape)
-                    .clickable(enabled = onPickNightDate != null, onClickLabel = "Pick night date") { showDatePicker = true }
+                    .clickable(enabled = onPickNightDate != null, onClickLabel = uiStringOr(R.string.de_pick_night_date_99db89, "Pick night date")) { showDatePicker = true }
                     .padding(vertical = Metrics.selectorPadding, horizontal = Metrics.selectorPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

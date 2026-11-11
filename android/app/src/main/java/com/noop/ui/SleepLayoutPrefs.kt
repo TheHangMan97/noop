@@ -25,13 +25,13 @@ import com.noop.R
  * macOS `SleepSection` enum so a backup/restore reads the same layout on either OS.
  */
 enum class SleepSection(val raw: String, val title: String) {
-    SLEEP_MARKS("sleepMarks", "Sleep marks"),
-    STAGES("stages", "Stages"),
-    BODY_CLOCK("bodyClock", "Body clock"),
-    NIGHT_DETAIL("nightDetail", "Night detail"),
-    SLEEP_DEBT("sleepDebt", "Sleep-debt ledger"),
-    STAGES_VS_TYPICAL("stagesVsTypical", "Stages vs typical"),
-    ASLEEP_DURATION("asleepDuration", "Asleep duration"),
+    SLEEP_MARKS("sleepMarks", uiStringOr(R.string.de_sleep_marks_8e9b86, "Sleep marks")),
+    STAGES("stages", uiStringOr(R.string.de_stages_c1d33a, "Stages")),
+    BODY_CLOCK("bodyClock", uiStringOr(R.string.de_body_clock_b0b9b9, "Body clock")),
+    NIGHT_DETAIL("nightDetail", uiStringOr(R.string.de_night_detail_8f271b, "Night detail")),
+    SLEEP_DEBT("sleepDebt", uiStringOr(R.string.de_sleep_debt_ledger_8cc9a9, "Sleep-debt ledger")),
+    STAGES_VS_TYPICAL("stagesVsTypical", uiStringOr(R.string.de_stages_vs_typical_28463f, "Stages vs typical")),
+    ASLEEP_DURATION("asleepDuration", uiStringOr(R.string.de_asleep_duration_363841, "Asleep duration")),
 
     /** #sleep-layout: two ANDROID-ONLY detail cards (Hours-vs-Needed + Consistency, richer than the
      *  Night-detail grid tiles) — previously pinned below the arrange region, now first-class arrangeable
@@ -39,8 +39,8 @@ enum class SleepSection(val raw: String, val title: String) {
      *  so these two rawValues are Android-only — the macOS `SleepSection` stops at `asleepDuration`. Safe to
      *  diverge here: `sleep.sectionOrder` is not in the .noopbak whitelist, so a cross-OS restore never
      *  reads them. (Consistency's underlying score also differs across platforms — a separate parity item.) */
-    HOURS_VS_NEEDED("hoursVsNeeded", "Hours vs Needed"),
-    CONSISTENCY("consistency", "Consistency");
+    HOURS_VS_NEEDED("hoursVsNeeded", uiStringOr(R.string.de_hours_vs_needed_500a0a, "Hours vs Needed")),
+    CONSISTENCY("consistency", uiStringOr(R.string.de_consistency_0ea7b9, "Consistency"));
 
     companion object {
         fun fromRaw(raw: String?): SleepSection? = entries.firstOrNull { it.raw == raw }

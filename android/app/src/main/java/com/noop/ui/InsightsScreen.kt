@@ -500,9 +500,7 @@ fun InsightsScreen(vm: AppViewModel, onOpenInsightsHub: () -> Unit = {}) {
             // No journal yet, explain, without dead-ending on a paid export.
             DataPendingNote(
                 title = uiString(R.string.l10n_insights_screen_insights_read_your_journal_and_outcomes_6ec8aaf9),
-                body = "Log behaviours above. After a few days of answers, NOOP ranks how each " +
-                    "one moves your recovery, HRV and sleep. Importing a WHOOP export (which " +
-                    "includes its journal) backfills history instantly.",
+                body = "Log behaviours above. After a few days of answers, NOOP ranks how each one moves your recovery, HRV and sleep. Importing a WHOOP export (which includes its journal) backfills history instantly.",
             )
         } else {
             BehaviourSection(
@@ -1379,15 +1377,13 @@ private fun experimentConfidence(
 
 private fun experimentReading(s: ExperimentSnapshot): String {
     val delta = s.delta
-        ?: return "Collect a few logged intervention days before reading the effect. " +
-            "Baseline and imported metrics stay in place."
+        ?: return "Collect a few logged intervention days before reading the effect. Baseline and imported metrics stay in place."
     val absStr = formatExperimentDelta(abs(delta), s.outcome, includeSign = false)
     if (abs(delta) < 0.05) {
         return "${s.outcome.outcomeName} is flat against baseline on logged intervention days."
     }
     val movedGood = if (s.outcome.higherIsBetter) delta > 0 else delta < 0
-    return "${s.outcome.outcomeName} is $absStr ${if (movedGood) "better" else "worse"} " +
-        "than baseline on days you logged this behaviour."
+    return "${s.outcome.outcomeName} is $absStr ${if (movedGood) "better" else "worse"} than baseline on days you logged this behaviour."
 }
 
 private fun experimentDeltaColor(s: ExperimentSnapshot): Color {
@@ -1705,8 +1701,7 @@ private fun effectSentence(e: BehaviorEffect, outcome: Outcome): String {
     }
     val withStr = outcome.format(e.meanWith)
     val withoutStr = outcome.format(e.meanWithout)
-    return "On days you logged ${e.behavior.lowercase(Locale.US)}, your $name averaged " +
-        "$withStr, $dir than the $withoutStr on days you didn't."
+    return "On days you logged ${e.behavior.lowercase(Locale.US)}, your $name averaged $withStr, $dir than the $withoutStr on days you didn't."
 }
 
 private fun effectMagnitudeWord(d: Double): String {
@@ -1732,8 +1727,7 @@ private fun strengthWord(r: Double): String {
 
 private fun relationshipSentence(rel: Relationship): String {
     val dir = if (rel.r > 0) "positive" else if (rel.r < 0) "negative" else "flat"
-    return "${strengthWord(rel.r)} $dir relationship " +
-        "(r = ${String.format(Locale.US, "%.2f", rel.r)}, n = ${rel.n})."
+    return "${strengthWord(rel.r)} $dir relationship (r = ${String.format(Locale.US, "%.2f", rel.r)}, n = ${rel.n})."
 }
 
 /** Tint a correlation by strength, keyed on the recovery gradient so strong positive

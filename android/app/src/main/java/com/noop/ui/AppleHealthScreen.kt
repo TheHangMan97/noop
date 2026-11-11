@@ -249,8 +249,7 @@ private fun LoadingCard() {
 private fun EmptyState() {
     DataPendingNote(
         title = uiString(R.string.l10n_apple_health_screen_nothing_imported_yet_f457cdbe),
-        body = "Nothing imported yet. On an iPhone: Health app, tap your photo, Export " +
-            "All Health Data, then import the .zip here in Data Sources.",
+        body = "Nothing imported yet. On an iPhone: Health app, tap your photo, Export All Health Data, then import the .zip here in Data Sources.",
     )
 }
 

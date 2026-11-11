@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import androidx.compose.ui.graphics.Color
 import com.noop.analytics.RestScorer
 import com.noop.analytics.SleepDebt
@@ -22,13 +23,13 @@ internal data class SleepMetricSpec(
 )
 
 internal fun sleepMetricSpec(key: String): SleepMetricSpec = when (key) {
-    "performance"     -> SleepMetricSpec("Rest", "%", Palette.restColor) { "${it.roundToInt()}" }
-    "efficiency"      -> SleepMetricSpec("Sleep Efficiency", "%", Palette.statusPositive) { "${it.roundToInt()}" }
-    "consistency"     -> SleepMetricSpec("Consistency", "%", Palette.metricCyan) { "${it.roundToInt()}" }
-    "hours_vs_needed" -> SleepMetricSpec("Hours vs Needed", "%", Palette.restColor) { "${it.roundToInt()}" }
-    "restorative"     -> SleepMetricSpec("Restorative", "%", Palette.sleepREM) { "${it.roundToInt()}" }
-    "respiratory"     -> SleepMetricSpec("Respiratory Rate", "rpm", Palette.metricPurple) { String.format(Locale.US, "%.1f", it) }
-    "sleep_debt"      -> SleepMetricSpec("Sleep Debt", "min", Palette.metricRose) { "${it.roundToInt()}" }   // #691: minutes, not decimal hours
+    "performance"     -> SleepMetricSpec(uiStringOr(R.string.de_rest_b79e5f, "Rest"), "%", Palette.restColor) { "${it.roundToInt()}" }
+    "efficiency"      -> SleepMetricSpec(uiStringOr(R.string.de_sleep_efficiency_b4b5c2, "Sleep Efficiency"), "%", Palette.statusPositive) { "${it.roundToInt()}" }
+    "consistency"     -> SleepMetricSpec(uiStringOr(R.string.de_consistency_0ea7b9, "Consistency"), "%", Palette.metricCyan) { "${it.roundToInt()}" }
+    "hours_vs_needed" -> SleepMetricSpec(uiStringOr(R.string.de_hours_vs_needed_500a0a, "Hours vs Needed"), "%", Palette.restColor) { "${it.roundToInt()}" }
+    "restorative"     -> SleepMetricSpec(uiStringOr(R.string.de_restorative_adb13d, "Restorative"), "%", Palette.sleepREM) { "${it.roundToInt()}" }
+    "respiratory"     -> SleepMetricSpec(uiStringOr(R.string.de_respiratory_rate_3fbb53, "Respiratory Rate"), "rpm", Palette.metricPurple) { String.format(Locale.US, "%.1f", it) }
+    "sleep_debt"      -> SleepMetricSpec(uiStringOr(R.string.de_sleep_debt_3aec7d, "Sleep Debt"), "min", Palette.metricRose) { "${it.roundToInt()}" }   // #691: minutes, not decimal hours
     else              -> SleepMetricSpec(key, "", Palette.accent) { "${it.roundToInt()}" }
 }
 

@@ -65,8 +65,7 @@ private const val MIND_GATE_DAYS = 7
 
 /** Shared verbatim footnote — IDENTICAL string on macOS/iOS; do not reword. */
 private const val MIND_FOOTNOTE =
-    "Self-tracking, not a clinical assessment. If low mood persists, talk to a " +
-        "professional. You deserve support."
+    "Self-tracking, not a clinical assessment. If low mood persists, talk to a professional. You deserve support."
 
 // MARK: - Section
 

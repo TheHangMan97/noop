@@ -955,8 +955,7 @@ private fun prepInstructions(type: DeviceType): List<String> = when (type) {
 /** The factory-reset prep checklist for the Oura adopt flow (Step B of the onboarding UX spec). No
  *  em-dashes; matches the iOS copy. */
 private val ouraPrepInstructions: List<String> = listOf(
-    "Open the official Oura app and remove this ring (Oura calls it \"factory reset\" or \"unpair and " +
-        "reset\"). This wipes the ring's owner so NOOP can take it over.",
+    "Open the official Oura app and remove this ring (Oura calls it \"factory reset\" or \"unpair and reset\"). This wipes the ring's owner so NOOP can take it over.",
     "Keep the ring on the charger or on your finger so it stays awake.",
     "Make sure the Oura app is fully closed. A ring answers one owner at a time.",
     "When the ring is reset and waking, tap Scan below.",
@@ -1098,9 +1097,7 @@ private fun OuraGateStep(
         // Beta banner (amber heads-up pattern).
         OuraAmberPanel(
             "Beta. Read this first.",
-            "Local Oura support is new and we cannot test every ring here. It may not connect on your " +
-                "ring, and it can change between updates. NOOP never makes up a number. If something does " +
-                "not work, it will tell you plainly.",
+            "Local Oura support is new and we cannot test every ring here. It may not connect on your ring, and it can change between updates. NOOP never makes up a number. If something does not work, it will tell you plainly.",
         )
 
         // What you get / what you lose, two stacked sections on a frosted card.
@@ -1117,20 +1114,17 @@ private fun OuraGateStep(
                 listOf(
                     "Your ring talks to NOOP only, fully offline, no Oura account.",
                     "Live heart rate, and HRV when the ring can measure it.",
-                    "Overnight sleep staging, resting heart rate, skin-temperature trend, motion and " +
-                        "battery, read straight off the ring.",
+                    "Overnight sleep staging, resting heart rate, skin-temperature trend, motion and battery, read straight off the ring.",
                     "NOOP's own Charge, Effort and Rest, computed on your device from published methods.",
                 ),
             )
             Overline("What you lose")
             OuraBulletList(
                 listOf(
-                    "The Oura app and your Oura account stop working with this ring. This is the point. " +
-                        "You are replacing Oura.",
+                    "The Oura app and your Oura account stop working with this ring. This is the point. You are replacing Oura.",
                     "Oura's own Readiness and Sleep scores. NOOP does not copy them. It computes its own.",
                     "Anything that needs Oura's cloud (web dashboard, Oura's coaching, shared circles).",
-                    "Likely your Oura warranty and support, because the ring is no longer paired to Oura. " +
-                        "Treat this as permanent.",
+                    "Likely your Oura warranty and support, because the ring is no longer paired to Oura. Treat this as permanent.",
                 ),
             )
         }
@@ -1203,10 +1197,7 @@ private fun OuraAdvancedKeyStep(
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         OuraAmberPanel(
             "For power users.",
-            "If you extracted your ring's 16-byte key from a previous Oura setup, NOOP can talk to the " +
-                "ring with that key WITHOUT resetting it, so the Oura app keeps working too. NOOP does not " +
-                "extract keys for you and cannot help you find one. If you do not know what this means, go " +
-                "back and use the standard setup or file import.",
+            "If you extracted your ring's 16-byte key from a previous Oura setup, NOOP can talk to the ring with that key WITHOUT resetting it, so the Oura app keeps working too. NOOP does not extract keys for you and cannot help you find one. If you do not know what this means, go back and use the standard setup or file import.",
         )
         Overline("Ring key (32 hex characters)")
         OutlinedTextField(
@@ -1273,8 +1264,7 @@ private fun OuraPrepStep(advanced: Boolean, onScan: () -> Unit) {
         if (!advanced) {
             OuraAmberPanel(
                 "A ring talks to one owner at a time.",
-                "If the Oura app is still running it will hold the ring and adoption will fail. Force-quit " +
-                    "Oura, then scan.",
+                "If the Oura app is still running it will hold the ring and adoption will fail. Force-quit Oura, then scan.",
             )
         }
         TextButton(

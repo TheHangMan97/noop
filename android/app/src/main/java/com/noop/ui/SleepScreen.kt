@@ -604,7 +604,7 @@ fun SleepScreen(
 
     LazyScreenScaffold(
         title = uiString(R.string.l10n_sleep_screen_sleep_3cac34e6),
-        subtitle = "Last night, read in two seconds.",
+        subtitle = uiStringOr(R.string.de_last_night_read_in_two_seconds_4c9b78, "Last night, read in two seconds."),
         listState = sleepListState,   // #sleep-layout: the hold-to-drag frame loop drives this list state
         // LIQUID SKY BACKDROP (the pilot pattern — LiquidScreenSky.kt): the static time-of-day liquid sky
         // settles into the theme canvas behind the header + hero, bled full-width up behind the status bar
@@ -848,7 +848,7 @@ fun SleepScreen(
                         // pickers used to do exactly that): tell the user why nothing changed. (#940)
                         Toast.makeText(
                             context,
-                            "That time can't be saved (it lands in the future or ends before it starts).",
+                            uiStringOr(R.string.de_that_time_can_t_be_saved_it_lands_in_the_0af900, "That time can't be saved (it lands in the future or ends before it starts)."),
                             Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -1031,7 +1031,7 @@ private fun SleepAlarmsEntry(onOpenAlarms: () -> Unit) {
 @Composable
 internal fun SleepMarkCard(onMark: (SleepMarkType) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader(title = uiString(R.string.l10n_sleep_screen_sleep_marks_8e9b86f0), overline = "Tap to log", trailing = "Phase 1")
+        SectionHeader(title = uiString(R.string.l10n_sleep_screen_sleep_marks_8e9b86f0), overline = uiStringOr(R.string.de_tap_to_log_e55225, "Tap to log"), trailing = uiStringOr(R.string.de_phase_1_8e086f, "Phase 1"))
         NoopCard(tint = Palette.restColor) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
@@ -1241,7 +1241,7 @@ private val LIQUID_HERO_RADIUS: Dp = 26.dp
 @Composable
 private fun RestHero(score: Double?, asleepMin: Double?, source: String, overline: String) {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Sleep performance", overline = overline, trailing = "Rest")
+        SectionHeader(uiStringOr(R.string.de_sleep_performance_e8a233, "Sleep performance"), overline = overline, trailing = uiStringOr(R.string.de_rest_b79e5f, "Rest"))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1411,8 +1411,8 @@ private fun Hero(
             // An Oura night's stages are the ring's RAW on-device SleepNet classification (decoded off the
             // 0x49 phase stream), NOT a NOOP approximation — so it gets its own honest caption instead of the
             // "approx. stages (on-device)" one that describes NOOP's own sparse-motion staging.
-            val stageCaption = if (activeIsOura) " · raw on-device stages" else " · approx. stages (on-device)"
-            val subtitle = "${durationText(inBedMin)} in bed · ${display.efficiencyText} efficiency" +
+            val stageCaption = if (activeIsOura) uiStringOr(R.string.de_raw_on_device_stages_3525ec, " · raw on-device stages") else uiStringOr(R.string.de_approx_stages_on_device_870508, " · approx. stages (on-device)")
+            val subtitle = uiStringOr(R.string.de_1_s_in_bed_2_s_efficiency_7741f3, "%1\$s in bed · %2\$s efficiency", (durationText(inBedMin)).toString(), (display.efficiencyText).toString()) +
                 (if (display.realSegments != null) stageCaption else "")
             // iOS #988 port: true per-epoch segments (≥ 2 — a single run has no transitions to lay
             // out) get the per-stage timeline rows; the rows ARE the legend, so no footer. Anything
@@ -1623,9 +1623,9 @@ private fun NapsCard(
             if (naps.isNotEmpty()) {
                 // Main / Nap(s) / Total split — only meaningful once a nap exists. Total = main + naps.
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    NapSummaryCell("Main sleep", durationText(mainMin), Modifier.weight(1f))
-                    NapSummaryCell("Nap(s)", durationText(napMin), Modifier.weight(1f))
-                    NapSummaryCell("Total", durationText(mainMin + napMin), Modifier.weight(1f))
+                    NapSummaryCell(uiStringOr(R.string.de_main_sleep_ef2f40, "Main sleep"), durationText(mainMin), Modifier.weight(1f))
+                    NapSummaryCell(uiStringOr(R.string.de_nap_s_d0d9de, "Nap(s)"), durationText(napMin), Modifier.weight(1f))
+                    NapSummaryCell(uiStringOr(R.string.de_total_b25928, "Total"), durationText(mainMin + napMin), Modifier.weight(1f))
                 }
             }
             if (naps.isEmpty()) {
@@ -1915,13 +1915,13 @@ internal fun mainSleepReasonText(blocks: List<SleepSession>, habitualMidsleepSec
     val dur = durationText(sel.asleepSec / 60.0)
     return when (sel.reason) {
         SleepStageTotals.MainNightReason.onlyBlock ->
-            "This is your only sleep block today."
+            uiStringOr(R.string.de_this_is_your_only_sleep_block_today_fa7e67, "This is your only sleep block today.")
         SleepStageTotals.MainNightReason.longest ->
-            "Picked as your main sleep because it was your longest block ($dur)."
+            uiStringOr(R.string.de_picked_as_your_main_sleep_because_it_was_fd1252, "Picked as your main sleep because it was your longest block (%1\$s).", dur.toString())
         SleepStageTotals.MainNightReason.longestNearUsual ->
-            "Picked as your main sleep because it was your longest block ($dur), near your usual bedtime."
+            uiStringOr(R.string.de_picked_as_your_main_sleep_because_it_was_295d4a, "Picked as your main sleep because it was your longest block (%1\$s), near your usual bedtime.", dur.toString())
         SleepStageTotals.MainNightReason.alignedToUsual ->
-            "Picked as your main sleep because it started near your usual sleep time."
+            uiStringOr(R.string.de_picked_as_your_main_sleep_because_it_sta_9de516, "Picked as your main sleep because it started near your usual sleep time.")
     }
 }
 
@@ -2041,7 +2041,7 @@ private fun NapRow(
                     editingEnd = true
                 },
                 startCal.get(Calendar.HOUR_OF_DAY), startCal.get(Calendar.MINUTE), true,
-            ).apply { setTitle("Nap started") }
+            ).apply { setTitle(uiStringOr(R.string.de_nap_started_d5b588, "Nap started")) }
             dialog.setOnDismissListener { editingStart = false }
             dialog.show()
             onDispose { runCatching { dialog.dismiss() } }
@@ -2067,7 +2067,7 @@ private fun NapRow(
                     pendingStart = 0L
                 },
                 endCal.get(Calendar.HOUR_OF_DAY), endCal.get(Calendar.MINUTE), true,
-            ).apply { setTitle("Nap ended") }
+            ).apply { setTitle(uiStringOr(R.string.de_nap_ended_f5b406, "Nap ended")) }
             dialog.setOnDismissListener { editingEnd = false }
             dialog.show()
             onDispose { runCatching { dialog.dismiss() } }
@@ -2172,15 +2172,15 @@ private fun StageTimelineRow(
             .clip(shape)
             .background(Palette.textPrimary.copy(alpha = 0.045f))
             .then(if (selected) Modifier.border(1.5.dp, Palette.hairlineStrong, shape) else Modifier)
-            .clickable(onClickLabel = "Highlights this stage on the sleep chart", onClick = onTap)
+            .clickable(onClickLabel = uiStringOr(R.string.de_highlights_this_stage_on_the_sleep_chart_1ae81c, "Highlights this stage on the sleep chart"), onClick = onTap)
             .padding(horizontal = Metrics.stageRowPadH, vertical = Metrics.stageRowPadV)
             .semantics(mergeDescendants = true) {
-                contentDescription = uiString(R.string.l10n_sleep_screen_label_durationtext_minutes_percent_percent_of_6ab7ae87, label, durationText(minutes), percent)
+                contentDescription = uiString(R.string.l10n_sleep_screen_label_durationtext_minutes_percent_percent_of_6ab7ae87, stageDisplayName(label), durationText(minutes), percent)
             },
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                label.uppercase(Locale.getDefault()),
+                stageDisplayName(label).uppercase(Locale.getDefault()),
                 style = NoopType.overline,
                 color = Palette.textPrimary,
                 maxLines = 1,
@@ -2258,7 +2258,7 @@ private fun StageInsight(selectedStage: String?, s: Stages) {
         "Light" -> stageInsightLine("Light", s.light, stageSharePercent("Light", s))
         "Deep" -> stageInsightLine("Deep", s.deep, stageSharePercent("Deep", s))
         "REM" -> stageInsightLine("REM", s.rem, stageSharePercent("REM", s))
-        else -> "Tap a stage to highlight it across the night."
+        else -> uiStringOr(R.string.de_tap_a_stage_to_highlight_it_across_the_n_f91255, "Tap a stage to highlight it across the night.")
     }
     Box(
         modifier = Modifier.fillMaxWidth().height(Metrics.stageInsightHeight),
@@ -2269,7 +2269,7 @@ private fun StageInsight(selectedStage: String?, s: Stages) {
 }
 
 private fun stageInsightLine(label: String, minutes: Double, percent: Int): String =
-    "$label tonight: ${durationText(minutes)} — $percent% of the night."
+    uiStringOr(R.string.sleep_stage_insight, "%1\$s tonight: %2\$s — %3\$d%% of the night.", stageDisplayName(label), durationText(minutes), percent)
 
 /**
  * The night's four stages as whole percentages that sum to exactly 100 (largest-remainder), keyed by

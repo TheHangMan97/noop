@@ -389,11 +389,7 @@ internal object RenderedGate {
         // changed nothing else, would be declined here as "nothing the widgets display changed" and the
         // curve would sit an hour behind whatever unrelated value moved next.
         val newestStress = visible.stressSeries.lastOrNull { it.level != null }
-        val key = "${visible.recoveryPct}|${visible.restPct}|${visible.effortPct}|" +
-            "${visible.batteryPct}|${visible.connected}|${visible.heartRate}|" +
-            "${visible.heartRateStale}|${visible.hrSeries.size}|${newest?.ts}|${newest?.bpm}|" +
-            "${visible.stressSeries.size}|${newestStress?.ts}|${newestStress?.level}|" +
-            "$dark"
+        val key = "${visible.recoveryPct}|${visible.restPct}|${visible.effortPct}|${visible.batteryPct}|${visible.connected}|${visible.heartRate}|${visible.heartRateStale}|${visible.hrSeries.size}|${newest?.ts}|${newest?.bpm}|${visible.stressSeries.size}|${newestStress?.ts}|${newestStress?.level}|$dark"
         val differs = key != last
         last = key
         return differs
@@ -426,8 +422,7 @@ internal object PushGate {
         // instead, and covers it better: it reads back what was STORED, so it sees the same thing
         // whichever producer last wrote. A curve that arrives while this gate is closed waits at most
         // HR_REFRESH_MS, against an hourly score.
-        "${snap.recoveryPct}|${snap.restPct}|${snap.effortPct}|" +
-            "${snap.batteryPct?.div(5)}|${snap.connected}|${snap.heartRate != null}"
+        "${snap.recoveryPct}|${snap.restPct}|${snap.effortPct}|${snap.batteryPct?.div(5)}|${snap.connected}|${snap.heartRate != null}"
 
     fun admit(snap: WidgetSnapshot): Boolean =
         keyOf(snap) != lastKey || snap.updatedAtMs - lastPushAtMs >= HR_REFRESH_MS

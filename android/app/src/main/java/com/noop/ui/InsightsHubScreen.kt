@@ -311,8 +311,7 @@ private fun DoseResponseCard(card: DoseCardData) {
 
             if (r.priorDominated) {
                 HonestyBanner(
-                    "Based mostly on typical patterns, not yet yours. Log a few more " +
-                        "${card.unitLabel.lowercase(Locale.US)} days and this becomes yours.",
+                    "Based mostly on typical patterns, not yet yours. Log a few more ${card.unitLabel.lowercase(Locale.US)} days and this becomes yours.",
                     accent = Palette.textTertiary,
                 )
             } else if (r.contradictsPrior) {
@@ -645,13 +644,11 @@ private fun forecastSentence(card: DoseCardData, previewDose: Int, delta: Double
     } else {
         "based on ${card.response.nUser} of your ${card.unitLabel.lowercase(Locale.US)} days"
     }
-    return "A $stepLabel tonight tends to line up with about $mag${card.outcomeSuffix} $dir on " +
-        "tomorrow’s ${card.outcomeName.lowercase(Locale.US)} for you, $basis."
+    return "A $stepLabel tonight tends to line up with about $mag${card.outcomeSuffix} $dir on tomorrow’s ${card.outcomeName.lowercase(Locale.US)} for you, $basis."
 }
 
 private fun curveDescription(card: DoseCardData, r: DoseResponse): String =
-    "Dose-response curve. Each extra ${card.unitNoun} lines up with about " +
-        "${signed(r.perUnit, card.outcomeSuffix)} on ${card.outcomeName}, " +
+    "Dose-response curve. Each extra ${card.unitNoun} lines up with about ${signed(r.perUnit, card.outcomeSuffix)} on ${card.outcomeName}, " +
         if (r.priorDominated) "typical patterns." else "your own data."
 
 private fun signed(v: Double, suffix: String): String {

@@ -163,7 +163,7 @@ fun LiveWorkoutScreen(vm: AppViewModel, onClose: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                Overline("Time", color = Palette.textSecondary)
+                Overline(uiStringOr(R.string.de_time_6c82e6, "Time"), color = Palette.textSecondary)
                 Text(
                     // elapsedClock, not a local %d:%02d — that one had no hour roll-over, so this hero
                     // read "90:00" for a 90-minute session while every card that opens this screen read
@@ -307,7 +307,7 @@ private fun SensorRow(sensor: StandardHrSource.SensorMetrics) {
     val power = StandardHrSource.formatPowerWatts(sensor.powerWatts)
     if (speed == null && cadence == null && power == null) return
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Overline("Sensor")
+        Overline(uiStringOr(R.string.de_sensor_9101fc, "Sensor"))
         Row(horizontalArrangement = Arrangement.spacedBy(Metrics.gap), modifier = Modifier.fillMaxWidth()) {
             if (speed != null) {
                 StatTile(modifier = Modifier.weight(1f), label = uiString(R.string.l10n_live_workout_screen_speed_2d2cb022), value = speed, accent = Palette.effortColor)
@@ -336,7 +336,7 @@ private fun EffortGauge(liveStrain: Double, effortScale: EffortScale) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        Overline("Effort building", color = Palette.effortColor)
+        Overline(uiStringOr(R.string.de_effort_building_1d9ddf, "Effort building"), color = Palette.effortColor)
         CountUpText(
             value = value,
             format = { v ->
@@ -367,7 +367,7 @@ private fun HeroHeartRate(bpm: Int?, zone: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        Overline("Heart rate", color = Palette.textSecondary)
+        Overline(uiStringOr(R.string.de_heart_rate_410aa1, "Heart rate"), color = Palette.textSecondary)
         Text(bpm?.toString() ?: "—", style = NoopType.number(72f), color = tint)
         Text("bpm", style = NoopType.subhead, color = Palette.textSecondary)
     }
@@ -378,7 +378,7 @@ private fun ZoneRail(zone: Int, zoneSet: com.noop.analytics.HrZoneSet) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         // Header row: the section label with the current-zone capsule on the right (moved off the HR hero).
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Overline("HR zone")
+            Overline(uiStringOr(R.string.de_hr_zone_b8506f, "HR zone"))
             Spacer(Modifier.weight(1f))
             val capsuleTint = if (zone >= 1) Palette.hrZoneColor(zone) else Palette.effortColor
             Text(

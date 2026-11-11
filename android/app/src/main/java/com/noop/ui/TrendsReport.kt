@@ -470,9 +470,7 @@ object TrendsReportRenderer {
         drawCard(canvas, MARGIN, top, PAGE_W - MARGIN, top + cardH, null)
         val left = MARGIN + 16f
         text(canvas, "Not enough data in this range yet", left, top + 30f, 16f, sansBold, TEXT_PRIMARY)
-        val body = "No workout, stress, recovery, sleep, HRV, resting-HR, strain, respiratory-rate or " +
-            "skin-temp readings fell inside ${range.longName.lowercase()}. Wear your strap a few more days, " +
-            "or pick a wider range, then export again."
+        val body = "No workout, stress, recovery, sleep, HRV, resting-HR, strain, respiratory-rate or skin-temp readings fell inside ${range.longName.lowercase()}. Wear your strap a few more days, or pick a wider range, then export again."
         drawWrapped(canvas, body, left, top + 52f, PAGE_W - MARGIN - left - 16f, 16f, 12f, sans, TEXT_SECONDARY)
     }
 
@@ -483,12 +481,7 @@ object TrendsReportRenderer {
         // Provenance legend (#457): make clear which numbers are measured vs. NOOP's own derived scores,
         // so a clinician reading the PDF isn't misled into treating Recovery/Strain as clinical measures.
         // Sits above the hairline; wraps to the page width (~4 lines at this size).
-        val legend = "How to read this: HRV, Resting HR, Sleep duration, Respiratory rate and Skin " +
-            "temperature are measured from the strap (skin temp is shown as the deviation from your own " +
-            "baseline). Workouts is the count of activities you logged or that were detected. Recovery, " +
-            "Strain and Stress are NOOP's own on-device scores, not clinical measures - Recovery is a daily " +
-            "readiness composite (HRV, resting HR, sleep and skin-temp trend), Strain is cardiovascular load " +
-            "derived from heart rate, and Stress is a 0-3 autonomic-load index from resting HR and HRV."
+        val legend = "How to read this: HRV, Resting HR, Sleep duration, Respiratory rate and Skin temperature are measured from the strap (skin temp is shown as the deviation from your own baseline). Workouts is the count of activities you logged or that were detected. Recovery, Strain and Stress are NOOP's own on-device scores, not clinical measures - Recovery is a daily readiness composite (HRV, resting HR, sleep and skin-temp trend), Strain is cardiovascular load derived from heart rate, and Stress is a 0-3 autonomic-load index from resting HR and HRV."
         drawWrapped(canvas, legend, MARGIN, y - 52f, PAGE_W - 2 * MARGIN, 11f, 9f, sans, TEXT_TERTIARY)
         line(canvas, MARGIN, y - 14f, PAGE_W - MARGIN, y - 14f, HAIRLINE)
         text(

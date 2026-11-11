@@ -60,7 +60,7 @@ internal fun SleepMetricDetailSheetContent(
         } else if (filteredPoints.size < 2) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Overline("Sleep")
+                    Overline(uiStringOr(R.string.de_sleep_3cac34, "Sleep"))
                     Text(spec.title, style = NoopType.title2, color = Palette.textPrimary)
                 }
             }
@@ -82,7 +82,7 @@ internal fun SleepMetricDetailSheetContent(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Overline("Sleep · ${filteredPoints.size} nights")
+                    Overline(uiStringOr(R.string.de_sleep_1_s_nights_d7d874, "Sleep · %1\$s nights", (filteredPoints.size).toString()))
                     Text(spec.title, style = NoopType.title2, color = Palette.textPrimary)
                     Text(uiString(R.string.l10n_sleep_screen_as_of_latest_first_726f20bb, latest.first), style = NoopType.footnote, color = Palette.textTertiary)
                 }
@@ -134,7 +134,7 @@ internal fun SleepMetricDetailSheetContent(
             }
             SleepHairline()
             Row(modifier = Modifier.fillMaxWidth()) {
-                listOf("Min" to minV, "Avg" to avgV, "Max" to maxV).forEach { (lbl, v) ->
+                listOf(uiStringOr(R.string.de_min_7eb0ce, "Min") to minV, uiStringOr(R.string.de_avg_cdc931, "Avg") to avgV, uiStringOr(R.string.de_max_a95e85, "Max") to maxV).forEach { (lbl, v) ->
                     Column(modifier = Modifier.weight(1f)) {
                         Overline(lbl, color = Palette.textTertiary)
                         Text(

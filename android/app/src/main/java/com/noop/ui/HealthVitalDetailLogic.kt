@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import com.noop.analytics.Baselines
 import com.noop.analytics.StepsDetailBucket
 import com.noop.analytics.StepsDetailDensity
@@ -345,7 +346,7 @@ private fun stepsBucketLabel(
         StepsDetailGranularity.DAILY -> parsed.format(DateTimeFormatter.ofPattern("d MMM", Locale.getDefault()))
         StepsDetailGranularity.WEEKLY ->
             resolveString(com.noop.R.string.steps_week_of, arrayOf(parsed.format(DateTimeFormatter.ofPattern("d MMM", Locale.getDefault()))))
-        StepsDetailGranularity.MONTHLY -> parsed.format(DateTimeFormatter.ofPattern("MMM yyyy", Locale.getDefault()))
+        StepsDetailGranularity.MONTHLY -> parsed.format(DateTimeFormatter.ofPattern(uiStringOr(R.string.de_mmm_yyyy_cf1992, "MMM yyyy"), Locale.getDefault()))
     }
 }
 

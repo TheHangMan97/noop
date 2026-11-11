@@ -84,17 +84,16 @@ fun ConnectionHelp(viewModel: AppViewModel, modifier: Modifier = Modifier) {
             HelpStep(
                 done = !whoopInstalled,
                 title = uiString(R.string.l10n_connection_help_close_the_official_whoop_app_768d7d17),
-                body = "Your strap only pairs with ONE app at a time. If the WHOOP app is connected, " +
-                    "NOOP can't reach the strap. Force stop it (swiping it out of recents isn't enough).",
-                actionLabel = if (whoopInstalled) "Open WHOOP app, then Force stop" else "WHOOP app isn't installed",
+                body = uiStringOr(R.string.de_your_strap_only_pairs_with_one_app_at_a_9a37cb, "Your strap only pairs with ONE app at a time. If the WHOOP app is connected, NOOP can't reach the strap. Force stop it (swiping it out of recents isn't enough)."),
+                actionLabel = if (whoopInstalled) uiStringOr(R.string.de_open_whoop_app_then_force_stop_652b1f, "Open WHOOP app, then Force stop") else uiStringOr(R.string.de_whoop_app_isn_t_installed_62411a, "WHOOP app isn't installed"),
                 enabled = whoopInstalled,
                 onAction = { openAppInfo(context, WHOOP_PACKAGE) },
             )
             HelpStep(
                 done = btOn,
                 title = uiString(R.string.l10n_connection_help_turn_bluetooth_on_75868e97),
-                body = if (btOn) "Bluetooth is on." else "Bluetooth is currently off.",
-                actionLabel = if (!btOn) "Turn on Bluetooth" else null,
+                body = if (btOn) uiStringOr(R.string.de_bluetooth_is_on_9e9407, "Bluetooth is on.") else uiStringOr(R.string.de_bluetooth_is_currently_off_c11363, "Bluetooth is currently off."),
+                actionLabel = if (!btOn) uiStringOr(R.string.de_turn_on_bluetooth_9f48a3, "Turn on Bluetooth") else null,
                 enabled = !btOn,
                 onAction = {
                     runCatching { enableBtLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)) }
@@ -103,17 +102,16 @@ fun ConnectionHelp(viewModel: AppViewModel, modifier: Modifier = Modifier) {
             HelpStep(
                 done = permGranted,
                 title = uiString(R.string.l10n_connection_help_allow_nearby_devices_f7c74880),
-                body = if (permGranted) "Permission granted."
-                else "On Android 12+, \"Nearby devices\" is the Bluetooth permission. NOOP needs it to find your strap.",
-                actionLabel = if (!permGranted) "Grant permission" else null,
+                body = if (permGranted) uiStringOr(R.string.de_permission_granted_043688, "Permission granted.")
+                else uiStringOr(R.string.de_on_android_12_nearby_devices_is_the_blue_5b940a, "On Android 12+, \"Nearby devices\" is the Bluetooth permission. NOOP needs it to find your strap."),
+                actionLabel = if (!permGranted) uiStringOr(R.string.de_grant_permission_af897e, "Grant permission") else null,
                 enabled = !permGranted,
                 onAction = { permLauncher.launch(perms) },
             )
             HelpStep(
                 done = false,
                 title = uiString(R.string.l10n_connection_help_charge_it_and_put_it_on_31b04814),
-                body = "A flat or off-wrist strap won't advertise, so nothing shows up. A real phone is " +
-                    "required too: an emulator has no Bluetooth.",
+                body = uiStringOr(R.string.de_a_flat_or_off_wrist_strap_won_t_advertis_441b53, "A flat or off-wrist strap won't advertise, so nothing shows up. A real phone is required too: an emulator has no Bluetooth."),
                 actionLabel = null,
                 enabled = false,
                 onAction = {},

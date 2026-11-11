@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import android.content.Context
 import com.noop.analytics.LiveSessionEngine
 import com.noop.data.LiveSessionRow
@@ -263,13 +264,13 @@ object LiveSessionPrefs {
  */
 internal fun liveSessionVerdict(inBandSec: Double, belowSec: Double, aboveSec: Double): String {
     val total = inBandSec + belowSec + aboveSec
-    if (total < 60.0) return "Too short to judge."
+    if (total < 60.0) return uiStringOr(R.string.de_too_short_to_judge_a7692f, "Too short to judge.")
     val share = inBandSec / total
     return when {
-        share >= 0.70 -> "On track. You matched what today could pay for."
-        share >= 0.45 -> "Mixed. In the band about half the time."
-        belowSec >= aboveSec -> "Easy day. You sat under the band most of the way."
-        else -> "Hot. You ran above today's ceiling most of the way."
+        share >= 0.70 -> uiStringOr(R.string.de_on_track_you_matched_what_today_could_pa_5af21b, "On track. You matched what today could pay for.")
+        share >= 0.45 -> uiStringOr(R.string.de_mixed_in_the_band_about_half_the_time_711b47, "Mixed. In the band about half the time.")
+        belowSec >= aboveSec -> uiStringOr(R.string.de_easy_day_you_sat_under_the_band_most_of_80ba79, "Easy day. You sat under the band most of the way.")
+        else -> uiStringOr(R.string.de_hot_you_ran_above_today_s_ceiling_most_o_35d289, "Hot. You ran above today's ceiling most of the way.")
     }
 }
 

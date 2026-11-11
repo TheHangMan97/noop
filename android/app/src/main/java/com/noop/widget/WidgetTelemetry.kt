@@ -251,8 +251,7 @@ object WidgetTelemetry {
                 // alone read as that and was not: a push the rendered gate declined is admitted and
                 // never sent.
                 parts.add(
-                    "$pushesSent sent / $pushesAdmitted admitted / " +
-                        "${pushesAdmitted + pushesGated} offered",
+                    "$pushesSent sent / $pushesAdmitted admitted / ${pushesAdmitted + pushesGated} offered",
                 )
             } else {
                 parts.add("no pushes")

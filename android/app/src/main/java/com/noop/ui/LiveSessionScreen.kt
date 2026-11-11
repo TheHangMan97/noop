@@ -287,10 +287,10 @@ private fun GuardianRing(
     val breathing = !stale && settled && position == LiveSessionEngine.Position.IN_BAND && !renderStill
 
     val stateLabel = when {
-        stale -> "Signal lost, coaching paused"
-        position == LiveSessionEngine.Position.ABOVE -> "Above today's band"
-        position == LiveSessionEngine.Position.BELOW -> "Below today's band"
-        else -> "In today's band"
+        stale -> uiStringOr(R.string.de_signal_lost_coaching_paused_130ab4, "Signal lost, coaching paused")
+        position == LiveSessionEngine.Position.ABOVE -> uiStringOr(R.string.de_above_today_s_band_74f692, "Above today's band")
+        position == LiveSessionEngine.Position.BELOW -> uiStringOr(R.string.de_below_today_s_band_33398a, "Below today's band")
+        else -> uiStringOr(R.string.de_in_today_s_band_2c8156, "In today's band")
     }
     Box(
         modifier = Modifier
@@ -414,7 +414,7 @@ private fun LiveSessionSummary(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Overline("Live Session", color = teal)
+                Overline(uiStringOr(R.string.de_live_session_73c925, "Live Session"), color = teal)
                 Text(uiString(R.string.l10n_live_session_screen_session_summary_f9418e16), style = NoopType.title1, color = Palette.textPrimary)
             }
             StatePill("BETA", tone = StrandTone.Accent, showsDot = false)
@@ -467,7 +467,7 @@ private fun LiveSessionSummary(
         // The streak line — only once the rows have loaded (no placeholder number, ever).
         guardedCount?.let { n ->
             val sessions = "$n session${if (n == 1) "" else "s"} guarded"
-            val run = if (streakDays >= 2) " · $streakDays days in a row" else ""
+            val run = if (streakDays >= 2) uiStringOr(R.string.de_1_s_days_in_a_row_cb9f1c, " · %1\$s days in a row", streakDays.toString()) else ""
             Text(sessions + run, style = NoopType.subhead, color = teal)
         }
 
@@ -492,18 +492,18 @@ private fun LiveSessionSummary(
  * engine coaches to its middle-of-the-road default band, and we never invent a percentage.
  */
 internal fun liveSessionChargeSentence(charge: Double?): String {
-    if (charge == null) return "No Charge yet today — guarding a middle-of-the-road band."
+    if (charge == null) return uiStringOr(R.string.de_no_charge_yet_today_guarding_a_middle_of_7f68c2, "No Charge yet today — guarding a middle-of-the-road band.")
     val pct = charge.roundToInt()
     return when {
-        pct < 34 -> "Today's ceiling is lower — Charge is $pct%."
-        pct < 67 -> "A middling day — Charge is $pct%, so the band sits mid-range."
-        else -> "Plenty in the tank — Charge is $pct%, so today's ceiling is higher."
+        pct < 34 -> uiStringOr(R.string.de_today_s_ceiling_is_lower_charge_is_1_s_34dfd0, "Today's ceiling is lower — Charge is %1\$s%%.", pct.toString())
+        pct < 67 -> uiStringOr(R.string.de_a_middling_day_charge_is_1_s_so_the_band_15b4af, "A middling day — Charge is %1\$s%%, so the band sits mid-range.", pct.toString())
+        else -> uiStringOr(R.string.de_plenty_in_the_tank_charge_is_1_s_so_toda_0303eb, "Plenty in the tank — Charge is %1\$s%%, so today's ceiling is higher.", pct.toString())
     }
 }
 
 /** The summary's cue-count line. Zero cues is the headline case (silence IS the coaching). */
 internal fun liveSessionCueLine(pushCount: Int, easeCount: Int): String {
-    if (pushCount == 0 && easeCount == 0) return "No buzzes sent."
+    if (pushCount == 0 && easeCount == 0) return uiStringOr(R.string.de_no_buzzes_sent_02390b, "No buzzes sent.")
     val push = "$pushCount push nudge${if (pushCount == 1) "" else "s"}"
     val ease = "$easeCount ease-off${if (easeCount == 1) "" else "s"}"
     return "$push · $ease"

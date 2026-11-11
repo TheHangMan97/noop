@@ -1179,8 +1179,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     val purged = repository.healImplausibleTimestamps()
                     if (purged > 0) {
                         ble.externalLog(
-                            "Heal #547: purged $purged row(s) with an implausible timestamp " +
-                                "(bad strap clock - far-past or future-dated); rescoring clean days.",
+                            "Heal #547: purged $purged row(s) with an implausible timestamp (bad strap clock - far-past or future-dated); rescoring clean days.",
                         )
                     }
                     NoopPrefs.setTsHealDone(appContext)
@@ -1222,8 +1221,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                         val purged = repository.healImplausibleTimestamps()
                         if (purged > 0) {
                             ble.externalLog(
-                                "Heal #547: purged $purged row(s) with an implausible timestamp " +
-                                    "(bad strap clock detected this sync); rescoring clean days.",
+                                "Heal #547: purged $purged row(s) with an implausible timestamp (bad strap clock detected this sync); rescoring clean days.",
                             )
                         }
                         NoopPrefs.setTsHealPending(appContext, false)

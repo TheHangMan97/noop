@@ -1,15 +1,16 @@
 package com.noop.ui
 
+import com.noop.R
 import com.noop.analytics.RestScorer
 import com.noop.data.DailyMetric
 import com.noop.data.SleepSession
 
 /** A short Rest state word for the hero gauge — same banding the synthesis hero uses. */
 internal fun sleepScoreWord(score: Double): String = when {
-    score < 50.0 -> "Poor"
-    score < 70.0 -> "Fair"
-    score < 85.0 -> "Good"
-    else -> "Optimal"
+    score < 50.0 -> uiStringOr(R.string.de_poor_4e0fa4, "Poor")
+    score < 70.0 -> uiStringOr(R.string.de_fair_64b985, "Fair")
+    score < 85.0 -> uiStringOr(R.string.de_good_61dedc, "Good")
+    else -> uiStringOr(R.string.de_optimal_5193a4, "Optimal")
 }
 
 /**
@@ -49,9 +50,9 @@ internal fun navHeaderClockLabel(
  * the hero's score is resolved for. Mirrors iOS SleepView.nightRelativeLabel.
  */
 internal fun nightRelativeLabel(offset: Int): String = when (offset) {
-    0 -> "Last night"
-    1 -> "1 night ago"
-    else -> "$offset nights ago"
+    0 -> uiStringOr(R.string.de_last_night_6eaba4, "Last night")
+    1 -> uiStringOr(R.string.de_1_night_ago_f1d700, "1 night ago")
+    else -> uiStringOr(R.string.de_1_s_nights_ago_96f4cf, "%1\$s nights ago", offset.toString())
 }
 
 /**

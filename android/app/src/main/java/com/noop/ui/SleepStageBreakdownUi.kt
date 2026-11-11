@@ -73,7 +73,7 @@ private fun StageBreakdownRow(stage: String, minutes: Double, total: Double, col
             .fillMaxWidth()
             .semantics {
                 contentDescription =
-                    uiString(R.string.l10n_sleep_screen_stage_durationtext_minutes_percent_percent_of_477dbf14, stage, durationText(minutes), percent)
+                    uiString(R.string.l10n_sleep_screen_stage_durationtext_minutes_percent_percent_of_477dbf14, stageDisplayName(stage), durationText(minutes), percent)
             },
     ) {
         Box(
@@ -83,7 +83,7 @@ private fun StageBreakdownRow(stage: String, minutes: Double, total: Double, col
                 .background(color),
         )
         Text(
-            stage.uppercase(Locale.getDefault()),
+            stageDisplayName(stage).uppercase(Locale.getDefault()),
             style = NoopType.overline,
             color = Palette.textPrimary,
             maxLines = 1,
@@ -425,7 +425,7 @@ internal fun SleepStageLegend(palette: SleepStagePalette) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(stageColorForRamp(label, palette)))
-                Text(label, style = NoopType.caption, color = Palette.textSecondary, maxLines = 1)
+                Text(stageDisplayName(label), style = NoopType.caption, color = Palette.textSecondary, maxLines = 1)
             }
         }
     }
@@ -507,7 +507,7 @@ private fun HypnogramTimeAxis(ticks: List<Pair<Float, String>>) {
 
 /** One-line a11y summary of the smoothed hypnogram (stage count) — the collapsed node for [FilledHypnogram]. */
 private fun hypnogramSummaryFor(intervals: List<StageInterval>): String =
-    if (intervals.isEmpty()) "Sleep stages, no data" else "Sleep stage timeline, ${intervals.size} segments"
+    if (intervals.isEmpty()) uiStringOr(R.string.de_sleep_stages_no_data_20ec2b, "Sleep stages, no data") else uiStringOr(R.string.de_sleep_stage_timeline_1_s_segments_00d3da, "Sleep stage timeline, %1\$s segments", (intervals.size).toString())
 
 /**
  * The onset · midpoint · wake clock-label row under a night timeline. Extracted from
@@ -624,4 +624,17 @@ private fun stageColorForRamp(name: String, palette: SleepStagePalette): Color =
         "deep" -> garminSleepDeep; "rem" -> garminSleepREM; "light" -> garminSleepLight
         "awake" -> garminSleepAwake; else -> garminSleepLight
     }
+}
+
+/**
+ * Display name for a sleep-stage key. The English names ("Awake", "REM", "Light", "Deep") double as
+ * lookup keys for colours, share percentages and tap selection, so they stay English in the model and
+ * are only translated here, at the point they are shown. Unknown keys pass through unchanged.
+ */
+internal fun stageDisplayName(key: String): String = when (key) {
+    "Awake" -> uiStringOr(R.string.sleep_stage_awake, "Awake")
+    "REM" -> uiStringOr(R.string.sleep_stage_rem, "REM")
+    "Light" -> uiStringOr(R.string.sleep_stage_light, "Light")
+    "Deep" -> uiStringOr(R.string.sleep_stage_deep, "Deep")
+    else -> key
 }

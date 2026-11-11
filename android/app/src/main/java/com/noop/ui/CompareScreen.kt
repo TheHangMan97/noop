@@ -570,8 +570,7 @@ fun CompareScreen(vm: AppViewModel) {
                     item {
                         DataPendingNote(
                             title = uiString(R.string.l10n_compare_screen_compare_needs_at_least_two_metrics_2bfe1fad),
-                            body = "Compare needs at least two metrics with history. Import your " +
-                                "WHOOP export in Data Sources first.",
+                            body = "Compare needs at least two metrics with history. Import your WHOOP export in Data Sources first.",
                         )
                     }
                 } else {
@@ -1339,8 +1338,7 @@ private fun PairCard(p: PairResult) {
 // MARK: - Insight language (ported from CompareView)
 
 private fun insightSentence(p: PairResult): String {
-    val head = ("${p.a.metric.title} ↔ ${p.b.metric.title}: r = ${signedR(p.r)} " +
-        "(${strengthWord(p.r)} ${directionWord(p.r)}) over ${p.n} shared days.")
+    val head = ("${p.a.metric.title} ↔ ${p.b.metric.title}: r = ${signedR(p.r)} (${strengthWord(p.r)} ${directionWord(p.r)}) over ${p.n} shared days.")
         .replace("  ", " ").replace(" )", ")")
     if (abs(p.r) < 0.3) {
         return "$head No clear relationship - they move largely independently."

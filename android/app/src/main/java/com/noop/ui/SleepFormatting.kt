@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import androidx.compose.ui.graphics.Color
 import com.noop.analytics.SleepDebt
 import com.noop.analytics.SleepDebtLedger
@@ -16,12 +17,12 @@ internal fun pctValue(v: Double?): String = v?.let { "${it.roundToInt()}%" } ?: 
 
 /** "+12% vs typical" / "−0.4 rpm vs typical" — the latest-vs-mean caption every tile carries. */
 internal fun vsTypical(latest: Double?, typical: Double?, suffix: String, decimals: Int = 0): String {
-    if (latest == null || typical == null || typical == 0.0) return "vs typical - "
+    if (latest == null || typical == null || typical == 0.0) return uiStringOr(R.string.de_vs_typical_74497a, "vs typical - ")
     val diff = latest - typical
     val sign = if (diff >= 0) "+" else "−"
     val mag = abs(diff)
     val num = if (decimals == 0) "${mag.roundToInt()}" else String.format(java.util.Locale.US, "%.${decimals}f", mag)
-    return "$sign$num$suffix vs typical"
+    return uiStringOr(R.string.de_1_s_2_s_3_s_vs_typical_b07f37, "%1\$s%2\$s%3\$s vs typical", sign.toString(), num.toString(), suffix.toString())
 }
 
 /** #1946: a carried prior-day value is stamped "Carried · <date>" instead of "vs typical", so it is
@@ -44,8 +45,8 @@ internal fun tileCaption(
 }
 
 internal fun debtCaption(debt: Double?): String {
-    if (debt == null) return "vs need"
-    return if (debt < SleepDebt.ON_TARGET_BAND_MIN) "On target" else "Below need"
+    if (debt == null) return uiStringOr(R.string.de_vs_need_6d942b, "vs need")
+    return if (debt < SleepDebt.ON_TARGET_BAND_MIN) uiStringOr(R.string.de_on_target_412a83, "On target") else uiStringOr(R.string.de_below_need_85eb30, "Below need")
 }
 
 internal fun debtColor(debt: Double?): Color = when {
@@ -62,28 +63,29 @@ internal fun debtColor(debt: Double?): Color = when {
  * "On target" inside the deadband so a few stray minutes don't show as debt.
  */
 internal fun debtHeadline(ledger: SleepDebtLedger): String =
-    if (ledger.magnitudeMin < SleepDebt.ON_TARGET_BAND_MIN) "On target"
+    if (ledger.magnitudeMin < SleepDebt.ON_TARGET_BAND_MIN) uiStringOr(R.string.de_on_target_412a83, "On target")
     else "≈${durationText(ledger.magnitudeMin)}"
 
 /** Short tag beside the headline: the recurrence never creates a positive surplus. */
 internal fun debtTag(ledger: SleepDebtLedger): String = when {
     ledger.magnitudeMin < SleepDebt.ON_TARGET_BAND_MIN -> "balanced"
-    ledger.isDebt -> "sleep debt"
+    ledger.isDebt -> uiStringOr(R.string.de_sleep_debt_cbdd4b, "sleep debt")
     else -> "balanced"
 }
 
 /** Plain-English read of the actionable addition to the next night's target. */
 internal fun debtRead(ledger: SleepDebtLedger): String {
     val nights = ledger.nightCount
-    val span = "the last $nights night${if (nights == 1) "" else "s"}"
     if (ledger.magnitudeMin < SleepDebt.ON_TARGET_BAND_MIN) {
-        return "You've met your current sleep target across $span. No extra debt needs carrying into tonight."
+        return if (nights == 1) uiStringOr(R.string.sleep_debt_met_one, "You've met your current sleep target across the last 1 night. No extra debt needs carrying into tonight.")
+        else uiStringOr(R.string.sleep_debt_met_many, "You've met your current sleep target across the last %1\$d nights. No extra debt needs carrying into tonight.", nights)
     }
     val mag = durationText(ledger.magnitudeMin)
     return if (ledger.isDebt) {
-        "Aim for about $mag beyond your base need tonight. Meeting that target clears the displayed sleep debt."
+        uiStringOr(R.string.de_aim_for_about_1_s_beyond_your_base_need_601117, "Aim for about %1\$s beyond your base need tonight. Meeting that target clears the displayed sleep debt.", mag.toString())
     } else {
-        "You're carrying about $mag of surplus over $span. You've slept past your need on balance. Nicely ahead."
+        if (nights == 1) uiStringOr(R.string.sleep_debt_surplus_one, "You're carrying about %1\$s of surplus over the last 1 night. You've slept past your need on balance. Nicely ahead.", mag)
+        else uiStringOr(R.string.sleep_debt_surplus_many, "You're carrying about %1\$s of surplus over the last %2\$d nights. You've slept past your need on balance. Nicely ahead.", mag, nights)
     }
 }
 

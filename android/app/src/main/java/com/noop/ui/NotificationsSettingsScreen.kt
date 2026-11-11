@@ -275,8 +275,7 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
         AlertSection(
             icon = Icons.Filled.NotificationsActive,
             title = uiString(R.string.l10n_notifications_settings_screen_wrist_alerts_75581d51),
-            blurb = "When on, NOOP taps your wrist for the apps you pick below, so you can leave " +
-                "your phone and still feel what matters.",
+            blurb = "When on, NOOP taps your wrist for the apps you pick below, so you can leave your phone and still feel what matters.",
         ) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(uiString(R.string.l10n_notifications_settings_screen_enable_wrist_alerts_462b9e0f), style = NoopType.body, color = Palette.textPrimary)
@@ -426,9 +425,7 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
             RowDivider()
             FormToggleRow(
                 label = uiString(R.string.l10n_notifications_settings_screen_all_other_apps_51a8af2c),
-                help = "Also buzz for apps that aren't in the lists above (e.g. BeReal). Android " +
-                    "doesn't let NOOP see every installed app, so this is how you cover the rest. " +
-                    "Can be chatty; quiet hours and \"only when worn\" still apply.",
+                help = "Also buzz for apps that aren't in the lists above (e.g. BeReal). Android doesn't let NOOP see every installed app, so this is how you cover the rest. Can be chatty; quiet hours and \"only when worn\" still apply.",
                 checked = allOtherApps,
                 onChange = {
                     allOtherApps = it
@@ -479,14 +476,11 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
         AlertSection(
             icon = Icons.Filled.NotificationsActive,
             title = uiString(R.string.l10n_notifications_settings_screen_daily_reports_c1a22a74),
-            blurb = "Optional phone notifications, off by default. These arrive after your strap syncs " +
-                "and NOOP scores the data, so they land soon after, not the exact second you wake or " +
-                "finish a workout. Everything is worked out on this phone.",
+            blurb = "Optional phone notifications, off by default. These arrive after your strap syncs and NOOP scores the data, so they land soon after, not the exact second you wake or finish a workout. Everything is worked out on this phone.",
         ) {
             FormToggleRow(
                 label = uiString(R.string.l10n_notifications_settings_screen_morning_recap_45ec05c5),
-                help = "After last night is processed, a notification with your Charge and Rest. Posts " +
-                    "once a day, after your strap has synced the night.",
+                help = "After last night is processed, a notification with your Charge and Rest. Posts once a day, after your strap has synced the night.",
                 checked = morningReport,
                 onChange = {
                     morningReport = it
@@ -496,8 +490,7 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
             RowDivider()
             FormToggleRow(
                 label = uiString(R.string.l10n_notifications_settings_screen_post_workout_summary_13e488f5),
-                help = "When a new workout syncs in, a notification with its Effort, duration and average " +
-                    "heart rate. Shows up after the session reaches NOOP on the next sync.",
+                help = "When a new workout syncs in, a notification with its Effort, duration and average heart rate. Shows up after the session reaches NOOP on the next sync.",
                 checked = postWorkoutReport,
                 onChange = {
                     postWorkoutReport = it
@@ -511,8 +504,7 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
             // #593: NOOP's own optimal-strain-reached nudge (not WHOOP's copy).
             FormToggleRow(
                 label = uiString(R.string.l10n_notifications_settings_screen_optimal_strain_reached_2862ec2b),
-                help = "Once a day, a notification when your Effort reaches the low end of today's optimal " +
-                    "strain range (from your recovery). Posts after your strap syncs and NOOP scores the day.",
+                help = "Once a day, a notification when your Effort reaches the low end of today's optimal strain range (from your recovery). Posts after your strap syncs and NOOP scores the day.",
                 checked = strainTargetReport,
                 onChange = {
                     strainTargetReport = it

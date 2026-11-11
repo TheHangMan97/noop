@@ -404,8 +404,7 @@ private fun EmptyWorkouts() {
     // empty state is just the note — no second Add button here.
     DataPendingNote(
         title = uiString(R.string.l10n_workouts_screen_no_workouts_yet_85a92042),
-        body = "No workouts yet. They come from your WHOOP and Apple Health history. " +
-            "Import in Data Sources to bring them in, or add one you tracked elsewhere.",
+        body = "No workouts yet. They come from your WHOOP and Apple Health history. Import in Data Sources to bring them in, or add one you tracked elsewhere.",
     )
 }
 

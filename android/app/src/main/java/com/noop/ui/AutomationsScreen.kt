@@ -390,9 +390,7 @@ private fun NapDetectionSection(viewModel: AppViewModel) {
     SettingsSection(
         icon = Icons.Filled.Bedtime,
         title = uiString(R.string.l10n_automations_screen_nap_detection_ca2dedf5),
-        blurb = "Spots a likely daytime nap from the strap's motion and heart rate on each history sync, " +
-            "then asks you to confirm it. Inferred and approximate: NOOP never adds a nap to your sleep " +
-            "without your OK.",
+        blurb = "Spots a likely daytime nap from the strap's motion and heart rate on each history sync, then asks you to confirm it. Inferred and approximate: NOOP never adds a nap to your sleep without your OK.",
         active = enabled,
     ) {
         ToggleRow(

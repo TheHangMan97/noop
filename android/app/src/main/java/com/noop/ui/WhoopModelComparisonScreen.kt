@@ -65,15 +65,12 @@ private val CAPABILITIES: List<CapabilityRow> = listOf(
     CapabilityRow(
         "Sleep, recovery & strain history",
         Support.YES, Support.PARTIAL,
-        "The 4.0's history is fully decoded. On a 5/MG, history decoding is experimental: live HR works, " +
-            "deeper history is still being mapped.",
+        "The 4.0's history is fully decoded. On a 5/MG, history decoding is experimental: live HR works, deeper history is still being mapped.",
     ),
     CapabilityRow(
         "NOOP re-broadcasts your HR (gym / Zwift / Garmin)",
         Support.YES, Support.YES,
-        "Data Sources → \"Broadcast heart rate\" turns your PHONE into a standard BLE HR sensor using " +
-            "whatever HR NOOP is reading, so this works on a 4.0 too. It's local Bluetooth; nothing leaves " +
-            "your phone.",
+        "Data Sources → \"Broadcast heart rate\" turns your PHONE into a standard BLE HR sensor using whatever HR NOOP is reading, so this works on a 4.0 too. It's local Bluetooth; nothing leaves your phone.",
     ),
     CapabilityRow(
         "Strap broadcasts its own HR",
@@ -84,15 +81,12 @@ private val CAPABILITIES: List<CapabilityRow> = listOf(
         // confirmed" for the same reason, and this row is where a 4.0 owner decides whether to rely on
         // it, so it must not claim more than the code does. The 5/MG column keeps YES: its
         // device-config write is read back on opcode 121.
-        "A 4.0 is asked over its own broadcast command and answers, but nothing can read back whether " +
-            "it really advertises, and it has been confirmed on one strap on one firmware. A 5/MG uses " +
-            "the whoop_live_hr_in_adv_ind_pkt firmware setting, which NOOP reads back.",
+        "A 4.0 is asked over its own broadcast command and answers, but nothing can read back whether it really advertises, and it has been confirmed on one strap on one firmware. A 5/MG uses the whoop_live_hr_in_adv_ind_pkt firmware setting, which NOOP reads back.",
     ),
     CapabilityRow(
         "Steps",
         Support.PARTIAL, Support.YES,
-        "A 4.0 sends no step count, so NOOP ESTIMATES steps from motion, calibrated to your phone " +
-            "(Settings → Profile → Steps estimate). A 5/MG reports a motion counter NOOP reads directly.",
+        "A 4.0 sends no step count, so NOOP ESTIMATES steps from motion, calibrated to your phone (Settings → Profile → Steps estimate). A 5/MG reports a motion counter NOOP reads directly.",
     ),
     CapabilityRow(
         "Rename the strap's Bluetooth name",
