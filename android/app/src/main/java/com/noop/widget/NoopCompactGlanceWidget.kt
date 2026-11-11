@@ -157,13 +157,13 @@ private fun CompactWidgetContent(snap: WidgetSnapshot, dark: Boolean) {
         Spacer(modifier = GlanceModifier.height(1.dp))
         Text(
             text = when {
-                snap.connected -> "Connected"
+                snap.connected -> uiString(R.string.recording_chip_title_connected)
                 snap.updatedAtMs > 0L ->
                     java.text.SimpleDateFormat(   // #1821: the reader's chosen clock
                         ClockFormat.hourMinutePattern(ClockPrefs.uses24Hour(androidx.glance.LocalContext.current)),
                         java.util.Locale.getDefault(),
                     ).format(Date(snap.updatedAtMs))
-                else -> "Open NOOP to connect"
+                else -> uiString(R.string.widget_open_to_connect)
             },
             style = TextStyle(color = textSecondary, fontSize = 11.sp),
         )
