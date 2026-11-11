@@ -73,7 +73,7 @@ DE: dict[str, str] = {
     "Mean %@": "Mittelwert %@",
     "No data for these metrics in %@. Widen the range or pick metrics you've logged.": "Keine Daten für diese Metriken in %@. Erweitere den Bereich oder wähle Metriken, die du erfasst hast.",
     "Not enough overlapping days between these metrics in %@. Widen the range.": "Nicht genug überlappende Tage zwischen diesen Metriken in %@. Erweitere den Bereich.",
-    "Nothing in the catalog moves clearly with %@ over this window. Widen the range to surface relationships.": "Nichts im Katalog bewegt sich in diesem Zeitraum klar mit %@. Erweitere den Bereich, um Zusammenhänge sichtbar zu machen.",
+    "Nothing in the catalog moves clearly with %@ over this window. Widen the range to surface relationships.": "Nichts im Katalog bewegt sich in diesem Zeitraum klar mit %@. Erweitere den Zeitraum, um Zusammenhänge sichtbar zu machen.",
     "of 3 · %@": "von 3 · %@",
     "Paste your %@ API key": "Füge deinen %@-API-Schlüssel ein",
     "Pearson r · %@": "Pearson r · %@",

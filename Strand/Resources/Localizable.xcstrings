@@ -3831,7 +3831,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": " ANSTRENGUNG"
+            "value": " BELASTUNG"
           }
         },
         "es": {
@@ -66062,7 +66062,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "ANSTRENGUNG"
+            "value": "BELASTUNG"
           }
         },
         "es": {
@@ -66120,7 +66120,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "ANSTRENGUNG IM AUFBAU"
+            "value": "BELASTUNG IM AUFBAU"
           }
         },
         "es": {
@@ -124061,7 +124061,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Parasympathisches (Ruhe-)Band deiner HRV."
+            "value": "Parasympathischer (Ruhe-)Bereich deiner HRV."
           }
         },
         "es": {
@@ -129760,7 +129760,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "RUHE"
+            "value": "ERHOLUNG"
           }
         },
         "es": {
@@ -162406,7 +162406,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "TYPISCHE ANSTRENGUNG"
+            "value": "TYPISCHE BELASTUNG"
           }
         },
         "es": {
