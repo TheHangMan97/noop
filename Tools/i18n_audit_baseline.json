@@ -13,68 +13,8 @@
       "Expanded"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Back up now"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Change folder"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Choose folder"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Last backup: ${DateUtils.getRelativeTimeSpanString(lastMs)}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "No backup yet."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "No folder chosen yet. Pick one your cloud app already syncs, or any local folder."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Saving to: ${folderLabel(it)}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BackupSyncScreen.kt",
-      "Working…"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/BreatheScreen.kt",
       "%.1f br/min"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BreatheScreen.kt",
-      "Start session"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BreatheScreen.kt",
-      "Stop session"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/BreatheScreen.kt",
-      "Sweeping…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CaffeineLog.kt",
-      "About ${it.roundToInt()} mg may still be active"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CaffeineLog.kt",
-      "Caffeine may still be active"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CaffeineLog.kt",
-      "Estimated mostly cleared. Nothing logged is likely still active."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CaffeineLog.kt",
-      "No caffeine logged. Log an intake to see an estimate."
     ],
     [
       "android/app/src/main/java/com/noop/ui/Charts.kt",
@@ -97,42 +37,6 @@
       "Trend"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Bring your own API key. It is stored encrypted on this device and only used to "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Fetching…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Only if your server requires one"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Paste your ${provider.displayName} key"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Point the coach at any OpenAI-compatible server: a local model (Ollama, LM "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Private by default: only your question and a short metrics summary are sent, "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "Refresh models"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoachScreen.kt",
-      "The coach talks only to the server URL you set. Point it at a local model to "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
-      "Add metric"
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
       "Each line min-max normalized within ${range.phrase}"
     ],
@@ -142,47 +46,7 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
-      "Max 4"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CompareScreen.kt",
       "\\u2014"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoupledScreen.kt",
-      "A classic one-glance read of NOOP's own scores. Same data, different lens."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoupledScreen.kt",
-      "Recovery ${recovery.roundToInt()} percent. See what shaped your Charge"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoupledScreen.kt",
-      "Recovery calibrating, $calibrationNights of ${Baselines.minNightsSeed} nights"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/CoupledScreen.kt",
-      "Recovery, no data yet"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/DataSourcesScreen.kt",
-      "Imported"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/DataSourcesScreen.kt",
-      "No samples yet"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/DataSourcesScreen.kt",
-      "Nothing imported"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/DataSourcesScreen.kt",
-      "Streaming locally"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/DataSourcesScreen.kt",
-      "not yet"
     ],
     [
       "android/app/src/main/java/com/noop/ui/DevicesScreen.kt",
@@ -214,83 +78,11 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Awaiting strap"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "CALIBRATING"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Estimated from R-R interval"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Live heart rate over time, $displayHr beats per minute, zone $zone"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Live heart rate over time, no data"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Pairing…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Ready to sync"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "SOLID"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Streaming live"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Sync now"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Sync now. A sync is already in progress."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Sync now. Connect your strap first."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Sync now. Pulls your strap's stored history immediately, without waiting "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Syncing…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
-      "Vital Signs"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HealthScreen.kt",
       "about your age"
     ],
     [
       "android/app/src/main/java/com/noop/ui/HrvSnapshotScreen.kt",
       "$value $unit"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HrvSnapshotScreen.kt",
-      "Capturing. $value milliseconds RMSSD so far. $sub."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HrvSnapshotScreen.kt",
-      "Save"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/HrvSnapshotScreen.kt",
-      "Saved"
     ],
     [
       "android/app/src/main/java/com/noop/ui/HydrationScreen.kt",
@@ -313,46 +105,6 @@
       " $it"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/IntervalsScreen.kt",
-      "Pause"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/IntervalsScreen.kt",
-      "Restart"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/IntervalsScreen.kt",
-      "Start"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Answers are about the night and day leading into this morning, the "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Change to Number"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Change to Yes/No"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Delete"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Hide"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Logging ahead for tomorrow: today's activities inform tomorrow's "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/JournalLog.kt",
-      "Rename, regroup, or remove an item to tidy your list. Renaming keeps the "
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/LabBookScreen.kt",
       "$n reading${if (n == 1) \"\" else \"s\"} line up so far, not enough to read a trend yet "
     ],
@@ -365,76 +117,12 @@
       "No overlap yet between this marker and ${signal.title.lowercase()}. Log a few more readings "
     ],
     [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Connect"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Re-scan"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Recent intervals: "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Scan & Connect"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Searching…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Strap buzzes when you climb into Zone 5 (≥ $zone5Bpm bpm). Manage it in Automations → Haptic coaching."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Sync now"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Syncing your strap history…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Syncing your strap history… ${live.syncChunksThisSession} chunks pulled"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Syncing…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Turn on HR-zone coaching in Automations for a wrist buzz when you reach Zone 5 (≥ $zone5Bpm bpm)."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveScreen.kt",
-      "Waiting for R-R intervals."
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/LiveSessionScreen.kt",
       "Guarding your session. Silence means you're on track."
     ],
     [
       "android/app/src/main/java/com/noop/ui/LiveSessionScreen.kt",
       "Signal lost — coaching paused."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveWorkoutScreen.kt",
-      "Below Zone 1"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveWorkoutScreen.kt",
-      "Warming up - keep moving to climb into Zone 1."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveWorkoutScreen.kt",
-      "Zone $zone · ${zoneName(zone)}"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/LiveWorkoutScreen.kt",
-      "Zone $zone: ${band.lower.toInt()} - ${band.upper.toInt()} bpm (${(band.lowerPct * 100).toInt()} - ${(band.upperPct * 100).toInt()}% max HR)"
     ],
     [
       "android/app/src/main/java/com/noop/ui/MindSection.kt",
@@ -474,47 +162,7 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Auto · ${profile.hrMaxAuto} bpm (Tanaka)"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Background image"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
       "Blood Oxygen: strap estimate"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Browse files"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Change photo"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Choose from Photos"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Choose photo"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Fill"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Fit"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Let the background show through every card. Tune how much just below."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Manual override"
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
@@ -526,39 +174,7 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Re-scan"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Recent"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Remove image"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Replace from Photos"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Scaling"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
       "Scores today's hour-by-hour stress timeline against YOUR own cross-day baseline "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Searching…"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Show custom background"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Sleep chart"
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
@@ -566,19 +182,7 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Stretch"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
       "Surfaces your strap's nightly SpO₂ estimate in the Blood Oxygen tile when no "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Tile"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
-      "Transparent cards"
     ],
     [
       "android/app/src/main/java/com/noop/ui/SettingsScreen.kt",
@@ -593,30 +197,6 @@
       "View the full plan"
     ],
     [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "Edit nap times"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "Edit nap times (edited)"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "Raw on-device stages"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "Sleep deleted."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "Sleep deleted. NOOP won't detect sleep between $startText and $endText again."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/SleepScreen.kt",
-      "This split is the ring's raw on-device classification read over Bluetooth, not the adjusted "
-    ],
-    [
       "android/app/src/main/java/com/noop/ui/SmartAlarmScreen.kt",
       "Armed on the strap itself, so it can buzz at your wake time even if your phone is asleep or NOOP is closed. Sends the exact alarm command the official app sends, confirmed buzzing on a real WHOOP 4.0 (community wire capture + on-device test, #535). Keep a backup alarm for anything you truly can't miss."
     ],
@@ -627,18 +207,6 @@
     [
       "android/app/src/main/java/com/noop/ui/StepsCalibrationScreen.kt",
       "%+.0f%%"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/StepsCalibrationScreen.kt",
-      "Auto"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/StepsCalibrationScreen.kt",
-      "fit from your phone"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/StepsCalibrationScreen.kt",
-      "steps / motion unit"
     ],
     [
       "android/app/src/main/java/com/noop/ui/StressScreen.kt",
@@ -690,75 +258,7 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      ". Imported, can't be merged."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      ". Not selected."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      ". Selected."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "0 to 100 Effort"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "0 to 21 strain"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Active calories"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Active-calorie heatmap, last 13 weeks"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Add"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Add Workout"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "All sources"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "All sports"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Done"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Edit Workout"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Effort (0-100)"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Export route"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
       "FIT"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Finish selecting"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "From strap HR"
     ],
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
@@ -766,67 +266,15 @@
     ],
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Last 13 weeks · daily burn"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Less"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
       "Logged sessions across ${effectiveRange.caption}."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "More"
     ],
     [
       "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
       "Mostly ${WorkoutEditing.displaySport(modal.sport)} (${effectiveRange.caption})."
     ],
     [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Save"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Save this GPS route as a file to import into Strava, Garmin Connect, or another app. "
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Select"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Select sessions to merge or delete"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Time in each %HRmax zone, derived from the strap's heart rate over this window (approximate)."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "WHOOP's imported per-zone split for this session."
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "Whoop import"
-    ],
-    [
-      "android/app/src/main/java/com/noop/ui/WorkoutsScreen.kt",
-      "strain (0-21)"
-    ],
-    [
       "android/app/src/main/java/com/noop/widget/NoopCompactGlanceWidget.kt",
       "$it%"
-    ],
-    [
-      "android/app/src/main/java/com/noop/widget/NoopCompactGlanceWidget.kt",
-      "Connected"
-    ],
-    [
-      "android/app/src/main/java/com/noop/widget/NoopCompactGlanceWidget.kt",
-      "Open NOOP to connect"
     ],
     [
       "android/app/src/main/java/com/noop/widget/NoopCompactGlanceWidget.kt",
@@ -835,14 +283,6 @@
     [
       "android/app/src/main/java/com/noop/widget/NoopGlanceWidget.kt",
       "$it%"
-    ],
-    [
-      "android/app/src/main/java/com/noop/widget/NoopGlanceWidget.kt",
-      "Connected"
-    ],
-    [
-      "android/app/src/main/java/com/noop/widget/NoopGlanceWidget.kt",
-      "Open NOOP to connect"
     ],
     [
       "android/app/src/main/java/com/noop/widget/NoopGlanceWidget.kt",

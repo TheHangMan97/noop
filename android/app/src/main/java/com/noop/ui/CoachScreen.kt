@@ -141,11 +141,9 @@ private fun CoachSetup(vm: CoachViewModel) {
             }
             Text(
                 if (isCustom)
-                    "Point the coach at any OpenAI-compatible server: a local model (Ollama, LM " +
-                        "Studio, llama.cpp) keeps everything on your device; an API key is optional."
+                    uiString(R.string.coach_intro_custom_server)
                 else
-                    "Bring your own API key. It is stored encrypted on this device and only used to " +
-                        "send your question plus a short summary of your metrics to the provider you pick.",
+                    uiString(R.string.coach_intro_api_key),
                 style = NoopType.subhead, color = Palette.textSecondary,
             )
 
@@ -220,8 +218,8 @@ private fun CoachSetup(vm: CoachViewModel) {
                 CoachKeyField(
                     value = keyInput,
                     onValueChange = { keyInput = it },
-                    placeholder = if (isCustom) "Only if your server requires one"
-                                  else "Paste your ${provider.displayName} key",
+                    placeholder = if (isCustom) uiString(R.string.coach_key_placeholder_optional)
+                                  else uiString(R.string.coach_key_placeholder_paste, provider.displayName),
                 )
             }
 
@@ -844,7 +842,7 @@ internal fun RefreshModelsButton(
             )
         }
         Text(
-            if (refreshing) "Fetching…" else "Refresh models",
+            if (refreshing) uiString(R.string.coach_fetching_models) else uiString(R.string.coach_refresh_models),
             style = NoopType.caption,
             color = if (active) Palette.textPrimary else Palette.textTertiary,
         )
@@ -1116,11 +1114,9 @@ private fun PrivacyNote(local: Boolean = false) {
         Icon(Icons.Filled.Lock, contentDescription = null, tint = Palette.textTertiary, modifier = Modifier.size(13.dp))
         Text(
             if (local)
-                "The coach talks only to the server URL you set. Point it at a local model to " +
-                    "keep everything on your device. Nothing is sent until you ask."
+                uiString(R.string.coach_privacy_local)
             else
-                "Private by default: only your question and a short metrics summary are sent, " +
-                    "and only after you set a key.",
+                uiString(R.string.coach_privacy_default),
             style = NoopType.footnote,
             color = Palette.textTertiary,
         )

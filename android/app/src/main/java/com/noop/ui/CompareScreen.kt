@@ -645,7 +645,7 @@ private fun AddMetricMenu(
                 modifier = Modifier.size(16.dp),
             )
             Text(
-                if (atMax) "Max 4" else "Add metric",
+                if (atMax) uiString(R.string.compare_max_metrics) else uiString(R.string.compare_add_metric),
                 style = NoopType.subhead,
                 color = tint,
                 maxLines = 1,

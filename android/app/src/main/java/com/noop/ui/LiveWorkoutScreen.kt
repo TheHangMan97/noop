@@ -382,7 +382,7 @@ private fun ZoneRail(zone: Int, zoneSet: com.noop.analytics.HrZoneSet) {
             Spacer(Modifier.weight(1f))
             val capsuleTint = if (zone >= 1) Palette.hrZoneColor(zone) else Palette.effortColor
             Text(
-                if (zone >= 1) "Zone $zone · ${zoneName(zone)}" else "Below Zone 1",
+                if (zone >= 1) uiString(R.string.live_workout_zone_named, zone, zoneName(zone)) else uiString(R.string.live_workout_below_zone_1),
                 style = NoopType.captionNumber,
                 color = capsuleTint,
                 modifier = Modifier
@@ -421,8 +421,8 @@ private fun ZoneRail(zone: Int, zoneSet: com.noop.analytics.HrZoneSet) {
         val band = zoneSet.zones.firstOrNull { it.number == zone }
         Text(
             if (band != null)
-                "Zone $zone: ${band.lower.toInt()} - ${band.upper.toInt()} bpm (${(band.lowerPct * 100).toInt()} - ${(band.upperPct * 100).toInt()}% max HR)"
-            else "Warming up - keep moving to climb into Zone 1.",
+                uiString(R.string.live_workout_zone_band, zone, band.lower.toInt(), band.upper.toInt(), (band.lowerPct * 100).toInt(), (band.upperPct * 100).toInt())
+            else uiString(R.string.live_workout_warming_up),
             style = NoopType.footnote,
             color = Palette.textTertiary,
         )
@@ -430,10 +430,10 @@ private fun ZoneRail(zone: Int, zoneSet: com.noop.analytics.HrZoneSet) {
 }
 
 private fun zoneName(zone: Int): String = when (zone) {
-    1 -> "Recovery"
-    2 -> "Fat burn"
-    3 -> "Aerobic"
-    4 -> "Threshold"
-    5 -> "Maximum"
+    1 -> uiString(R.string.hr_zone_name_1)
+    2 -> uiString(R.string.hr_zone_name_2)
+    3 -> uiString(R.string.hr_zone_name_3)
+    4 -> uiString(R.string.hr_zone_name_4)
+    5 -> uiString(R.string.hr_zone_name_5)
     else -> ""
 }
