@@ -198,7 +198,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung"
+            "value": "Energie"
           }
         },
         "en": {
@@ -262,7 +262,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung %lld von 100"
+            "value": "Energie %lld von 100"
           }
         },
         "en": {
@@ -326,7 +326,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung %lld · %lld bpm%@"
+            "value": "Energie %lld · %lld bpm%@"
           }
         },
         "en": {
@@ -390,7 +390,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung %lld%@"
+            "value": "Energie %lld%@"
           }
         },
         "en": {
@@ -454,7 +454,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung wird kalibriert"
+            "value": "Energie wird kalibriert"
           }
         },
         "en": {
@@ -518,7 +518,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung wird kalibriert, mehr Daten nötig"
+            "value": "Energie wird kalibriert, mehr Daten nötig"
           }
         },
         "en": {
@@ -582,7 +582,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung veraltet, zuletzt synchronisiert %@. Öffne NOOP auf dem iPhone."
+            "value": "Energie veraltet, zuletzt synchronisiert %@. Öffne NOOP auf dem iPhone."
           }
         },
         "en": {
@@ -646,7 +646,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung veraltet · %@"
+            "value": "Energie veraltet · %@"
           }
         },
         "en": {
@@ -710,7 +710,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung nicht verfügbar"
+            "value": "Energie nicht verfügbar"
           }
         },
         "en": {
@@ -774,7 +774,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung · %@"
+            "value": "Energie · %@"
           }
         },
         "en": {
@@ -838,7 +838,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung · cal"
+            "value": "Energie · cal"
           }
         },
         "en": {
@@ -902,7 +902,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ladung –"
+            "value": "Energie –"
           }
         },
         "en": {
@@ -966,7 +966,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Anstrengung"
+            "value": "Belastung"
           }
         },
         "en": {
@@ -1030,7 +1030,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "NOOP Ladung"
+            "value": "NOOP Energie"
           }
         },
         "en": {
@@ -1478,7 +1478,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ruhe"
+            "value": "Erholung"
           }
         },
         "en": {
@@ -1542,7 +1542,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Deine Ladung (Erholung) auf dem Zifferblatt, mit Anstrengung und Ruhe in der rechteckigen Karte."
+            "value": "Deine Energie (Erholung) auf dem Zifferblatt, mit Belastung und Erholung in der rechteckigen Karte."
           }
         },
         "en": {
