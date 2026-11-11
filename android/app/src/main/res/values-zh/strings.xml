@@ -2852,4 +2852,11 @@
     <string name="ecg_rec_share_chooser">分享心电图记录</string>
     <string name="ecg_rec_open">查看存储的心电图记录</string>
     <string name="ecg_rec_no_samples">手环为这次记录存储了数据记录，但每条记录声明的波形采样数都是 0（记录：%1$d），因此没有可绘制的内容。记录本身没有说明原因。</string>
+    <string name="ecg_wrist_open">选择心电图佩戴手腕…</string>
+    <string name="ecg_wrist_title">您把手环戴在哪只手腕上？</string>
+    <string name="ecg_wrist_persistent">与其他心电图开关不同，这是一项写入手环的设置。断开连接后它仍会保留，直到您再次更改。</string>
+    <string name="ecg_wrist_mapping">哪个值代表左手、哪个代表右手来自协议文档，而非 NOOP 测试过的手环。您可以随时用另一个选项重新发送，这不会改变您已记录的任何数据。</string>
+    <string name="ecg_wrist_left">左手腕</string>
+    <string name="ecg_wrist_right">右手腕</string>
+    <string name="ecg_wrist_cancel">取消</string>
 </resources>

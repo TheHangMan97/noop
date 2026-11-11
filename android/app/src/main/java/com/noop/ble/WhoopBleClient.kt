@@ -4488,10 +4488,15 @@ class WhoopBleClient(
                 // `ecgProbeArmed` is set by ecgStartCapture/ecgStopCapture for the duration of the send
                 // burst only. The opt-in and MG checks live in ecgGatesAllow at the call site, the same
                 // split Apple uses: this clause answers "is a run in flight", not "is it permitted".
+                //
+                // SELECT_WRIST (123) rides the same armed window. It is the one of the four whose effect
+                // persists on the strap, so its only caller, [ecgSelectWrist], is reached solely from a
+                // confirmation dialog of its own and is never part of the start burst.
                 !(cmd in setOf(
                     CommandNumber.TOGGLE_LABRADOR_DATA_GENERATION,
                     CommandNumber.TOGGLE_LABRADOR_RAW_SAVE,
                     CommandNumber.TOGGLE_LABRADOR_FILTERED,
+                    CommandNumber.SELECT_WRIST,
                 ) && ecgProbeArmed) &&
                 cmd != CommandNumber.SET_CLOCK && cmd != CommandNumber.GET_CLOCK &&
                 cmd != CommandNumber.GET_DATA_RANGE &&
@@ -5367,9 +5372,9 @@ class WhoopBleClient(
      * firmware declines) would classify the run as `commandRefused` and mask the ECG outcome the run
      * exists to establish. Its own log line carries the diagnostic instead.
      *
-     * PARITY NOTE: opcode 123 SELECT_WRIST is the one member of the official PREPARE list Android does
-     * not send, because Android has no wrist-selection surface. It writes PERSISTENT strap state and so
-     * needs its own confirmation UI, which macOS has and this platform does not yet.
+     * PARITY NOTE: opcode 123 SELECT_WRIST, the remaining member of the official PREPARE list, is not sent
+     * here. It writes PERSISTENT strap state, so on both platforms it is its own user action behind its own
+     * confirmation ([ecgSelectWrist], the Test Centre wrist dialog), run before a capture.
      */
     private fun ecgSendAbortHistorical() {
         if (backfilling) {
@@ -5416,6 +5421,28 @@ class WhoopBleClient(
             // an early return would leave `ecgProbeListening` true forever and the triage running on
             // every frame for the life of the process.
             scheduleEcgProbeVerdict(ECG_PROBE_CAPTURE_WINDOW_SECONDS)
+        }
+    }
+
+    /**
+     * SELECT_WRIST (123), the PREPARE step `docs/PROTOCOL_ECG.md` asks for before generation starts. Twin of
+     * macOS `ecgSelectWrist`.
+     *
+     * Its own action rather than a member of [ecgStartCapture], because unlike the three session toggles it
+     * writes strap state that outlives the session (reversible: send the other wrist). The only caller is
+     * the Test Centre's wrist dialog, which states that before anything is sent. The reply is recorded as
+     * a probe step and reported, never trusted as proof the selection took effect.
+     */
+    fun ecgSelectWrist(wrist: Whoop5Ecg.WristSelection) {
+        if (!ecgGatesAllow()) return
+        beginEcgProbeRun()
+        log("ECG probe: SELECT_WRIST=${wrist.token} (raw ${wrist.raw}) — PERSISTENT strap write")
+        ecgProbeArmed = true
+        try {
+            sendEcgCommand(CommandNumber.SELECT_WRIST, wrist.raw)
+        } finally {
+            ecgProbeArmed = false
+            scheduleEcgProbeVerdict()
         }
     }
 

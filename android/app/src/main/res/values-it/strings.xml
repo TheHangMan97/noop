@@ -2850,4 +2850,11 @@
     <string name="ecg_rec_share_chooser">Condividi registrazione ECG</string>
     <string name="ecg_rec_open">Vedi registrazioni ECG salvate</string>
     <string name="ecg_rec_no_samples">Il bracciale ha salvato dei record per questa registrazione, ma ognuno dichiara 0 campioni di traccia (record: %1$d), quindi non c\'è nulla da disegnare. Il record stesso non dice perché.</string>
+    <string name="ecg_wrist_open">Scegli il polso per l\'ECG…</string>
+    <string name="ecg_wrist_title">Su quale polso lo indossi?</string>
+    <string name="ecg_wrist_persistent">A differenza degli altri controlli ECG, questa è un\'impostazione scritta sul bracciale. Resta lì anche dopo la disconnessione, finché non la cambi di nuovo.</string>
+    <string name="ecg_wrist_mapping">Quale valore significa sinistro e quale destro deriva dalla documentazione del protocollo, non da un bracciale testato da NOOP. Puoi inviarla di nuovo con l\'altra scelta in qualsiasi momento, e non cambia nulla nei dati registrati.</string>
+    <string name="ecg_wrist_left">Polso sinistro</string>
+    <string name="ecg_wrist_right">Polso destro</string>
+    <string name="ecg_wrist_cancel">Annulla</string>
 </resources>

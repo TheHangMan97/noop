@@ -2881,4 +2881,11 @@
     <string name="ecg_rec_share_chooser">Partager l\'enregistrement ECG</string>
     <string name="ecg_rec_open">Voir les enregistrements ECG stockés</string>
     <string name="ecg_rec_no_samples">Le bracelet a stocké des enregistrements pour cette mesure, mais chacun déclare 0 échantillon de tracé (enregistrements : %1$d) : il n\'y a rien à tracer. L\'enregistrement lui-même n\'en donne pas la raison.</string>
+    <string name="ecg_wrist_open">Choisir le poignet pour l\'ECG…</string>
+    <string name="ecg_wrist_title">À quel poignet le portez-vous ?</string>
+    <string name="ecg_wrist_persistent">Contrairement aux autres commandes ECG, il s\'agit d\'un réglage écrit dans le bracelet. Il y reste après la déconnexion, jusqu\'à ce que vous le changiez.</string>
+    <string name="ecg_wrist_mapping">La valeur qui signifie gauche ou droite provient de la documentation du protocole, pas d\'un bracelet testé par NOOP. Vous pouvez le renvoyer avec l\'autre choix à tout moment, et cela ne modifie en rien vos données enregistrées.</string>
+    <string name="ecg_wrist_left">Poignet gauche</string>
+    <string name="ecg_wrist_right">Poignet droit</string>
+    <string name="ecg_wrist_cancel">Annuler</string>
 </resources>

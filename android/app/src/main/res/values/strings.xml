@@ -2911,4 +2911,11 @@
     <string name="ecg_rec_share_chooser">Share ECG recording</string>
     <string name="ecg_rec_open">View stored ECG recordings</string>
     <string name="ecg_rec_no_samples">The strap stored records for this reading, but each one declares 0 waveform samples (records: %1$d), so there is nothing to draw. The record itself does not say why.</string>
+    <string name="ecg_wrist_open">Select wrist for ECG…</string>
+    <string name="ecg_wrist_title">Which wrist do you wear it on?</string>
+    <string name="ecg_wrist_persistent">Unlike the other ECG controls, this is a setting written to the strap. It stays there after you disconnect until you change it again.</string>
+    <string name="ecg_wrist_mapping">Which value means left and which means right comes from the protocol documentation, not from a strap NOOP has tested. You can send it again with the other choice at any time, and it changes nothing about your recorded data.</string>
+    <string name="ecg_wrist_left">Left wrist</string>
+    <string name="ecg_wrist_right">Right wrist</string>
+    <string name="ecg_wrist_cancel">Cancel</string>
 </resources>

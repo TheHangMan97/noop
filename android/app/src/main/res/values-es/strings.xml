@@ -2882,4 +2882,11 @@
     <string name="ecg_rec_share_chooser">Compartir registro de ECG</string>
     <string name="ecg_rec_open">Ver registros de ECG guardados</string>
     <string name="ecg_rec_no_samples">La pulsera guardó registros de esta medición, pero cada uno declara 0 muestras de onda (registros: %1$d), así que no hay nada que dibujar. El propio registro no indica por qué.</string>
+    <string name="ecg_wrist_open">Elegir muñeca para el ECG…</string>
+    <string name="ecg_wrist_title">¿En qué muñeca la llevas?</string>
+    <string name="ecg_wrist_persistent">A diferencia de los demás controles de ECG, este es un ajuste que se escribe en la pulsera. Se mantiene allí después de desconectar hasta que lo cambies de nuevo.</string>
+    <string name="ecg_wrist_mapping">Qué valor significa izquierda y cuál derecha procede de la documentación del protocolo, no de una pulsera que NOOP haya probado. Puedes volver a enviarlo con la otra opción en cualquier momento, y no cambia nada de tus datos registrados.</string>
+    <string name="ecg_wrist_left">Muñeca izquierda</string>
+    <string name="ecg_wrist_right">Muñeca derecha</string>
+    <string name="ecg_wrist_cancel">Cancelar</string>
 </resources>

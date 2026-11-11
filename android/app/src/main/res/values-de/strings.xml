@@ -2895,4 +2895,11 @@
     <string name="ecg_rec_share_chooser">EKG-Aufnahme teilen</string>
     <string name="ecg_rec_open">Gespeicherte EKG-Aufnahmen ansehen</string>
     <string name="ecg_rec_no_samples">Das Band hat für diese Aufnahme Datensätze gespeichert, aber jeder meldet 0 Kurvenwerte (Datensätze: %1$d). Es gibt also nichts zu zeichnen. Der Datensatz selbst sagt nicht, warum.</string>
+    <string name="ecg_wrist_open">Handgelenk für EKG wählen…</string>
+    <string name="ecg_wrist_title">An welchem Handgelenk tragen Sie das Band?</string>
+    <string name="ecg_wrist_persistent">Anders als die anderen EKG-Schalter ist dies eine Einstellung, die auf das Band geschrieben wird. Sie bleibt dort auch nach dem Trennen, bis Sie sie wieder ändern.</string>
+    <string name="ecg_wrist_mapping">Welcher Wert links und welcher rechts bedeutet, stammt aus der Protokolldokumentation, nicht von einem Band, das NOOP getestet hat. Sie können sie jederzeit mit der anderen Wahl erneut senden, und an Ihren aufgezeichneten Daten ändert sich dadurch nichts.</string>
+    <string name="ecg_wrist_left">Linkes Handgelenk</string>
+    <string name="ecg_wrist_right">Rechtes Handgelenk</string>
+    <string name="ecg_wrist_cancel">Abbrechen</string>
 </resources>

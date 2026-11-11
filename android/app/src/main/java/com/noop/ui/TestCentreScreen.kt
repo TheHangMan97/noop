@@ -55,6 +55,7 @@ import com.noop.data.DailyMetric
 import com.noop.data.GravitySample
 import com.noop.data.HrSample
 import com.noop.polar.PolarModel
+import com.noop.protocol.Whoop5Ecg
 import com.noop.testcentre.CaptureAccumulator
 import com.noop.testcentre.CaptureKind
 import com.noop.testcentre.DisplayPerformanceMonitor
@@ -116,6 +117,7 @@ fun TestCentreScreen(
     // publishes nothing, so Stop would not become available after Start until some unrelated state
     // changed. Seeded once and updated on the two actions that move it.
     var ecgMayBeRunning by remember { mutableStateOf(vm.ble.ecgMayBeRunning) }
+    var showEcgWristDialog by remember { mutableStateOf(false) }
     val r22DisableReport by vm.ble.r22DisableReport.collectAsStateWithLifecycle()
     val ecgGateReport by vm.ble.ecgRawDataGate.collectAsStateWithLifecycle()
     val ecgVariant by vm.ble.whoop5VariantFlow.collectAsStateWithLifecycle()
@@ -379,6 +381,26 @@ fun TestCentreScreen(
                             puffinExperiment.ecgEnabled = it
                         },
                     )
+                    if (ecgProbe && !ecgMayBeRunning) {
+                        // The PREPARE step, separate from Start because it persists on the strap. Disabled
+                        // while a capture may be running: a mid-session change is not shown to apply.
+                        NoopButton(
+                            text = stringResource(R.string.ecg_wrist_open),
+                            kind = NoopButtonKind.Secondary,
+                            fullWidth = true,
+                            enabled = live.bonded && ecgVariant.isMG,
+                            onClick = { showEcgWristDialog = true },
+                        )
+                    }
+                    if (showEcgWristDialog) {
+                        EcgWristDialog(
+                            onPick = { wrist ->
+                                showEcgWristDialog = false
+                                vm.ble.ecgSelectWrist(wrist)
+                            },
+                            onCancel = { showEcgWristDialog = false },
+                        )
+                    }
                     if (ecgProbe || ecgMayBeRunning) {
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             NoopButton(
@@ -1353,3 +1375,37 @@ private fun settingsSwitchColors() = SwitchDefaults.colors(
     uncheckedTrackColor = Palette.surfaceInset,
     uncheckedBorderColor = Palette.hairline,
 )
+
+/**
+ * The MG ECG wrist step: the one ECG command whose effect outlives the session, so it gets its own dialog
+ * that says so before anything is sent. Twin of the macOS `EcgWristSheet`.
+ */
+@Composable
+private fun EcgWristDialog(onPick: (Whoop5Ecg.WristSelection) -> Unit, onCancel: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onCancel,
+        containerColor = Palette.surfaceOverlay,
+        title = { Text(stringResource(R.string.ecg_wrist_title), style = NoopType.title2, color = Palette.textPrimary) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(Metrics.space8)) {
+                Text(stringResource(R.string.ecg_wrist_persistent), style = NoopType.subhead, color = Palette.statusWarning)
+                Text(stringResource(R.string.ecg_wrist_mapping), style = NoopType.caption, color = Palette.textSecondary)
+            }
+        },
+        confirmButton = {
+            Row(horizontalArrangement = Arrangement.spacedBy(Metrics.space8)) {
+                TextButton(onClick = { onPick(Whoop5Ecg.WristSelection.LEFT) }) {
+                    Text(stringResource(R.string.ecg_wrist_left), style = NoopType.body, color = Palette.accent)
+                }
+                TextButton(onClick = { onPick(Whoop5Ecg.WristSelection.RIGHT) }) {
+                    Text(stringResource(R.string.ecg_wrist_right), style = NoopType.body, color = Palette.accent)
+                }
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onCancel) {
+                Text(stringResource(R.string.ecg_wrist_cancel), style = NoopType.body, color = Palette.textSecondary)
+            }
+        },
+    )
+}

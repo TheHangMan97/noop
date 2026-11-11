@@ -2874,4 +2874,11 @@
     <string name="ecg_rec_share_chooser">Partilhar registo de ECG</string>
     <string name="ecg_rec_open">Ver registos de ECG guardados</string>
     <string name="ecg_rec_no_samples">A pulseira guardou registos desta medição, mas cada um declara 0 amostras de onda (registos: %1$d), por isso não há nada para desenhar. O próprio registo não diz porquê.</string>
+    <string name="ecg_wrist_open">Escolher pulso para o ECG…</string>
+    <string name="ecg_wrist_title">Em que pulso usa a pulseira?</string>
+    <string name="ecg_wrist_persistent">Ao contrário dos outros controlos de ECG, esta é uma definição escrita na pulseira. Mantém-se lá depois de desligar, até a alterar novamente.</string>
+    <string name="ecg_wrist_mapping">Qual valor significa esquerdo e qual significa direito vem da documentação do protocolo, não de uma pulseira que o NOOP tenha testado. Pode enviá-la de novo com a outra escolha a qualquer momento, e isso não altera nada nos seus dados registados.</string>
+    <string name="ecg_wrist_left">Pulso esquerdo</string>
+    <string name="ecg_wrist_right">Pulso direito</string>
+    <string name="ecg_wrist_cancel">Cancelar</string>
 </resources>

@@ -2777,4 +2777,11 @@
     <string name="ecg_rec_share_chooser">Поделиться записью ЭКГ</string>
     <string name="ecg_rec_open">Сохранённые записи ЭКГ</string>
     <string name="ecg_rec_no_samples">Браслет сохранил записи этого измерения, но в каждой указано 0 отсчётов кривой (записей: %1$d), поэтому рисовать нечего. Сама запись не сообщает причину.</string>
+    <string name="ecg_wrist_open">Выбрать запястье для ЭКГ…</string>
+    <string name="ecg_wrist_title">На каком запястье вы носите браслет?</string>
+    <string name="ecg_wrist_persistent">В отличие от других переключателей ЭКГ, это настройка, которая записывается в браслет. Она сохраняется после отключения, пока вы её снова не измените.</string>
+    <string name="ecg_wrist_mapping">Какое значение означает левое, а какое правое запястье, взято из документации протокола, а не с браслета, проверенного NOOP. Вы можете в любой момент отправить её снова с другим выбором, и это ничего не меняет в записанных данных.</string>
+    <string name="ecg_wrist_left">Левое запястье</string>
+    <string name="ecg_wrist_right">Правое запястье</string>
+    <string name="ecg_wrist_cancel">Отмена</string>
 </resources>
