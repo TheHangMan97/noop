@@ -2889,8 +2889,6 @@
     <string name="raw_diag_ecg_probe_running">A capture may still be running on this strap. The verdict goes to the strap log.</string>
     <string name="today_customize_live_session_availability">Appears today when Live Sessions is enabled in Settings or a session is active.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">Today your way, heart rate any app can read, and Italian</string>
-    <string name="ecg_rec_title">MG ECG recordings</string>
-    <string name="ecg_rec_subtitle">Stored strap records, drawn as banked</string>
     <string name="ecg_rec_disclaimer">Experimental instrumentation, not a medical ECG. NOOP draws the samples your MG stored and reads nothing from them: no heart rate, no rhythm, no diagnosis. Amplitude is in uncalibrated counts and the sample rate is not established.</string>
     <string name="ecg_rec_no_strap">Pair a WHOOP MG to see its stored ECG recordings.</string>
     <string name="ecg_rec_loading">Reading stored records…</string>
@@ -2918,4 +2916,22 @@
     <string name="ecg_wrist_left">Left wrist</string>
     <string name="ecg_wrist_right">Right wrist</string>
     <string name="ecg_wrist_cancel">Cancel</string>
+    <string name="nav_ecg">ECG</string>
+    <string name="ecg_screen_subtitle">WHOOP MG · live measurement and stored recordings</string>
+    <string name="ecg_rec_list_header">Stored recordings</string>
+    <string name="ecg_measure_start">Start %1$d s measurement</string>
+    <string name="ecg_measure_stop">Stop</string>
+    <string name="ecg_measure_how">Wear the strap snugly and rest a fingertip of your other hand on the metal clasp for the whole measurement. Keep still.</string>
+    <string name="ecg_measure_remaining">Measuring · %1$d s left</string>
+    <string name="ecg_measure_waiting">Waiting for samples from the strap…</string>
+    <string name="ecg_measure_done">Measurement finished. The stored recording appears below once the strap has synced.</string>
+    <string name="ecg_measure_disconnected">The connection dropped during the measurement. Reconnect, then stop the capture if it is still running.</string>
+    <string name="ecg_measure_not_mg">ECG needs a WHOOP MG that is connected and paired.</string>
+    <string name="ecg_measure_may_run">A capture may still be running on the strap.</string>
+    <string name="ecg_measure_stop_leftover">Stop capture</string>
+    <string name="ecg_live_note">Live trace from the strap\'s filtered stream, the last few seconds. The vertical scale fits the visible window.</string>
+    <string name="ecg_consent_title">Before your first ECG measurement</string>
+    <string name="ecg_consent_body">This is an experimental feature, not a medical ECG and not a diagnosis. NOOP asks your MG to record for 30 seconds and draws the samples it sends. It reads nothing from them: no heart rate, no rhythm, no warnings. Amplitude is in uncalibrated counts.</string>
+    <string name="ecg_consent_accept">Understood, start</string>
+    <string name="ecg_consent_cancel">Cancel</string>
 </resources>

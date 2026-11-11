@@ -2830,8 +2830,6 @@
     <string name="raw_diag_ecg_probe_running">此腕带上可能仍在采集。结论会写入 strap log。</string>
     <string name="today_customize_live_session_availability">在设置中启用Live Sessions 实时记录或有正在进行的训练时，今天会显示此部分。</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">自定义「今天」页面、任何应用都能读取的心率，以及意大利语</string>
-    <string name="ecg_rec_title">MG 心电图记录</string>
-    <string name="ecg_rec_subtitle">手环存储的记录，按原样绘制</string>
     <string name="ecg_rec_disclaimer">实验性测量工具，不是医用心电图。NOOP 只绘制您的 MG 存储的采样值，不从中得出任何结论：不计算心率，不判断节律，不做诊断。幅度为未校准的原始计数，采样率尚未确定。</string>
     <string name="ecg_rec_no_strap">配对一台 WHOOP MG 以查看其存储的心电图记录。</string>
     <string name="ecg_rec_loading">正在读取存储的记录…</string>
@@ -2859,4 +2857,22 @@
     <string name="ecg_wrist_left">左手腕</string>
     <string name="ecg_wrist_right">右手腕</string>
     <string name="ecg_wrist_cancel">取消</string>
+    <string name="nav_ecg">心电图</string>
+    <string name="ecg_screen_subtitle">WHOOP MG · 实时测量与已存储记录</string>
+    <string name="ecg_rec_list_header">已存储记录</string>
+    <string name="ecg_measure_start">开始 %1$d 秒测量</string>
+    <string name="ecg_measure_stop">停止</string>
+    <string name="ecg_measure_how">请将手环戴紧，并在整个测量过程中用另一只手的指尖按住金属表扣。保持静止。</string>
+    <string name="ecg_measure_remaining">测量中 · 剩余 %1$d 秒</string>
+    <string name="ecg_measure_waiting">正在等待手环发送采样…</string>
+    <string name="ecg_measure_done">测量结束。手环同步后，存储的记录会显示在下方。</string>
+    <string name="ecg_measure_disconnected">测量期间连接中断。请重新连接，如采集仍在进行，请将其停止。</string>
+    <string name="ecg_measure_not_mg">心电图需要已连接并配对的 WHOOP MG。</string>
+    <string name="ecg_measure_may_run">手环上可能仍有采集在进行。</string>
+    <string name="ecg_measure_stop_leftover">停止采集</string>
+    <string name="ecg_live_note">来自手环滤波数据流的实时曲线，显示最近几秒。纵向刻度随可见窗口自动调整。</string>
+    <string name="ecg_consent_title">首次心电图测量前</string>
+    <string name="ecg_consent_body">这是一项实验性功能，不是医用心电图，也不是诊断。NOOP 请求您的 MG 记录 30 秒，并绘制其发送的采样。NOOP 不从中得出任何结论：不计算心率，不判断节律，不发出警告。幅度为未校准的原始计数。</string>
+    <string name="ecg_consent_accept">明白，开始</string>
+    <string name="ecg_consent_cancel">取消</string>
 </resources>

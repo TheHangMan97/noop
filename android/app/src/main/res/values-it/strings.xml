@@ -2828,8 +2828,6 @@
     <string name="raw_diag_ecg_probe_running">Una acquisizione potrebbe essere ancora attiva su questo strap. Il verdetto va nello strap log.</string>
     <string name="today_customize_live_session_availability">Compare oggi se le sessioni in diretta sono attivate nelle Impostazioni o una sessione è attiva.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">Oggi a modo tuo, frequenza cardiaca leggibile da ogni app e l\'italiano</string>
-    <string name="ecg_rec_title">Registrazioni ECG del MG</string>
-    <string name="ecg_rec_subtitle">Record salvati sul bracciale, disegnati così come sono</string>
     <string name="ecg_rec_disclaimer">Strumentazione sperimentale, non un ECG medico. NOOP disegna i campioni salvati dal tuo MG e non ne ricava nulla: né frequenza cardiaca, né ritmo, né diagnosi. L\'ampiezza è in conteggi non calibrati e la frequenza di campionamento non è stabilita.</string>
     <string name="ecg_rec_no_strap">Associa un WHOOP MG per vedere le sue registrazioni ECG salvate.</string>
     <string name="ecg_rec_loading">Lettura dei record salvati…</string>
@@ -2857,4 +2855,22 @@
     <string name="ecg_wrist_left">Polso sinistro</string>
     <string name="ecg_wrist_right">Polso destro</string>
     <string name="ecg_wrist_cancel">Annulla</string>
+    <string name="nav_ecg">ECG</string>
+    <string name="ecg_screen_subtitle">WHOOP MG · misurazione dal vivo e registrazioni salvate</string>
+    <string name="ecg_rec_list_header">Registrazioni salvate</string>
+    <string name="ecg_measure_start">Avvia misurazione di %1$d s</string>
+    <string name="ecg_measure_stop">Ferma</string>
+    <string name="ecg_measure_how">Indossa il bracciale ben aderente e appoggia la punta di un dito dell\'altra mano sulla chiusura metallica per tutta la misurazione. Resta fermo.</string>
+    <string name="ecg_measure_remaining">Misurazione in corso · mancano %1$d s</string>
+    <string name="ecg_measure_waiting">In attesa di campioni dal bracciale…</string>
+    <string name="ecg_measure_done">Misurazione terminata. La registrazione salvata apparirà qui sotto dopo la sincronizzazione del bracciale.</string>
+    <string name="ecg_measure_disconnected">La connessione si è interrotta durante la misurazione. Riconnetti e ferma la registrazione se è ancora in corso.</string>
+    <string name="ecg_measure_not_mg">L\'ECG richiede un WHOOP MG connesso e associato.</string>
+    <string name="ecg_measure_may_run">Sul bracciale potrebbe essere ancora in corso una registrazione.</string>
+    <string name="ecg_measure_stop_leftover">Ferma registrazione</string>
+    <string name="ecg_live_note">Traccia dal vivo dal flusso filtrato del bracciale, gli ultimi secondi. La scala verticale si adatta alla finestra visibile.</string>
+    <string name="ecg_consent_title">Prima della tua prima misurazione ECG</string>
+    <string name="ecg_consent_body">È una funzione sperimentale, non un ECG medico né una diagnosi. NOOP chiede al tuo MG di registrare per 30 secondi e disegna i campioni inviati. Non ne ricava nulla: né frequenza cardiaca, né ritmo, né avvisi. L\'ampiezza è in conteggi non calibrati.</string>
+    <string name="ecg_consent_accept">Ho capito, avvia</string>
+    <string name="ecg_consent_cancel">Annulla</string>
 </resources>

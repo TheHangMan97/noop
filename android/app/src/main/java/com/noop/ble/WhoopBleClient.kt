@@ -5430,8 +5430,8 @@ class WhoopBleClient(
      * `124 = start`: opcode 20 belongs to START, immediately ahead of the generation command, and it is
      * sent on EVERY run rather than only when an offload happens to be draining.
      */
-    fun ecgStartCapture() {
-        if (!ecgGatesAllow()) return
+    fun ecgStartCapture(requiresOptIn: Boolean = true): Boolean {
+        if (!ecgGatesAllow(requiresOptIn)) return false
         ecgMayBeRunning = true   // latched BEFORE the sends, so a mid-sequence drop still offers Stop
         beginEcgProbeRun()
         log("ECG probe: starting the ECG turn-on sequence on an MG (experimental, unvalidated instrumentation)")
@@ -5447,6 +5447,80 @@ class WhoopBleClient(
             // an early return would leave `ecgProbeListening` true forever and the triage running on
             // every frame for the life of the process.
             scheduleEcgProbeVerdict(ECG_PROBE_CAPTURE_WINDOW_SECONDS)
+        }
+        return true
+    }
+
+    // ---- Timed ECG measurement (the ECG screen) ------------------------------------------------------
+
+    private val _ecgLive = MutableStateFlow(EcgLiveSession())
+    /** The current or most recent timed measurement, for the ECG screen's live trace and countdown. */
+    val ecgLiveFlow: StateFlow<EcgLiveSession> = _ecgLive.asStateFlow()
+
+    /** Whether live packets are being collected into [ecgLiveFlow]. @Volatile: set on main, read per frame. */
+    @Volatile private var ecgMeasurementActive = false
+    private val ecgLiveLock = Any()
+
+    /** Ends a measurement when its timer runs out. Named so a manual stop or a teardown can cancel it. */
+    private val ecgAutoStopRunnable = Runnable { finishEcgMeasurement(EcgLiveSession.EndReason.COMPLETED) }
+
+    /**
+     * Start a timed measurement: the same turn-on sequence as [ecgStartCapture], then an automatic stop
+     * after [durationSeconds], with the live filtered trace published on [ecgLiveFlow] meanwhile.
+     *
+     * User-initiated only, from the ECG screen's Start button, which shows its own one-time consent. It does
+     * not require the Test Centre opt-in, but every other gate still applies (attested MG, connected,
+     * encrypted bond). Refused while an earlier capture may still be running, so two sessions never overlap
+     * (docs/PROTOCOL_ECG.md: serialize session transitions). Returns whether the start burst was sent.
+     */
+    fun ecgStartMeasurement(durationSeconds: Int = EcgLiveSession.DEFAULT_DURATION_SECONDS): Boolean {
+        if (ecgMeasurementActive || ecgMayBeRunning) {
+            log("ECG measurement: not started — a capture may still be running; stop it first")
+            return false
+        }
+        synchronized(ecgLiveLock) {
+            _ecgLive.value = _ecgLive.value.started(System.currentTimeMillis(), durationSeconds)
+        }
+        ecgMeasurementActive = true
+        if (!ecgStartCapture(requiresOptIn = false)) {
+            ecgMeasurementActive = false
+            synchronized(ecgLiveLock) {
+                _ecgLive.value = _ecgLive.value.ended(System.currentTimeMillis(), EcgLiveSession.EndReason.STOPPED)
+            }
+            return false
+        }
+        log("ECG measurement: started, stopping automatically after ${durationSeconds}s")
+        handler.removeCallbacks(ecgAutoStopRunnable)
+        handler.postDelayed(ecgAutoStopRunnable, durationSeconds * 1000L)
+        return true
+    }
+
+    /** Stop a timed measurement before its timer, or a capture left running from an earlier session. */
+    fun ecgStopMeasurement() {
+        if (ecgMeasurementActive) {
+            finishEcgMeasurement(EcgLiveSession.EndReason.STOPPED)
+        } else {
+            ecgStopCapture()
+        }
+    }
+
+    private fun finishEcgMeasurement(reason: EcgLiveSession.EndReason) {
+        handler.removeCallbacks(ecgAutoStopRunnable)
+        ecgMeasurementActive = false
+        synchronized(ecgLiveLock) {
+            _ecgLive.value = _ecgLive.value.ended(System.currentTimeMillis(), reason)
+        }
+        log("ECG measurement: ended (${reason.name.lowercase()})")
+        // The stop burst. On a dropped link it cannot be sent; ecgMayBeRunning stays latched and the screen
+        // keeps offering Stop for the next connect.
+        if (reason != EcgLiveSession.EndReason.DISCONNECTED) ecgStopCapture()
+    }
+
+    /** One verified frame during a measurement: append its R17 samples, if it is an R17 packet. */
+    private fun noteEcgLiveFrame(frame: ByteArray) {
+        val packet = Whoop5Ecg.r17FromFrame(frame) ?: return
+        synchronized(ecgLiveLock) {
+            _ecgLive.value = _ecgLive.value.withPacket(packet.samples, packet.presence)
         }
     }
 
@@ -8781,6 +8855,9 @@ class WhoopBleClient(
         // window so an ordinary frame pays one boolean. Without this the probe reports zero packets
         // forever and every run reads as "accepted but silent" even while a trace is streaming.
         if (ecgProbeListening) noteEcgProbeCandidate(frame)
+        // The ECG screen's live trace, during a timed measurement only. After the verifier for the same
+        // reason as the probe line above.
+        if (ecgMeasurementActive) noteEcgLiveFrame(frame)
 
         // Connection test mode: accumulate frames by type and flush ONE `frameTiming` SUMMARY line per
         // rolling window (#1151), instead of a line per frame-TYPE transition — during offloads/command
@@ -12097,6 +12174,8 @@ class WhoopBleClient(
         // #520/#891: the DIS strings belong to the link that just dropped; a stale variant must not keep an
         // MG-only capability unlocked for whatever connects next.
         _whoop5Variant.value = Whoop5Variant.UNKNOWN
+        // A timed ECG measurement cannot outlive its link: end it as interrupted (no stop can be sent now).
+        if (ecgMeasurementActive) finishEcgMeasurement(EcgLiveSession.EndReason.DISCONNECTED)
         // #1635 / #1804: the probe-link-lost verdict must be emitted BEFORE reset() clears the probe
         // flags, and it needs the disconnect `status` (which reset() does not receive). A probe still
         // mid-subscribe when the link goes is stage 1 ending with the LINK; a probe mid-GET_CLOCK-wait

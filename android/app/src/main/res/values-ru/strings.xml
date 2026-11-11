@@ -2755,8 +2755,6 @@
     <string name="raw_diag_ecg_probe_running">На этом ремешке запись может всё ещё идти. Результат попадёт в strap log.</string>
     <string name="today_customize_live_session_availability">Появляется сегодня, если сессии в реальном времени включены в Настройках или сеанс уже активен.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">«Сегодня» на ваш вкус, пульс для любого приложения и итальянский язык</string>
-    <string name="ecg_rec_title">Записи ЭКГ MG</string>
-    <string name="ecg_rec_subtitle">Сохранённые записи браслета, показанные как есть</string>
     <string name="ecg_rec_disclaimer">Экспериментальный инструмент, а не медицинская ЭКГ. NOOP рисует отсчёты, сохранённые вашим MG, и ничего из них не выводит: ни пульса, ни ритма, ни диагноза. Амплитуда указана в некалиброванных единицах, частота дискретизации не установлена.</string>
     <string name="ecg_rec_no_strap">Подключите WHOOP MG, чтобы увидеть его сохранённые записи ЭКГ.</string>
     <string name="ecg_rec_loading">Чтение сохранённых записей…</string>
@@ -2784,4 +2782,22 @@
     <string name="ecg_wrist_left">Левое запястье</string>
     <string name="ecg_wrist_right">Правое запястье</string>
     <string name="ecg_wrist_cancel">Отмена</string>
+    <string name="nav_ecg">ЭКГ</string>
+    <string name="ecg_screen_subtitle">WHOOP MG · измерение в реальном времени и сохранённые записи</string>
+    <string name="ecg_rec_list_header">Сохранённые записи</string>
+    <string name="ecg_measure_start">Начать измерение (%1$d с)</string>
+    <string name="ecg_measure_stop">Остановить</string>
+    <string name="ecg_measure_how">Носите браслет плотно и всё время измерения держите кончик пальца другой руки на металлической застёжке. Не двигайтесь.</string>
+    <string name="ecg_measure_remaining">Идёт измерение · осталось %1$d с</string>
+    <string name="ecg_measure_waiting">Ожидание отсчётов от браслета…</string>
+    <string name="ecg_measure_done">Измерение завершено. Сохранённая запись появится ниже после синхронизации браслета.</string>
+    <string name="ecg_measure_disconnected">Соединение прервалось во время измерения. Подключитесь снова и остановите запись, если она ещё идёт.</string>
+    <string name="ecg_measure_not_mg">Для ЭКГ нужен подключённый и сопряжённый WHOOP MG.</string>
+    <string name="ecg_measure_may_run">На браслете, возможно, ещё идёт запись.</string>
+    <string name="ecg_measure_stop_leftover">Остановить запись</string>
+    <string name="ecg_live_note">Кривая в реальном времени из отфильтрованного потока браслета, последние секунды. Вертикальная шкала подстраивается под видимое окно.</string>
+    <string name="ecg_consent_title">Перед первым измерением ЭКГ</string>
+    <string name="ecg_consent_body">Это экспериментальная функция, а не медицинская ЭКГ и не диагноз. NOOP просит ваш MG записывать 30 секунд и рисует присланные отсчёты. Ничего из них не выводится: ни пульс, ни ритм, ни предупреждения. Амплитуда в некалиброванных единицах.</string>
+    <string name="ecg_consent_accept">Понятно, начать</string>
+    <string name="ecg_consent_cancel">Отмена</string>
 </resources>

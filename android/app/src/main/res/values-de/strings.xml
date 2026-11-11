@@ -2873,8 +2873,6 @@
     <string name="raw_diag_ecg_probe_running">Auf diesem Strap läuft möglicherweise noch eine Aufzeichnung. Das Ergebnis steht im Strap-Log.</string>
     <string name="today_customize_live_session_availability">Erscheint heute, wenn Live Sessions in den Einstellungen aktiviert sind oder eine Session aktiv ist.</string>
     <string name="l10n_app_changelog_today_your_way_heart_rate_any_5e1308b3">Today nach Ihren Wünschen, Herzfrequenz für jede App und Italienisch</string>
-    <string name="ecg_rec_title">MG-EKG-Aufnahmen</string>
-    <string name="ecg_rec_subtitle">Gespeicherte Datensätze des Bands, unverändert dargestellt</string>
     <string name="ecg_rec_disclaimer">Experimentelle Messtechnik, kein medizinisches EKG. NOOP zeichnet die Werte, die Ihr MG gespeichert hat, und liest nichts daraus ab: keine Herzfrequenz, kein Rhythmus, keine Diagnose. Die Amplitude ist in unkalibrierten Zählwerten angegeben, die Abtastrate ist nicht gesichert.</string>
     <string name="ecg_rec_no_strap">Koppeln Sie ein WHOOP MG, um seine gespeicherten EKG-Aufnahmen zu sehen.</string>
     <string name="ecg_rec_loading">Gespeicherte Datensätze werden gelesen…</string>
@@ -2902,4 +2900,22 @@
     <string name="ecg_wrist_left">Linkes Handgelenk</string>
     <string name="ecg_wrist_right">Rechtes Handgelenk</string>
     <string name="ecg_wrist_cancel">Abbrechen</string>
+    <string name="nav_ecg">EKG</string>
+    <string name="ecg_screen_subtitle">WHOOP MG · Live-Messung und gespeicherte Aufnahmen</string>
+    <string name="ecg_rec_list_header">Gespeicherte Aufnahmen</string>
+    <string name="ecg_measure_start">%1$d-s-Messung starten</string>
+    <string name="ecg_measure_stop">Stoppen</string>
+    <string name="ecg_measure_how">Tragen Sie das Band eng und legen Sie während der ganzen Messung eine Fingerkuppe der anderen Hand auf den Metallverschluss. Halten Sie still.</string>
+    <string name="ecg_measure_remaining">Messung läuft · noch %1$d s</string>
+    <string name="ecg_measure_waiting">Warte auf Werte vom Band…</string>
+    <string name="ecg_measure_done">Messung beendet. Die gespeicherte Aufnahme erscheint unten, sobald das Band synchronisiert hat.</string>
+    <string name="ecg_measure_disconnected">Die Verbindung ist während der Messung abgebrochen. Verbinden Sie neu und stoppen Sie die Aufnahme, falls sie noch läuft.</string>
+    <string name="ecg_measure_not_mg">Für das EKG muss ein WHOOP MG verbunden und gekoppelt sein.</string>
+    <string name="ecg_measure_may_run">Auf dem Band läuft möglicherweise noch eine Aufnahme.</string>
+    <string name="ecg_measure_stop_leftover">Aufnahme stoppen</string>
+    <string name="ecg_live_note">Live-Kurve aus dem gefilterten Datenstrom des Bands, die letzten Sekunden. Die vertikale Skala passt sich dem sichtbaren Ausschnitt an.</string>
+    <string name="ecg_consent_title">Vor Ihrer ersten EKG-Messung</string>
+    <string name="ecg_consent_body">Dies ist eine experimentelle Funktion, kein medizinisches EKG und keine Diagnose. NOOP bittet Ihr MG, 30 Sekunden lang aufzuzeichnen, und zeichnet die gesendeten Werte. Es liest nichts daraus ab: keine Herzfrequenz, kein Rhythmus, keine Warnungen. Die Amplitude ist in unkalibrierten Zählwerten angegeben.</string>
+    <string name="ecg_consent_accept">Verstanden, starten</string>
+    <string name="ecg_consent_cancel">Abbrechen</string>
 </resources>

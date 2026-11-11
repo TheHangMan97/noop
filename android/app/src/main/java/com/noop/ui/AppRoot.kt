@@ -200,9 +200,9 @@ internal enum class Destination(
     ),
     TestCentre("test_centre", R.string.nav_test_centre, Icons.Filled.BugReport),
     GroundTruthCollector("ground_truth_collector", R.string.ground_truth_title, Icons.Filled.Sensors),
-    // Stored WHOOP MG ECG records, drawn as banked. Reached only from the Test Centre's ECG section, so like
-    // GroundTruthCollector it is absent from every drawer group.
-    EcgRecordings("ecg_recordings", R.string.ecg_rec_title, Icons.Filled.MonitorHeart),
+    // WHOOP MG ECG: the timed live measurement and the stored recordings. Listed under More > Body, and
+    // also reached from the Test Centre's ECG section.
+    EcgRecordings("ecg_recordings", R.string.nav_ecg, Icons.Filled.MonitorHeart),
 
     // The "More" tab: its own navigated page (mirroring the iOS More tab) that hosts the full
     // grouped destination list. It is NOT itself in any [DrawerGroup] — it's the door to them.
@@ -247,7 +247,7 @@ internal val drawerGroups: List<DrawerGroup> = listOf(
     DrawerGroup("Body", R.string.more_group_body, listOf(
         Destination.Live, Destination.Workouts, Destination.Health, Destination.VitalSigns,
         Destination.LabBook, Destination.Stress, Destination.Breathe, Destination.Intervals,
-        Destination.Rhythm,
+        Destination.Rhythm, Destination.EcgRecordings,
     ), defaultExpanded = true),
     DrawerGroup("Data", R.string.more_group_data, listOf(
         Destination.FusedRecord, Destination.AppleHealth, Destination.DataSources,

@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,12 +34,15 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.FileProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.noop.BuildConfig
 import com.noop.R
+import com.noop.ble.EcgLiveSession
 import com.noop.data.WhoopDao
 import com.noop.data.WhoopDatabase
 import com.noop.protocol.LabradorR16
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -48,10 +53,11 @@ import kotlin.math.roundToInt
 /**
  * The stored WHOOP MG ECG recordings, drawn as they were banked (#2847 rows, #752 limits).
  *
- * Reached from the Test Centre's ECG section. Lists the active strap's readings, draws one as a scrolling
- * window of its samples, and shares it as CSV. It reads the existing `ecgWaveformSample` rows through the
- * existing DAO query and sends nothing to the strap. Nothing on this screen is derived from the waveform:
- * see [EcgRecordings] for what the numbers are.
+ * The ECG screen (More > Body, and the Test Centre's ECG section). On top, a timed 30 s measurement with
+ * the strap's live filtered trace ([EcgMeasurementCard]); below, the active strap's stored readings, one
+ * drawn as a scrolling window of its samples and shareable as CSV. Only the Start and Stop buttons send
+ * anything to the strap. Nothing on this screen is derived from the waveform: see [EcgRecordings] for
+ * what the numbers are.
  */
 @Composable
 fun EcgRecordingsScreen(vm: AppViewModel) {
@@ -60,10 +66,12 @@ fun EcgRecordingsScreen(vm: AppViewModel) {
     val deviceId = vm.activeStrapId
     var readings by remember { mutableStateOf<List<EcgRecordings.Reading>?>(null) }
     var selected by remember { mutableStateOf<EcgRecordings.Reading?>(null) }
+    val live by vm.live.collectAsStateWithLifecycle()
+    val variant by vm.ble.whoop5VariantFlow.collectAsStateWithLifecycle()
+    val session by vm.ble.ecgLiveFlow.collectAsStateWithLifecycle()
 
-    LaunchedEffect(deviceId) {
-        selected = null
-        readings = null
+    // Re-read after every sync, so a measurement's banked records appear once the strap has handed them over.
+    LaunchedEffect(deviceId, live.lastSyncAt) {
         readings = if (deviceId.isBlank()) emptyList() else withContext(Dispatchers.IO) {
             val summaries = EcgRecordings.readAll(
                 from = 0L,
@@ -78,13 +86,23 @@ fun EcgRecordingsScreen(vm: AppViewModel) {
     }
 
     ScreenScaffold(
-        title = stringResource(R.string.ecg_rec_title),
-        subtitle = stringResource(R.string.ecg_rec_subtitle),
+        title = stringResource(R.string.nav_ecg),
+        subtitle = stringResource(R.string.ecg_screen_subtitle),
     ) {
+        val current = selected
+        if (current == null) {
+            EcgMeasurementCard(
+                vm = vm,
+                canMeasure = live.connected && live.encryptedBond && variant.isMG,
+                session = session,
+            )
+        }
         NoopCard {
             Text(stringResource(R.string.ecg_rec_disclaimer), style = NoopType.caption, color = Palette.textSecondary)
         }
-        val current = selected
+        if (current == null) {
+            Text(stringResource(R.string.ecg_rec_list_header), style = NoopType.headline, color = Palette.textPrimary)
+        }
         when {
             deviceId.isBlank() -> EmptyNote(stringResource(R.string.ecg_rec_no_strap))
             readings == null -> EmptyNote(stringResource(R.string.ecg_rec_loading))
@@ -101,6 +119,140 @@ fun EcgRecordingsScreen(vm: AppViewModel) {
 private fun EmptyNote(text: String) {
     NoopCard {
         Text(text, style = NoopType.body, color = Palette.textSecondary)
+    }
+}
+
+/** Set once the wearer has read the first-measurement note; the Start button then starts directly. */
+private const val KEY_ECG_MEASUREMENT_CONSENT = "noop.ecg.measurementConsent"
+
+/** Packets shown in the live window: the most recent few seconds. */
+private const val LIVE_WINDOW_PACKETS = 5
+
+/**
+ * The timed measurement: Start (30 s, stopping on its own), a countdown, and the strap's live filtered
+ * trace while it streams. The commands go out only from the Start and Stop buttons; the first Start shows
+ * a one-time note that this is not a medical ECG. When a measurement ends here, a history sync is asked
+ * for, so the banked recording reaches the list below without waiting for the next scheduled sync.
+ */
+@Composable
+private fun EcgMeasurementCard(vm: AppViewModel, canMeasure: Boolean, session: EcgLiveSession) {
+    val context = LocalContext.current
+    val prefs = remember { NoopPrefs.of(context) }
+    var showConsent by remember { mutableStateOf(false) }
+    var nowMs by remember { mutableStateOf(System.currentTimeMillis()) }
+    var mayBeRunning by remember { mutableStateOf(vm.ble.ecgMayBeRunning) }
+    val openedAtMs = remember { System.currentTimeMillis() }
+
+    LaunchedEffect(session.running) {
+        while (session.running) {
+            nowMs = System.currentTimeMillis()
+            delay(250)
+        }
+    }
+    LaunchedEffect(session) { mayBeRunning = vm.ble.ecgMayBeRunning }
+    // Only for a measurement that ended while this screen was open, so revisiting does not re-sync.
+    LaunchedEffect(session.endedAtMs) {
+        val ended = session.endedAtMs ?: return@LaunchedEffect
+        if (ended >= openedAtMs && session.endReason != EcgLiveSession.EndReason.DISCONNECTED) {
+            delay(2_000)   // let the stop burst go out ahead of the offload request
+            vm.syncNow()
+        }
+    }
+
+    val start = { vm.ble.ecgStartMeasurement(); mayBeRunning = vm.ble.ecgMayBeRunning }
+
+    NoopCard {
+        Column(verticalArrangement = Arrangement.spacedBy(Metrics.space8)) {
+            when {
+                session.running -> Text(
+                    stringResource(R.string.ecg_measure_remaining, session.remainingSeconds(nowMs)),
+                    style = NoopType.headline, color = Palette.textPrimary,
+                )
+                !canMeasure -> Text(
+                    stringResource(R.string.ecg_measure_not_mg),
+                    style = NoopType.body, color = Palette.textSecondary,
+                )
+                else -> Text(
+                    stringResource(R.string.ecg_measure_how),
+                    style = NoopType.body, color = Palette.textSecondary,
+                )
+            }
+
+            val trace = EcgRecordings.Trace(
+                samples = session.samples,
+                recordStarts = session.packetStarts,
+                recordTs = LongArray(session.packets) { it.toLong() },
+                recordPresence = session.packetPresence,
+            )
+            val window = minOf(LIVE_WINDOW_PACKETS, trace.recordCount)
+            val first = trace.recordCount - window
+            val from = trace.recordStart(first)
+            val to = trace.samples.size
+            if (window > 0 && to > from) {
+                EcgTraceCanvas(trace, from, to, first, window)
+                Text(stringResource(R.string.ecg_live_note), style = NoopType.caption, color = Palette.textTertiary)
+            } else if (session.running) {
+                Text(stringResource(R.string.ecg_measure_waiting), style = NoopType.caption, color = Palette.textSecondary)
+            }
+
+            val endedHere = !session.running && (session.endedAtMs ?: 0L) >= openedAtMs
+            if (endedHere) {
+                val dropped = session.endReason == EcgLiveSession.EndReason.DISCONNECTED
+                Text(
+                    stringResource(if (dropped) R.string.ecg_measure_disconnected else R.string.ecg_measure_done),
+                    style = NoopType.caption,
+                    color = if (dropped) Palette.statusWarning else Palette.textSecondary,
+                )
+            }
+
+            if (session.running) {
+                NoopButton(
+                    text = stringResource(R.string.ecg_measure_stop),
+                    kind = NoopButtonKind.Destructive,
+                    fullWidth = true,
+                    onClick = { vm.ble.ecgStopMeasurement(); mayBeRunning = vm.ble.ecgMayBeRunning },
+                )
+            } else if (mayBeRunning) {
+                Text(stringResource(R.string.ecg_measure_may_run), style = NoopType.caption, color = Palette.statusWarning)
+                NoopButton(
+                    text = stringResource(R.string.ecg_measure_stop_leftover),
+                    kind = NoopButtonKind.Secondary,
+                    fullWidth = true,
+                    enabled = canMeasure,
+                    onClick = { vm.ble.ecgStopMeasurement(); mayBeRunning = vm.ble.ecgMayBeRunning },
+                )
+            } else {
+                NoopButton(
+                    text = stringResource(R.string.ecg_measure_start, EcgLiveSession.DEFAULT_DURATION_SECONDS),
+                    fullWidth = true,
+                    enabled = canMeasure,
+                    onClick = {
+                        if (prefs.getBoolean(KEY_ECG_MEASUREMENT_CONSENT, false)) start() else showConsent = true
+                    },
+                )
+            }
+        }
+    }
+
+    if (showConsent) {
+        AlertDialog(
+            onDismissRequest = { showConsent = false },
+            containerColor = Palette.surfaceOverlay,
+            title = { Text(stringResource(R.string.ecg_consent_title), style = NoopType.title2, color = Palette.textPrimary) },
+            text = { Text(stringResource(R.string.ecg_consent_body), style = NoopType.subhead, color = Palette.textSecondary) },
+            confirmButton = {
+                TextButton(onClick = {
+                    prefs.edit().putBoolean(KEY_ECG_MEASUREMENT_CONSENT, true).apply()
+                    showConsent = false
+                    start()
+                }) { Text(stringResource(R.string.ecg_consent_accept), style = NoopType.body, color = Palette.accent) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showConsent = false }) {
+                    Text(stringResource(R.string.ecg_consent_cancel), style = NoopType.body, color = Palette.textSecondary)
+                }
+            },
+        )
     }
 }
 
