@@ -84,7 +84,7 @@ fun SmartAlarmScreen(vm: AppViewModel) {
         // #766: "Alarms" because this screen now holds the phone Wake Window, the strap's firmware
         // wake-alarm (moved here from Automations), and the wind-down reminder, so the broader title fits.
         title = uiString(R.string.l10n_smart_alarm_screen_alarms_131dd3d6),
-        subtitle = "Your wake window, the strap wake-alarm, and the evening wind-down reminder, in one place.",
+        subtitle = uiStringOr(R.string.de_your_wake_window_the_strap_wake_alarm_an_e0f389, "Your wake window, the strap wake-alarm, and the evening wind-down reminder, in one place."),
     ) {
         // The guaranteed-wake card always shows so the safety promise is the first thing read.
         item {
@@ -135,7 +135,7 @@ fun SmartAlarmScreen(vm: AppViewModel) {
         AlarmSettingsCard {
             ToggleRowLocal(
                 label = uiString(R.string.l10n_smart_alarm_screen_wake_me_with_a_smart_alarm_bbbd082d),
-                help = "A guaranteed OS alarm is set for the end of your window; the strap stream can move it earlier if you're sleeping lightly.",
+                help = uiStringOr(R.string.de_a_guaranteed_os_alarm_is_set_for_the_end_54a3a2, "A guaranteed OS alarm is set for the end of your window; the strap stream can move it earlier if you're sleeping lightly."),
                 checked = enabled,
                 onChange = { want ->
                     if (want && !vm.canScheduleExactAlarms()) {
@@ -176,7 +176,7 @@ fun SmartAlarmScreen(vm: AppViewModel) {
                     Spacer(Modifier.width(16.dp))
                     TimeChip(
                         minutes = targetMinutes,
-                        accessibilityLabel = "Earliest wake time",
+                        accessibilityLabel = uiStringOr(R.string.de_earliest_wake_time_c9e2d0, "Earliest wake time"),
                         onPicked = { vm.setPhoneAlarmTargetMinutes(it) },
                     )
                 }
@@ -229,9 +229,9 @@ fun SmartAlarmScreen(vm: AppViewModel) {
             ToggleRowLocal(
                 label = uiString(R.string.l10n_smart_alarm_screen_buzz_strapname_813772f4, strapName),
                 help = if (bonded)
-                    "Also arms your $strapName to buzz at your earliest wake time, so the strap wakes you first and the phone alarm is the guaranteed backup."
+                    uiStringOr(R.string.de_also_arms_your_1_s_to_buzz_at_your_earli_f91777, "Also arms your %1\$s to buzz at your earliest wake time, so the strap wakes you first and the phone alarm is the guaranteed backup.", strapName.toString())
                 else
-                    "Connect your strap to use this. It arms the strap to buzz at your earliest wake time as a gentler first wake-up.",
+                    uiStringOr(R.string.de_connect_your_strap_to_use_this_it_arms_t_7cbe57, "Connect your strap to use this. It arms the strap to buzz at your earliest wake time as a gentler first wake-up."),
                 checked = buzzWhoop4,
                 onChange = { vm.setBuzzWhoop4Enabled(it) },
             )
@@ -275,7 +275,7 @@ private fun StrapAlarmCard(vm: AppViewModel) {
     NoopCard(padding = 20.dp, tint = if (smartAlarm) Palette.accent else null) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Overline("Morning")
+                Overline(uiStringOr(R.string.de_morning_a0cf42, "Morning"))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Filled.Alarm, contentDescription = null, tint = Palette.accent)
                     Spacer(Modifier.width(10.dp))
@@ -287,7 +287,7 @@ private fun StrapAlarmCard(vm: AppViewModel) {
             // 4.0 path experimental. The 5/MG Experimental-gate branch below is deliberately untouched.
             ToggleRowLocal(
                 label = uiString(R.string.l10n_smart_alarm_screen_wake_me_with_a_strap_buzz_1681ba1d),
-                help = "Arms the strap to buzz at your wake time, even if NOOP is closed. Sends the exact alarm command the official app sends, confirmed buzzing on a real WHOOP 4.0 (community wire capture + on-device test, #535). Keep a backup alarm for anything you truly can't miss.",
+                help = uiStringOr(R.string.de_arms_the_strap_to_buzz_at_your_wake_time_3eb5c4, "Arms the strap to buzz at your wake time, even if NOOP is closed. Sends the exact alarm command the official app sends, confirmed buzzing on a real WHOOP 4.0 (community wire capture + on-device test, #535). Keep a backup alarm for anything you truly can't miss."),
                 checked = smartAlarm,
                 onChange = { vm.setSmartAlarmEnabled(it) },
             )
@@ -298,7 +298,7 @@ private fun StrapAlarmCard(vm: AppViewModel) {
                     Spacer(Modifier.weight(1f))
                     TimeChip(
                         minutes = alarmMinutes,
-                        accessibilityLabel = "Strap alarm wake time",
+                        accessibilityLabel = uiStringOr(R.string.de_strap_alarm_wake_time_ff4cdd, "Strap alarm wake time"),
                         onPicked = { vm.setSmartAlarmMinutes(it) },
                     )
                 }
@@ -390,7 +390,7 @@ private fun WindowCard(
             Icon(Icons.Filled.Shield, contentDescription = null, tint = DomainTheme.Rest.color)
             Spacer(Modifier.width(12.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Overline("Guaranteed wake")
+                Overline(uiStringOr(R.string.de_guaranteed_wake_638a1b, "Guaranteed wake"))
                 if (enabled) {
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(hhmm(targetMinutes), style = NoopType.number(28f), color = DomainTheme.Rest.color)
@@ -505,7 +505,7 @@ private fun WindDownCard(vm: AppViewModel) {
     NoopCard(padding = 20.dp, tint = if (enabled) DomainTheme.Rest.color else null) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Overline("Evening")
+                Overline(uiStringOr(R.string.de_evening_6734e1, "Evening"))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Filled.Bedtime, contentDescription = null, tint = DomainTheme.Rest.color)
                     Spacer(Modifier.width(10.dp))
@@ -514,7 +514,7 @@ private fun WindDownCard(vm: AppViewModel) {
             }
             ToggleRowLocal(
                 label = uiString(R.string.l10n_smart_alarm_screen_remind_me_to_wind_down_4839f0d0),
-                help = "A gentle evening notification, timed from your wake time and usual sleep need, so you can settle in time. It's a suggestion, not an alarm.",
+                help = uiStringOr(R.string.de_a_gentle_evening_notification_timed_from_0c3db3, "A gentle evening notification, timed from your wake time and usual sleep need, so you can settle in time. It's a suggestion, not an alarm."),
                 checked = enabled,
                 onChange = { vm.setWindDownEnabled(it) },
             )

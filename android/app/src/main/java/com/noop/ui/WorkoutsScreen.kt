@@ -990,7 +990,7 @@ private fun SummarySection(
                 modifier = m,
                 label = uiString(R.string.l10n_workouts_screen_most_active_cf01766b),
                 value = modal?.sport ?: "–",
-                caption = modal?.let { "${it.count} session${if (it.count == 1) "" else "s"}" },
+                caption = modal?.let { if (it.count == 1) uiStringOr(R.string.workouts_sessions_one, "1 session") else uiStringOr(R.string.workouts_sessions_many, "%1\$d sessions", it.count) },
                 accent = Palette.textPrimary,
             )
         },
@@ -1015,7 +1015,7 @@ private fun BreakdownSection(groups: List<SportGroup>, rows: List<WorkoutRow>) {
         SectionHeader(
             title = uiString(R.string.l10n_workouts_screen_activity_breakdown_214431d6),
             overline = uiStringOr(R.string.de_by_sport_22170d, "By sport"),
-            trailing = "${groups.size} sport${if (groups.size == 1) "" else "s"}",
+            trailing = if (groups.size == 1) uiStringOr(R.string.workouts_sports_one, "1 sport") else uiStringOr(R.string.workouts_sports_many, "%1\$d sports", groups.size),
         )
         // This sport's own sessions, so each card can carry an HR-zone mini-bar.
         groups.forEach { g -> SportCard(g, zones = zoneSummary(rows.filter { it.sport == g.sport })) }
@@ -1091,7 +1091,7 @@ private fun ZonesSection(rows: List<WorkoutRow>) {
         SectionHeader(
             title = uiString(R.string.l10n_workouts_screen_hr_zones_293d7175),
             overline = uiStringOr(R.string.de_whoop_import_f30564, "Whoop import"),
-            trailing = "${z.sessionsWithZones} of ${rows.size} session${if (rows.size == 1) "" else "s"}",
+            trailing = if (rows.size == 1) uiStringOr(R.string.workouts_zones_of_one, "%1\$d of 1 session", z.sessionsWithZones) else uiStringOr(R.string.workouts_zones_of_many, "%1\$d of %2\$d sessions", z.sessionsWithZones, rows.size),
         )
         NoopCard(tint = Palette.effortColor) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {

@@ -3126,4 +3126,5 @@
         <item quantity="other">%1$d séances · peu de données, élargi à %2$s</item>
     </plurals>
     <string name="breathe_rate_per_min">%1$.1f resp/min</string>
+    <string name="de_0f_eff_148f1a">%.0f%% eff.</string>
 </resources>

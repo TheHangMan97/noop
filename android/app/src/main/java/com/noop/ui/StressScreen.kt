@@ -1843,7 +1843,8 @@ internal class StressModel private constructor(
                     else -> uiStringOr(R.string.de_your_autonomic_markers_are_skewed_toward_dff40e, "Your autonomic markers are skewed toward stress today. Treat it as a recovery-focused day.")
                 }
                 StressBand.Medium -> when {
-                    rhrUp || hrvDn -> "Slightly off baseline (${if (rhrUp) "resting HR is a touch high" else "HRV is a little low"}), so you're moderately activated. Nothing alarming; just don't overreach."
+                    rhrUp || hrvDn -> if (rhrUp) uiStringOr(R.string.stress_slightly_off_rhr, "Slightly off baseline (resting HR is a touch high), so you're moderately activated. Nothing alarming; just don't overreach.")
+                        else uiStringOr(R.string.stress_slightly_off_hrv, "Slightly off baseline (HRV is a little low), so you're moderately activated. Nothing alarming; just don't overreach.")
                     else -> uiStringOr(R.string.de_you_re_sitting_around_your_typical_auton_cd0fd2, "You're sitting around your typical autonomic baseline: moderate stress, a normal, balanced day.")
                 }
                 StressBand.Low -> when {

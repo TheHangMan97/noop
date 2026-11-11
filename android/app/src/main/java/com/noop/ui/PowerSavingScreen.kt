@@ -44,7 +44,7 @@ fun PowerSavingScreen(vm: AppViewModel) {
 
     ScreenScaffold(
         title = stringResource(R.string.power_saving),
-        subtitle = "Ease the load on your strap when its battery is running low.",
+        subtitle = uiStringOr(R.string.de_ease_the_load_on_your_strap_when_its_bat_e1d37c, "Ease the load on your strap when its battery is running low."),
     ) {
     // #477 Power saving. Two BENIGN battery levers only: the offload-cadence stretch (%-gated) and
     // the HRV-capture pause (Battery-Saver-gated). The riskier connection-priority idle throttle is

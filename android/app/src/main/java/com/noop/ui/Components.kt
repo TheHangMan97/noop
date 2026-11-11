@@ -244,7 +244,7 @@ fun SyncingHistoryNote(chunks: Int, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        StatePill("Syncing strap history…", tone = StrandTone.Accent, pulsing = true)
+        StatePill(uiStringOr(R.string.de_syncing_strap_history_59aaa1, "Syncing strap history…"), tone = StrandTone.Accent, pulsing = true)
         if (chunks > 0) {
             Text(
                 uiString(R.string.l10n_components_chunks_chunks_pulled_cec186cf, chunks),
@@ -1610,7 +1610,7 @@ fun BackupFailureDialog(message: String, onDismiss: () -> Unit) {
         dismissButton = {
             TextButton(onClick = {
                 val clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-                clip?.setPrimaryClip(ClipData.newPlainText("NOOP backup error", message))
+                clip?.setPrimaryClip(ClipData.newPlainText(uiStringOr(R.string.de_noop_backup_error_943ad2, "NOOP backup error"), message))
                 // Dismiss on copy. Android 13+ shows its own clipboard confirmation, but minSdk here is
                 // 26, and on everything below that a Copy that left the dialog sitting there gave no
                 // sign it had done anything. Dialog buttons conventionally dismiss anyway.

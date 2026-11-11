@@ -793,7 +793,7 @@ fun DataSourcesScreen(vm: AppViewModel) {
                     primary = if (hrBroadcastAdvertising) uiStringOr(R.string.de_standard_hr_sensor_0x180d_9ffe2c, "Standard HR sensor (0x180D)") else "—",
                     secondary = when {
                         hrBroadcastSubscribers > 0 ->
-                            "$hrBroadcastSubscribers ${if (hrBroadcastSubscribers == 1) "device" else "devices"} reading"
+                            if (hrBroadcastSubscribers == 1) uiStringOr(R.string.hr_broadcast_readers_one, "1 device reading") else uiStringOr(R.string.hr_broadcast_readers_many, "%1\$d devices reading", hrBroadcastSubscribers)
                         live.heartRate != null -> uiStringOr(R.string.de_sharing_1_s_bpm_waiting_for_a_device_2c33d5, "Sharing %1\$s bpm · waiting for a device", (live.heartRate).toString())
                         else -> uiStringOr(R.string.de_no_live_heart_rate_yet_open_live_to_pair_5b55dc, "No live heart rate yet · open Live to pair your strap")
                     },

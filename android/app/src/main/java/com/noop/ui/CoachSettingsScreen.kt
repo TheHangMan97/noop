@@ -202,7 +202,7 @@ private fun MorningBriefCard(vm: CoachViewModel) {
                     Text(stringResource(R.string.coach_morning_brief_time), style = NoopType.subhead, color = Palette.textPrimary, modifier = Modifier.weight(1f))
                     TimeChip(
                         minutes = minutes,
-                        accessibilityLabel = "Morning brief time",
+                        accessibilityLabel = uiStringOr(R.string.de_morning_brief_time_79a26f, "Morning brief time"),
                         onPicked = { vm.setBriefMinutes(context, it) },
                     )
                 }

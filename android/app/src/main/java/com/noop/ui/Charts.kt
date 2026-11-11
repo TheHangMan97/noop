@@ -87,10 +87,10 @@ private fun seriesSummary(values: List<Double>, noun: String): String {
  * `internal` only so the order and the apportionment can be pinned by a test; nothing else calls it.
  */
 internal fun hypnogramSummary(stages: List<Pair<String, Float>>): String {
-    if (stages.isEmpty()) return "Sleep stages, no data"
+    if (stages.isEmpty()) return uiStringOr(R.string.de_sleep_stages_no_data_20ec2b, "Sleep stages, no data")
     // Weights are relative widths, not minutes, so report the share of the night in each stage.
     val total = stages.map { if (it.second.isFinite() && it.second > 0f) it.second else 0f }.sum()
-    if (total <= 0f) return "Sleep stages, no data"
+    if (total <= 0f) return uiStringOr(R.string.de_sleep_stages_no_data_20ec2b, "Sleep stages, no data")
     // TWO orders, deliberately separate, because they answer different questions.
     //
     // `spoken` is what a screen-reader user hears, and it matches the visible row stacks (#2534).
@@ -122,7 +122,7 @@ internal fun hypnogramSummary(stages: List<Pair<String, Float>>): String {
             "${shares[apportion.indexOf(key)]} percent $label"
         }
     }
-    return if (parts.isEmpty()) "Sleep stages, no data" else "Sleep stages, " + parts.joinToString(", ")
+    return if (parts.isEmpty()) uiStringOr(R.string.de_sleep_stages_no_data_20ec2b, "Sleep stages, no data") else uiStringOr(R.string.de_sleep_stages_f1ed71, "Sleep stages, ") + parts.joinToString(", ")
 }
 
 // MARK: - Shared geometry helpers
@@ -685,8 +685,8 @@ fun MultiLineChart(
     // the a11y delegate reads a single line rather than walking the canvas. Changes no drawing.
     val axSummary = run {
         val all = cleanSeries.flatMap { it.values }
-        if (all.isEmpty()) "Trends, no data"
-        else "Trends, ${cleanSeries.size} series, low ${formatLineValue(all.min())}, high ${formatLineValue(all.max())}"
+        if (all.isEmpty()) uiStringOr(R.string.de_trends_no_data_02aa71, "Trends, no data")
+        else uiStringOr(R.string.de_trends_1_s_series_low_2_s_high_3_s_479718, "Trends, %1\$s series, low %2\$s, high %3\$s", (cleanSeries.size).toString(), (formatLineValue(all.min())).toString(), (formatLineValue(all.max())).toString())
     }
 
     Canvas(modifier = modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = axSummary }) {

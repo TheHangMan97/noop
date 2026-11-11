@@ -70,7 +70,7 @@ private val LIMIT_ROWS: List<LimitRow> = listOf(
 fun NoopLimitationsScreen() {
     ScreenScaffold(
         title = stringResource(R.string.nav_noop_limitations),
-        subtitle = "What each strap can read",
+        subtitle = uiStringOr(R.string.de_what_each_strap_can_read_d601fa, "What each strap can read"),
     ) {
         LimitTableCard()
         LegendCard()
@@ -81,7 +81,7 @@ fun NoopLimitationsScreen() {
 private fun LimitTableCard() {
     NoopCard(padding = 20.dp) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Overline("What NOOP reads")
+            Overline(uiStringOr(R.string.de_what_noop_reads_690e05, "What NOOP reads"))
             // Column header.
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(uiString(R.string.l10n_whoop_model_comparison_screen_feature_ad565d9d), style = NoopType.caption, color = Palette.textTertiary, modifier = Modifier.weight(1f))
@@ -109,10 +109,10 @@ private fun LimitTableCard() {
 private fun LegendCard() {
     NoopCard(padding = 20.dp) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Overline("Legend")
-            LegendRow(LimitState.FULL, "Read live off the strap")
-            LegendRow(LimitState.PARTIAL, "On-device estimate, or experimental / firmware-gated")
-            LegendRow(LimitState.NONE, "Not from the strap. SpO₂ can be filled by importing a WHOOP or Health export.")
+            Overline(uiStringOr(R.string.de_legend_584695, "Legend"))
+            LegendRow(LimitState.FULL, uiStringOr(R.string.de_read_live_off_the_strap_f3889f, "Read live off the strap"))
+            LegendRow(LimitState.PARTIAL, uiStringOr(R.string.de_on_device_estimate_or_experimental_firmw_a4ae0d, "On-device estimate, or experimental / firmware-gated"))
+            LegendRow(LimitState.NONE, uiStringOr(R.string.de_not_from_the_strap_spo_can_be_filled_by_6765c5, "Not from the strap. SpO₂ can be filled by importing a WHOOP or Health export."))
         }
     }
 }

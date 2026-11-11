@@ -466,7 +466,7 @@ private fun LiveSessionSummary(
 
         // The streak line — only once the rows have loaded (no placeholder number, ever).
         guardedCount?.let { n ->
-            val sessions = "$n session${if (n == 1) "" else "s"} guarded"
+            val sessions = if (n == 1) uiStringOr(R.string.live_session_guarded_one, "1 session guarded") else uiStringOr(R.string.live_session_guarded_many, "%1\$d sessions guarded", n)
             val run = if (streakDays >= 2) uiStringOr(R.string.de_1_s_days_in_a_row_cb9f1c, " · %1\$s days in a row", streakDays.toString()) else ""
             Text(sessions + run, style = NoopType.subhead, color = teal)
         }
@@ -504,7 +504,7 @@ internal fun liveSessionChargeSentence(charge: Double?): String {
 /** The summary's cue-count line. Zero cues is the headline case (silence IS the coaching). */
 internal fun liveSessionCueLine(pushCount: Int, easeCount: Int): String {
     if (pushCount == 0 && easeCount == 0) return uiStringOr(R.string.de_no_buzzes_sent_02390b, "No buzzes sent.")
-    val push = "$pushCount push nudge${if (pushCount == 1) "" else "s"}"
-    val ease = "$easeCount ease-off${if (easeCount == 1) "" else "s"}"
+    val push = if (pushCount == 1) uiStringOr(R.string.live_session_push_one, "1 push nudge") else uiStringOr(R.string.live_session_push_many, "%1\$d push nudges", pushCount)
+    val ease = if (easeCount == 1) uiStringOr(R.string.live_session_ease_one, "1 ease-off") else uiStringOr(R.string.live_session_ease_many, "%1\$d ease-offs", easeCount)
     return "$push · $ease"
 }

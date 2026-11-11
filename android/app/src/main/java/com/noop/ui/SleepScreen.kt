@@ -1866,7 +1866,7 @@ private fun MainSleepFooter(
     // there, so flip it to "Oura" too, matching iOS SleepView.nightSource (WHOOP/Apple imports still win).
     val base = daySourceBadge(main.deviceId)
     val (sourceText, sourceTint) =
-        if (base.first == "On-device" && activeIsOura) "Oura" to Palette.restColor else base
+        if (main.deviceId.endsWith("-noop") && activeIsOura) "Oura" to Palette.restColor else base
     var showWhy by remember(main.startTs) { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.space10)) {
         Row(verticalAlignment = Alignment.CenterVertically) {

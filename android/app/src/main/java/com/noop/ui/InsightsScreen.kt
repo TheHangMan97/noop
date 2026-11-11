@@ -1383,7 +1383,8 @@ private fun experimentReading(s: ExperimentSnapshot): String {
         return uiStringOr(R.string.de_1_s_is_flat_against_baseline_on_logged_f71779, "%1\$s is flat against baseline on logged intervention days.", (s.outcome.outcomeName).toString())
     }
     val movedGood = if (s.outcome.higherIsBetter) delta > 0 else delta < 0
-    return "${s.outcome.outcomeName} is $absStr ${if (movedGood) "better" else "worse"} than baseline on days you logged this behaviour."
+    return if (movedGood) uiStringOr(R.string.insights_exp_better, "%1\$s is %2\$s better than baseline on days you logged this behaviour.", s.outcome.outcomeName, absStr)
+    else uiStringOr(R.string.insights_exp_worse, "%1\$s is %2\$s worse than baseline on days you logged this behaviour.", s.outcome.outcomeName, absStr)
 }
 
 private fun experimentDeltaColor(s: ExperimentSnapshot): Color {
@@ -1717,17 +1718,17 @@ private fun effectMagnitudeWord(d: Double): String {
 private fun strengthWord(r: Double): String {
     val m = abs(r)
     return when {
-        m < 0.1 -> "No"
-        m < 0.3 -> "A weak"
-        m < 0.5 -> "A moderate"
-        m < 0.7 -> "A strong"
-        else -> "A very strong"
+        m < 0.1 -> uiStringOr(R.string.rel_str_no, "No")
+        m < 0.3 -> uiStringOr(R.string.rel_str_weak, "A weak")
+        m < 0.5 -> uiStringOr(R.string.rel_str_moderate, "A moderate")
+        m < 0.7 -> uiStringOr(R.string.rel_str_strong, "A strong")
+        else -> uiStringOr(R.string.rel_str_very_strong, "A very strong")
     }
 }
 
 private fun relationshipSentence(rel: Relationship): String {
-    val dir = if (rel.r > 0) "positive" else if (rel.r < 0) "negative" else "flat"
-    return "${strengthWord(rel.r)} $dir relationship (r = ${String.format(Locale.US, "%.2f", rel.r)}, n = ${rel.n})."
+    val dir = if (rel.r > 0) uiStringOr(R.string.rel_dir_positive, "positive") else if (rel.r < 0) uiStringOr(R.string.rel_dir_negative, "negative") else uiStringOr(R.string.rel_dir_flat, "flat")
+    return uiStringOr(R.string.rel_sentence_r, "%1\$s %2\$s relationship (r = %3\$s, n = %4\$d).", strengthWord(rel.r), dir, String.format(Locale.US, "%.2f", rel.r), rel.n)
 }
 
 /** Tint a correlation by strength, keyed on the recovery gradient so strong positive

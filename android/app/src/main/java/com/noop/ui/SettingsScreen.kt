@@ -1229,8 +1229,7 @@ fun SettingsScreen(
                 SettingsFormRow(label = uiString(R.string.l10n_settings_screen_step_calibration_351c09bf)) {
                     StepperField(
                         value = "%.1f".format(profile.stepTicksPerStep),
-                        accessibility = "Step calibration, %.1f counter ticks per step"
-                            .format(profile.stepTicksPerStep),
+                        accessibility = uiStringOr(R.string.settings_step_cal_a11y, "Step calibration, %1\$.1f counter ticks per step", profile.stepTicksPerStep),
                         onMinus = { mutate { profile.stepTicksPerStep = ProfileStore.steppedStepScale(profile.stepTicksPerStep, up = false) } },
                         onPlus = { mutate { profile.stepTicksPerStep = ProfileStore.steppedStepScale(profile.stepTicksPerStep, up = true) } },
                     )

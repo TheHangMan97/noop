@@ -517,7 +517,7 @@ class CoachViewModel(app: Application) : AndroidViewModel(app) {
                     // No text received at all — remove the empty placeholder.
                     _messages.value = _messages.value.filterNot { it.id == placeholderId }
                 }
-                _error.value = e.message ?: "Something went wrong. Please try again."
+                _error.value = e.message ?: uiStringOr(R.string.de_something_went_wrong_please_try_again_9a3ea0, "Something went wrong. Please try again.")
                 // Typed, never text-matched: the message is localized and the type is not.
                 _keyRejected.value = e is AiKeyRejectedException
             } finally {
@@ -628,7 +628,7 @@ class CoachViewModel(app: Application) : AndroidViewModel(app) {
                         JournalEntry(
                             deviceId = (app as NoopApplication).activeDeviceId,
                             day = day,
-                            question = "Coach advice",
+                            question = uiStringOr(R.string.de_coach_advice_5b2399, "Coach advice"),
                             answeredYes = true,
                             notes = text,
                         )
@@ -697,7 +697,7 @@ class CoachViewModel(app: Application) : AndroidViewModel(app) {
                 conversationDay = LocalDate.now().toEpochDay()
                 persistMessages()
             } else {
-                _briefStatus.value = "Couldn't generate a brief right now — check your key and data access."
+                _briefStatus.value = uiStringOr(R.string.de_couldn_t_generate_a_brief_right_now_chec_bcbaa8, "Couldn't generate a brief right now — check your key and data access.")
             }
             _briefGenerating.value = false
         }

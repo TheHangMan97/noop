@@ -454,7 +454,7 @@ private fun ManualAdjustCard(
                 val preview = (sampleMotion * effective).roundToInt()
                 StatLine(
                     uiStringOr(R.string.de_a_typical_recent_day_a8cc34, "A typical recent day"),
-                    "≈ ${grouped(preview)} steps${if (manual > 0) " at this setting" else " (auto)"}",
+                    if (manual > 0) uiStringOr(R.string.steps_cal_preview_manual, "≈ %1\$s steps at this setting", grouped(preview)) else uiStringOr(R.string.steps_cal_preview_auto, "≈ %1\$s steps (auto)", grouped(preview)),
                 )
             }
             if (manual > 0) {

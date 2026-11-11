@@ -906,7 +906,7 @@ internal fun breatheOutcomeCore(
     if (baseline == null || baseline <= 0 || count == 0) return "—"
     val mean = sum / count
     val pct = ((mean - baseline) / baseline * 100).roundToInt()
-    return String.format(Locale.US, "%+d%% vs start · peak %.0f ms", pct, peak)
+    return uiStringOr(R.string.breathe_vs_start, "%1\$+d%% vs start · peak %2\$.0f ms", pct, peak)
 }
 
 /**
@@ -1067,8 +1067,7 @@ private fun honestNudgeLine(n: StressNudgeCenter.Nudge): String? {
     val fast = n.fastRMSSD ?: return null
     val base = n.baselineRMSSD ?: return null
     if (base <= 0.0) return null
-    return String.format(Locale.US,
-        "RMSSD %.0f ms now vs your ~%.0f ms baseline (estimate from PPG-derived R-R).", fast, base)
+    return uiStringOr(R.string.breathe_rmssd_vs_baseline, "RMSSD %1\$.0f ms now vs your ~%2\$.0f ms baseline (estimate from PPG-derived R-R).", fast, base)
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -1103,7 +1102,7 @@ private fun ResonanceMode(
         val paces = if (quick) ResonanceEngine.QUICK_SWEEP_PACES else ResonanceEngine.FULL_SWEEP_PACES
         val samples = ArrayList<ResonanceEngine.PaceSample>()
         for ((index, bpm) in paces.withIndex()) {
-            sweepLabel = String.format(Locale.US, "Testing %.1f br/min…", bpm)
+            sweepLabel = uiStringOr(R.string.breathe_testing_rate, "Testing %1\$.1f br/min…", bpm)
             val startTs = (System.currentTimeMillis() / 1000).toInt()
             val bucket = ArrayList<ResonanceEngine.RrBeat>()
             // Collect this pace's R-R while we pace it; fire the cue list (1 inhale / 2 exhale) on tempo.

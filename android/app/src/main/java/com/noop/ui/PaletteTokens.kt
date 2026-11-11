@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
@@ -163,8 +164,8 @@ val LightTokens = PaletteTokens(
 // MARK: - Chart style (data-viz colour mode) + the Classic throwback ramps
 
 enum class ChartStyle(val storageValue: String, val label: String) {
-    TITANIUM("titanium", "Titanium"),
-    CLASSIC("classic", "Classic");
+    TITANIUM("titanium", uiStringOr(R.string.de_titanium_6d1def, "Titanium")),
+    CLASSIC("classic", uiStringOr(R.string.de_classic_130cd7, "Classic"));
 
     companion object {
         fun fromStorage(raw: String?): ChartStyle = entries.firstOrNull { it.storageValue == raw } ?: TITANIUM
@@ -256,9 +257,9 @@ val ClassicLight = ClassicRamp(
 // MARK: - Appearance preference (System / Light / Dark)
 
 enum class AppearanceMode(val storageValue: String, val label: String) {
-    SYSTEM("system", "System"),
-    LIGHT("light", "Light"),
-    DARK("dark", "Dark");
+    SYSTEM("system", uiStringOr(R.string.de_system_bc0792, "System")),
+    LIGHT("light", uiStringOr(R.string.de_light_a36ef8, "Light")),
+    DARK("dark", uiStringOr(R.string.de_dark_ae1ef0, "Dark"));
 
     companion object {
         fun fromStorage(raw: String?): AppearanceMode =
@@ -328,9 +329,9 @@ object AppearancePrefs {
 /** The user's CHROME accent colour (buttons/links/selection/focus). Chrome only — the recovery/strain/
  *  sleep DATA colour worlds are never themed by this. Twin of macOS `AccentColor` (StrandDesign). */
 enum class AccentColor(val storageValue: String, val label: String) {
-    MINT("mint", "Mint"),
-    WHOOP_BLUE("whoopBlue", "WHOOP Blue"),
-    CUSTOM("custom", "Custom");
+    MINT("mint", uiStringOr(R.string.de_mint_aaa70f, "Mint")),
+    WHOOP_BLUE("whoopBlue", uiStringOr(R.string.de_whoop_blue_638c26, "WHOOP Blue")),
+    CUSTOM("custom", uiStringOr(R.string.de_custom_081ae3, "Custom"));
 
     companion object {
         /** Seeds the custom picker (mint) so a fresh Custom selection is not black. */
@@ -403,12 +404,12 @@ enum class ThemePreset(
     val backdrop: Boolean,
     val cardOpacity: Int,       // percent, 100 = solid
 ) {
-    MINT("mint", "Mint", AccentColor.MINT, ChartStyle.TITANIUM, true, 100),
-    OCEAN("ocean", "Ocean", AccentColor.WHOOP_BLUE, ChartStyle.TITANIUM, true, 100),
-    CLASSIC("classic", "Classic", AccentColor.WHOOP_BLUE, ChartStyle.CLASSIC, true, 100),
-    MIDNIGHT("midnight", "Midnight", AccentColor.MINT, ChartStyle.TITANIUM, false, 100),
-    FROSTED("frosted", "Frosted", AccentColor.MINT, ChartStyle.TITANIUM, true, 85),
-    CUSTOM("custom", "Custom", null, null, true, 100);
+    MINT("mint", uiStringOr(R.string.de_mint_aaa70f, "Mint"), AccentColor.MINT, ChartStyle.TITANIUM, true, 100),
+    OCEAN("ocean", uiStringOr(R.string.de_ocean_76022a, "Ocean"), AccentColor.WHOOP_BLUE, ChartStyle.TITANIUM, true, 100),
+    CLASSIC("classic", uiStringOr(R.string.de_classic_130cd7, "Classic"), AccentColor.WHOOP_BLUE, ChartStyle.CLASSIC, true, 100),
+    MIDNIGHT("midnight", uiStringOr(R.string.de_midnight_558287, "Midnight"), AccentColor.MINT, ChartStyle.TITANIUM, false, 100),
+    FROSTED("frosted", uiStringOr(R.string.de_frosted_c10fb7, "Frosted"), AccentColor.MINT, ChartStyle.TITANIUM, true, 85),
+    CUSTOM("custom", uiStringOr(R.string.de_custom_081ae3, "Custom"), null, null, true, 100);
 
     companion object {
         /** The presets a user can pick (everything but the derived CUSTOM sentinel). */

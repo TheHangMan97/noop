@@ -108,7 +108,7 @@ fun BackupSyncScreen() {
                         // would still ack and trim the strap PAST records we can't store, discarding real history.
                         // Relaunching the process re-opens Room against the restored file. Do it automatically
                         // rather than trust the user to read a toast (which is exactly how #57 happened).
-                        Toast.makeText(context, "Backup restored — restarting NOOP…", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, uiStringOr(R.string.de_backup_restored_restarting_noop_0d2a70, "Backup restored — restarting NOOP…"), Toast.LENGTH_LONG).show()
                         // NonCancellable: this coroutine runs in the screen's scope, which is cancelled the
                         // instant the user navigates away. The restart is a data-safety guarantee (the DB is
                         // already swapped), so it must complete even if the composition leaves — otherwise the
@@ -158,12 +158,12 @@ fun BackupSyncScreen() {
         ActivityResultContracts.OpenDocument(),
     ) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
-        pendingRestore = "the selected file" to uri
+        pendingRestore = uiStringOr(R.string.de_the_selected_file_a4ef35, "the selected file") to uri
     }
 
     LazyScreenScaffold(
         title = uiString(R.string.l10n_backup_sync_screen_backup_sync_81758ffa),
-        subtitle = "Save a full backup to a folder you choose - point it at Google Drive / Dropbox for off-device sync.",
+        subtitle = uiStringOr(R.string.de_save_a_full_backup_to_a_folder_you_choos_665133, "Save a full backup to a folder you choose - point it at Google Drive / Dropbox for off-device sync."),
     ) {
         // 1 · Destination folder
         item {
@@ -298,7 +298,7 @@ fun BackupSyncScreen() {
                         Spacer(Modifier.width(16.dp))
                         TimeChip(
                             minutes = backupMinute,
-                            accessibilityLabel = "Daily backup time",
+                            accessibilityLabel = uiStringOr(R.string.de_daily_backup_time_d887be, "Daily backup time"),
                             onPicked = { m ->
                                 backupMinute = m
                                 BackupSyncPrefs.setBackupMinute(context, m)
@@ -354,9 +354,9 @@ fun BackupSyncScreen() {
                                     Toast.makeText(
                                         context,
                                         if (ok) {
-                                            "Backed up to your folder."
+                                            uiStringOr(R.string.de_backed_up_to_your_folder_323650, "Backed up to your folder.")
                                         } else {
-                                            "Backup failed - re-pick the folder and try again."
+                                            uiStringOr(R.string.de_backup_failed_re_pick_the_folder_and_try_096e3a, "Backup failed - re-pick the folder and try again.")
                                         },
                                         Toast.LENGTH_LONG,
                                     ).show()
@@ -444,7 +444,7 @@ fun BackupSyncScreen() {
                                 .clickable {
                                     showSnapshotPicker = false
                                     pendingRestore = if (snap.timeMs > 0L) {
-                                        "the backup from $whenLabel"
+                                        uiStringOr(R.string.de_the_backup_from_1_s_87a65a, "the backup from %1\$s", whenLabel.toString())
                                     } else {
                                         snap.name
                                     } to snap.uri
@@ -515,6 +515,6 @@ private val RESTORE_MIME_TYPES = arrayOf(
 
 /** A short, human label for a SAF tree Uri (the part after the volume colon). */
 private fun folderLabel(treeUri: Uri): String {
-    val seg = treeUri.lastPathSegment ?: return "selected folder"
+    val seg = treeUri.lastPathSegment ?: return uiStringOr(R.string.de_selected_folder_9ada09, "selected folder")
     return seg.substringAfterLast(':').ifBlank { seg }
 }

@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -2151,10 +2152,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             // No strain: a leaner summary that still tells the user the session landed.
             val pieces = buildList {
                 add(ScheduledReportPolicy.durationLabel(durMin))
-                row.avgHr?.let { add("avg $it bpm") }
+                row.avgHr?.let { add(uiStringOr(R.string.de_avg_1_s_bpm_37c175, "avg %1\$s bpm", it.toString())) }
             }
-            "Workout logged: ${WorkoutEditing.displaySport(row.sport)}" to
-                (pieces.joinToString(" · ") + ". Summarised after your strap synced.")
+            uiStringOr(R.string.de_workout_logged_1_s_d6aab4, "Workout logged: %1\$s", (WorkoutEditing.displaySport(row.sport)).toString()) to
+                (pieces.joinToString(" · ") + uiStringOr(R.string.de_summarised_after_your_strap_synced_e7192a, ". Summarised after your strap synced."))
         }
         ScheduledReportNotifier.onWorkout(appContext, row.startTs, title, body)
     }
@@ -3265,11 +3266,11 @@ enum class DoubleTapAction {
     /** The picker label, mirroring the iOS `MacActionKind.label` wording for the same cases. */
     val label: String
         get() = when (this) {
-            NONE -> "Nothing"
-            BUZZ_BACK -> "Buzz back (confirm)"
-            MARK_MOMENT -> "Mark a moment"
-            SLEEP_MARK -> "Log a sleep mark"
-            HAPTIC_CLOCK -> "Buzz the time"
+            NONE -> uiStringOr(R.string.de_nothing_448194, "Nothing")
+            BUZZ_BACK -> uiStringOr(R.string.de_buzz_back_confirm_b42e21, "Buzz back (confirm)")
+            MARK_MOMENT -> uiStringOr(R.string.de_mark_a_moment_386056, "Mark a moment")
+            SLEEP_MARK -> uiStringOr(R.string.de_log_a_sleep_mark_ee8cef, "Log a sleep mark")
+            HAPTIC_CLOCK -> uiStringOr(R.string.de_buzz_the_time_a5ceb6, "Buzz the time")
         }
 
     companion object {

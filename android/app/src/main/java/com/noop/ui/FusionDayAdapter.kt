@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import com.noop.analytics.DayOwnerResolver
 import com.noop.analytics.FusionInput
 import com.noop.analytics.FusionResolver
@@ -25,15 +26,15 @@ object FusionDayAdapter {
     private data class MetricSpec(val key: String, val label: String)
 
     private val METRICS: List<MetricSpec> = listOf(
-        MetricSpec("rhr", "Resting HR"),
+        MetricSpec("rhr", uiStringOr(R.string.de_resting_hr_266770, "Resting HR")),
         MetricSpec("hrv", "HRV"),
-        MetricSpec("skin_temp", "Skin temperature"),
-        MetricSpec("spo2", "Blood O₂"),
-        MetricSpec("steps", "Steps"),
-        MetricSpec("active_kcal", "Active energy"),
-        MetricSpec("sleep_total_min", "Asleep time"),
-        MetricSpec("sleep_deep_min", "Deep sleep"),
-        MetricSpec("sleep_rem_min", "REM sleep"),
+        MetricSpec("skin_temp", uiStringOr(R.string.de_skin_temperature_fc1030, "Skin temperature")),
+        MetricSpec("spo2", uiStringOr(R.string.de_blood_o_9bf5ed, "Blood O₂")),
+        MetricSpec("steps", uiStringOr(R.string.de_steps_cdde4f, "Steps")),
+        MetricSpec("active_kcal", uiStringOr(R.string.de_active_energy_63a05d, "Active energy")),
+        MetricSpec("sleep_total_min", uiStringOr(R.string.de_asleep_time_bb5bff, "Asleep time")),
+        MetricSpec("sleep_deep_min", uiStringOr(R.string.de_deep_sleep_865e58, "Deep sleep")),
+        MetricSpec("sleep_rem_min", uiStringOr(R.string.de_rem_sleep_d0c12b, "REM sleep")),
     )
 
     /**

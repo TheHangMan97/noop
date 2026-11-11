@@ -1057,7 +1057,7 @@ private fun wornLabel(live: LiveState, activeConnection: Boolean, ouraWear: Oura
     val liveLink = activeConnection || ringStreaming(live)
     return when {
         !liveLink -> "—"
-        ouraWear != null -> if (ouraWear == OuraWearState.WORN) "Yes" else "No"
+        ouraWear != null -> if (ouraWear == OuraWearState.WORN) uiStringOr(R.string.common_yes, "Yes") else uiStringOr(R.string.common_no, "No")
         else -> if (live.worn) "Yes" else "No"
     }
 }

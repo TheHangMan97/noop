@@ -297,7 +297,7 @@ fun NotificationsSettingsScreen(vm: AppViewModel) {
             ) {
                 StatePill(strapPillTitle(live), tone = strapPillTone(live), pulsing = live.connected)
                 StatePill(
-                    "$enabledCount app${if (enabledCount == 1) "" else "s"} on",
+                    if (enabledCount == 1) uiStringOr(R.string.notif_apps_on_one, "1 app on") else uiStringOr(R.string.notif_apps_on_many, "%1\$d apps on", enabledCount),
                     tone = if (enabledCount > 0) StrandTone.Positive else StrandTone.Neutral,
                     showsDot = false,
                 )

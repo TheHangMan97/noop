@@ -75,7 +75,7 @@ private const val COUPLED_STRAIN_OUT_OF = 21.0
 
 /** The missing-value placeholder, matching the app's shipped "No Data" token (TodayScreen.COUPLED_NO_DATA is
  *  file-private, so the coupled screen carries its own copy of the same string). */
-private const val COUPLED_NO_DATA = "No Data"
+private val COUPLED_NO_DATA: String get() = uiStringOr(R.string.coupled_no_data, "No Data")
 
 // The liquid hero-card wrapper values, byte-identical to the liquid Today pilot (TodayScreen's
 // LIQUID_HERO_FILL / LIQUID_HERO_RADIUS are file-private, so the coupled screen carries its own copy):
@@ -329,7 +329,7 @@ private fun HeroCard(
             .clickable(
                 interactionSource = interaction,
                 indication = null,
-                onClickLabel = "See what shaped your Charge",
+                onClickLabel = uiStringOr(R.string.de_see_what_shaped_your_charge_a0530d, "See what shaped your Charge"),
                 onClick = onTap,
             )
             .semantics { contentDescription = a11y },
@@ -492,10 +492,10 @@ private fun StrainCard(dayStrain21: Double?, recovery: Double?, calories: Double
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(14.dp),
             ) {
-                HeroStat("Day Strain", dayStrain21?.let { String.format(Locale.US, "%.1f", it) } ?: COUPLED_NO_DATA, Palette.effortColor)
-                OptimalStat("Optimal", recovery)
-                HeroStat("Calories", calories?.let { "${it.roundToInt()} kcal" } ?: COUPLED_NO_DATA, Palette.metricAmber)
-                HeroStat("Workouts", workouts.toString(), Palette.textPrimary)
+                HeroStat(uiStringOr(R.string.de_day_strain_ec5de0, "Day Strain"), dayStrain21?.let { String.format(Locale.US, "%.1f", it) } ?: COUPLED_NO_DATA, Palette.effortColor)
+                OptimalStat(uiStringOr(R.string.de_optimal_5193a4, "Optimal"), recovery)
+                HeroStat(uiStringOr(R.string.de_calories_3e62ec, "Calories"), calories?.let { "${it.roundToInt()} kcal" } ?: COUPLED_NO_DATA, Palette.metricAmber)
+                HeroStat(uiStringOr(R.string.de_workouts_ccb58b, "Workouts"), workouts.toString(), Palette.textPrimary)
             }
         }
     }
@@ -574,7 +574,7 @@ private fun SleepCard(
             .clickable(
                 interactionSource = interaction,
                 indication = null,
-                onClickLabel = "Open Sleep",
+                onClickLabel = uiStringOr(R.string.de_open_sleep_2851f6, "Open Sleep"),
                 onClick = onOpenSleep,
             )
             .liquidPress(interaction),
@@ -636,7 +636,7 @@ private fun SleepCard(
 
 /** The header subtitle "Today, d MMM". */
 private fun subtitleToday(): String =
-    "Today, " + SimpleDateFormat("d MMM", Locale.getDefault()).format(Date())
+    uiStringOr(R.string.de_today_6daff7, "Today, ") + SimpleDateFormat("d MMM", Locale.getDefault()).format(Date())
 
 /** "6h 42m" from a minutes count, for the slept-vs-needed read. Mirrors CoupledView.hoursMinutes EXACTLY. */
 internal fun hoursMinutes(minutes: Double): String {

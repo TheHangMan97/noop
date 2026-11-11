@@ -148,7 +148,7 @@ data class CompareMetric(
  * [DailyMetric] so a my-whoop metric can be derived from the daily cache as a fallback.
  */
 private object CompareCatalog {
-    val categories = listOf("Heart", "Charge", "Rest", uiStringOr(R.string.de_effort_8c974b, "Effort"), "Health", "Nutrition", "Mind")
+    val categories = listOf("Heart", "Charge", "Rest", "Effort", "Health", "Nutrition", "Mind")
 
     val all: List<CompareMetric> = listOf(
         // Heart
@@ -175,8 +175,8 @@ private object CompareCatalog {
         CompareMetric("sleep_rem_min", uiStringOr(R.string.de_rem_sleep_77605e, "REM Sleep"), "Rest", "min", "my-whoop", 0),
         CompareMetric("sleep_light_min", uiStringOr(R.string.de_light_sleep_d4bbaf, "Light Sleep"), "Rest", "min", "my-whoop", 0),
         // Effort (was Strain)
-        CompareMetric("strain", uiStringOr(R.string.de_effort_8c974b, uiStringOr(R.string.de_effort_8c974b, "Effort")), "Effort", "/100", "my-whoop", 1),
-        CompareMetric("steps", uiStringOr(R.string.de_steps_cdde4f, "Steps"), uiStringOr(R.string.de_effort_8c974b, "Effort"), "", "apple-health", 0),
+        CompareMetric("strain", uiStringOr(R.string.de_effort_8c974b, "Effort"), "Effort", "/100", "my-whoop", 1),
+        CompareMetric("steps", uiStringOr(R.string.de_steps_cdde4f, "Steps"), "Effort", "", "apple-health", 0),
         // On-device steps ESTIMATE for a WHOOP 4.0 (no real step count over BLE): the strap's daily
         // motion volume scaled by a personal calibration, stored under the computed "-noop" source.
         // Distinct from the real "steps" above — labelled "(estimated)" so it never reads as measured.
@@ -662,7 +662,7 @@ private fun AddMetricMenu(
                 val metrics = CompareCatalog.inCategory(category)
                 if (metrics.isNotEmpty()) {
                     Text(
-                        category.uppercase(),
+                        compareCategoryLabel(category).uppercase(),
                         style = NoopType.overline,
                         color = Palette.textTertiary,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -1338,15 +1338,14 @@ private fun PairCard(p: PairResult) {
 // MARK: - Insight language (ported from CompareView)
 
 private fun insightSentence(p: PairResult): String {
-    val head = ("${p.a.metric.title} ↔ ${p.b.metric.title}: r = ${signedR(p.r)} (${strengthWord(p.r)} ${directionWord(p.r)}) over ${p.n} shared days.")
+    val head = (uiStringOr(R.string.compare_insight_head, "%1\$s ↔ %2\$s: r = %3\$s (%4\$s %5\$s) over %6\$d shared days.", p.a.metric.title, p.b.metric.title, signedR(p.r), strengthWord(p.r), directionWord(p.r), p.n))
         .replace("  ", " ").replace(" )", ")")
     if (abs(p.r) < 0.3) {
-        return "$head No clear relationship - they move largely independently."
+        return head + " " + uiStringOr(R.string.compare_insight_none, "No clear relationship - they move largely independently.")
     }
-    val aT = p.a.metric.title.lowercase()
-    val bT = p.b.metric.title.lowercase()
-    val verb = if (p.r < 0) "tends to fall" else "tends to rise"
-    return "$head When $aT rises, $bT $verb - a ${strengthWord(p.r)} ${directionWord(p.r)} link."
+    val res = if (p.r < 0) R.string.compare_insight_fall else R.string.compare_insight_rise
+    val en = if (p.r < 0) "When %1\$s rises, %2\$s tends to fall - a %3\$s %4\$s link." else "When %1\$s rises, %2\$s tends to rise - a %3\$s %4\$s link."
+    return head + " " + uiStringOr(res, en, p.a.metric.title, p.b.metric.title, strengthWord(p.r), directionWord(p.r))
 }
 
 private fun signedR(r: Double): String {
@@ -1357,17 +1356,29 @@ private fun signedR(r: Double): String {
 private fun strengthWord(r: Double): String {
     val a = abs(r)
     return when {
-        a < 0.1 -> "negligible"
-        a < 0.3 -> "weak"
-        a < 0.5 -> "moderate"
-        a < 0.7 -> "strong"
-        else -> "very strong"
+        a < 0.1 -> uiStringOr(R.string.compare_str_negligible, "negligible")
+        a < 0.3 -> uiStringOr(R.string.compare_str_weak, "weak")
+        a < 0.5 -> uiStringOr(R.string.compare_str_moderate, "moderate")
+        a < 0.7 -> uiStringOr(R.string.compare_str_strong, "strong")
+        else -> uiStringOr(R.string.compare_str_very_strong, "very strong")
     }
 }
 
 private fun directionWord(r: Double): String {
     if (abs(r) < 0.1) return ""
-    return if (r >= 0) "positive" else "negative"
+    return if (r >= 0) uiStringOr(R.string.compare_dir_positive, "positive") else uiStringOr(R.string.compare_dir_negative, "negative")
+}
+
+/** Display label for a [CompareCatalog] category key; the English key itself is what metrics group on. */
+private fun compareCategoryLabel(key: String): String = when (key) {
+    "Heart" -> uiStringOr(R.string.compare_cat_heart, "Heart")
+    "Charge" -> uiStringOr(R.string.compare_cat_charge, "Charge")
+    "Rest" -> uiStringOr(R.string.compare_cat_rest, "Rest")
+    "Effort" -> uiStringOr(R.string.compare_cat_effort, "Effort")
+    "Health" -> uiStringOr(R.string.compare_cat_health, "Health")
+    "Nutrition" -> uiStringOr(R.string.compare_cat_nutrition, "Nutrition")
+    "Mind" -> uiStringOr(R.string.compare_cat_mind, "Mind")
+    else -> key
 }
 
 private fun correlationColor(r: Double): Color {

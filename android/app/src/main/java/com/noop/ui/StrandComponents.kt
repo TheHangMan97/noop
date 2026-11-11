@@ -51,9 +51,9 @@ internal fun ThreeDaySelectorBar(
             val day = base.minusDays(offset.toLong())
             val selected = selectedOffset == offset
             val label = when (offset) {
-                0 -> "Today"
-                1 -> "Yesterday"
-                else -> "2 days ago"
+                0 -> uiStringOr(R.string.de_today_24345a, "Today")
+                1 -> uiStringOr(R.string.de_yesterday_da2483, "Yesterday")
+                else -> uiStringOr(R.string.de_2_days_ago_51c39f, "2 days ago")
             }
             val date = day.format(DateTimeFormatter.ofPattern("d MMM", Locale.US))
             Column(
@@ -142,8 +142,8 @@ internal fun DayNavBar(
 
     val canGoNewer = selectedOffset > 0
     val label = when (selectedOffset) {
-        0 -> "Today"
-        1 -> "Yesterday"
+        0 -> uiStringOr(R.string.de_today_24345a, "Today")
+        1 -> uiStringOr(R.string.de_yesterday_da2483, "Yesterday")
         else -> selectedDay.format(DateTimeFormatter.ofPattern("EEE d MMM", Locale.US))
     }
     val date = selectedDay.format(DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US))
@@ -165,7 +165,7 @@ internal fun DayNavBar(
                 // dark-yellow block); the gold pop lives only on the date text itself.
                 .background(Palette.surfaceInset)
                 .border(Metrics.divider, Palette.hairline, blockShape)
-                .clickable(onClickLabel = "Pick a date") { showPicker = true }
+                .clickable(onClickLabel = uiStringOr(R.string.de_pick_a_date_629b7c, "Pick a date")) { showPicker = true }
                 .padding(vertical = Metrics.selectorPadding, horizontal = Metrics.selectorPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

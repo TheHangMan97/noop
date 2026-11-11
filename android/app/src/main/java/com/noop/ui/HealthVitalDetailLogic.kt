@@ -261,8 +261,8 @@ internal fun vitalReadingDateLabel(
     val date = runCatching { LocalDate.parse(day) }.getOrNull() ?: return day
     val dated = date.format(DateTimeFormatter.ofPattern("EEE d MMM", locale))
     return when (date) {
-        today -> "Today · ${date.format(DateTimeFormatter.ofPattern("EEE", locale))}"
-        today.minusDays(1) -> "Yesterday · ${date.format(DateTimeFormatter.ofPattern("EEE", locale))}"
+        today -> uiStringOr(R.string.vital_day_today, "Today · %1\$s", date.format(DateTimeFormatter.ofPattern("EEE", locale)))
+        today.minusDays(1) -> uiStringOr(R.string.vital_day_yesterday, "Yesterday · %1\$s", date.format(DateTimeFormatter.ofPattern("EEE", locale)))
         else -> dated
     }
 }

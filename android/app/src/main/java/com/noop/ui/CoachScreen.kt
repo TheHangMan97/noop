@@ -97,7 +97,7 @@ fun CoachScreen(vm: CoachViewModel = viewModel(), onOpenSettings: () -> Unit = {
 
     ScreenScaffold(
         title = uiString(R.string.l10n_coach_screen_coach_b32c9ad3),
-        subtitle = "Ask about your recovery, strain, sleep and HRV, grounded in your own numbers.",
+        subtitle = uiStringOr(R.string.de_ask_about_your_recovery_strain_sleep_and_57c693, "Ask about your recovery, strain, sleep and HRV, grounded in your own numbers."),
         // LIQUID SKY BACKDROP (the pilot pattern — LiquidScreenSky.kt): the liquid sky sits behind the
         // header and the cards float over the flat canvas below. Reuses the shared LiquidScreenSky() slot
         // verbatim; when the day-cycle background is off, the scaffold paints the plain surface instead.
@@ -149,7 +149,7 @@ private fun CoachSetup(vm: CoachViewModel) {
 
             // Provider choice.
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Overline("Provider")
+                Overline(uiStringOr(R.string.de_provider_7ceee3, "Provider"))
                 SegmentedPillControl(
                     items = AiProvider.entries,
                     selection = provider,
@@ -161,7 +161,7 @@ private fun CoachSetup(vm: CoachViewModel) {
             // Server URL, Custom (local LLM) only.
             if (isCustom) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Overline("Server URL")
+                    Overline(uiStringOr(R.string.de_server_url_1d5d1e, "Server URL"))
                     OutlinedTextField(
                         value = customBaseUrl,
                         onValueChange = { vm.setCustomBaseUrl(context, it) },
@@ -196,7 +196,7 @@ private fun CoachSetup(vm: CoachViewModel) {
             // Model dropdown + live-list refresh.
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Overline("Model")
+                    Overline(uiStringOr(R.string.de_model_68c2cc, "Model"))
                     Spacer(Modifier.weight(1f))
                     RefreshModelsButton(
                         refreshing = refreshingModels,
@@ -214,7 +214,7 @@ private fun CoachSetup(vm: CoachViewModel) {
 
             // Masked key field, optional for a local Custom server.
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Overline(if (isCustom) "API Key (optional)" else "API Key")
+                Overline(if (isCustom) uiStringOr(R.string.de_api_key_optional_2e560a, "API Key (optional)") else uiStringOr(R.string.de_api_key_47acd2, "API Key"))
                 CoachKeyField(
                     value = keyInput,
                     onValueChange = { keyInput = it },
@@ -577,7 +577,7 @@ private fun ChatBubble(msg: ChatMsg, vm: CoachViewModel) {
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Overline(
-                    if (isUser) "You" else "Coach",
+                    if (isUser) uiStringOr(R.string.de_you_905cb3, "You") else uiStringOr(R.string.de_coach_b32c9a, "Coach"),
                     color = if (isUser) Palette.accentHover else Palette.textTertiary,
                 )
                 if (isUser) {
@@ -607,7 +607,7 @@ private fun ChatBubble(msg: ChatMsg, vm: CoachViewModel) {
                             putExtra(android.content.Intent.EXTRA_TEXT, msg.text)
                         }
                         context.startActivity(
-                            android.content.Intent.createChooser(sendIntent, "Share Coach advice")
+                            android.content.Intent.createChooser(sendIntent, uiStringOr(R.string.de_share_coach_advice_34aaa7, "Share Coach advice"))
                         )
                         showMenu = false
                     },
@@ -659,7 +659,7 @@ internal val SUGGESTED_PROMPTS: List<String> get() = CoachPrompts.SUGGESTIONS
 @Composable
 private fun SuggestedPrompts(prompts: List<String>, onPick: (String) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Overline("Try asking")
+        Overline(uiStringOr(R.string.de_try_asking_3e0277, "Try asking"))
         // Simple wrapped column of chips (one per row keeps long prompts readable).
         prompts.forEach { prompt ->
             val shape = RoundedCornerShape(50)
@@ -1040,7 +1040,7 @@ private fun MicButton(
     val bg = if (isRecording) Palette.statusCritical.copy(alpha = 0.15f) else Palette.surfaceInset
     val tint = if (isRecording) Palette.statusCritical else Palette.textSecondary
     val interaction = remember { MutableInteractionSource() }
-    val desc = if (isRecording) "Stop voice input" else "Voice input"
+    val desc = if (isRecording) uiStringOr(R.string.de_stop_voice_input_ecbbdf, "Stop voice input") else uiStringOr(R.string.de_voice_input_c0b2ce, "Voice input")
     val statusSuffix = statusMessage?.let { stringResource(R.string.coach_status_suffix, it) } ?: ""
     Box(
         modifier = Modifier

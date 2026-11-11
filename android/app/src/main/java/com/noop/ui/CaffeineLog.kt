@@ -157,7 +157,7 @@ fun CaffeineLogCard() {
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.weight(1f)) {
-                Overline("Log")
+                Overline(uiStringOr(R.string.de_log_8bf95e, "Log"))
                 Text(uiString(R.string.l10n_caffeine_log_caffeine_22859fa3), style = NoopType.title2, color = Palette.textPrimary)
             }
         }
@@ -207,7 +207,7 @@ fun CaffeineLogCard() {
                         Spacer(Modifier.weight(1f))
                         TimeChip(
                             minutes = bedtimeMinutes,
-                            accessibilityLabel = "Bedtime for the caffeine cutoff",
+                            accessibilityLabel = uiStringOr(R.string.de_bedtime_for_the_caffeine_cutoff_a2696b, "Bedtime for the caffeine cutoff"),
                             onPicked = {
                                 bedtimeMinutes = it
                                 NoopPrefs.setCaffeineBedtimeMinutes(context, it)
@@ -247,11 +247,11 @@ fun CaffeineLogCard() {
                     Text(uiString(R.string.l10n_caffeine_log_had_it_8576ac66), style = NoopType.footnote, color = Palette.textSecondary)
                     Spacer(Modifier.weight(1f))
                     for (h in intArrayOf(0, 1, 2, 3)) {
-                        CaffeineChip(if (h == 0) "Now" else "${h}h ago") {
+                        CaffeineChip(if (h == 0) uiStringOr(R.string.de_now_e3b820, "Now") else uiStringOr(R.string.de_1_sh_ago_ea18cf, "%1\$sh ago", h.toString())) {
                             val at = (System.currentTimeMillis() / 1000L) - h * 3600L
                             intakes = addCaffeineIntake(context, at, mgDraft)
                             mgDraft = ""
-                            Toast.makeText(context, "Caffeine logged.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, uiStringOr(R.string.de_caffeine_logged_1f1175, "Caffeine logged."), Toast.LENGTH_SHORT).show()
                         }
                         Spacer(Modifier.width(6.dp))
                     }
@@ -312,16 +312,16 @@ private fun CaffeineActiveHint(estimate: CaffeineActiveEstimate, hasAnyLog: Bool
 
 private fun caffeineActiveDetail(estimate: CaffeineActiveEstimate): String {
     val parts = ArrayList<String>()
-    estimate.hoursSinceMostRecentActive?.let { parts.add("most recent intake about ${caffeineHoursLabel(it)} ago") }
-    if (estimate.activeIntakeCount > 1) parts.add("${estimate.activeIntakeCount} intakes still in the estimate")
+    estimate.hoursSinceMostRecentActive?.let { parts.add(uiStringOr(R.string.de_most_recent_intake_about_1_s_ago_448090, "most recent intake about %1\$s ago", (caffeineHoursLabel(it)).toString())) }
+    if (estimate.activeIntakeCount > 1) parts.add(uiStringOr(R.string.de_1_s_intakes_still_in_the_estimate_da276b, "%1\$s intakes still in the estimate", (estimate.activeIntakeCount).toString()))
     val lead = if (parts.isEmpty()) "" else parts.joinToString(" · ") + ". "
-    return lead + "Rough guide only, based on what you logged."
+    return lead + uiStringOr(R.string.de_rough_guide_only_based_on_what_you_logge_6abdbf, "Rough guide only, based on what you logged.")
 }
 
 private fun caffeineHoursLabel(hrs: Double): String {
-    if (hrs < 1) return "under an hour"
+    if (hrs < 1) return uiStringOr(R.string.de_under_an_hour_6bd01d, "under an hour")
     val r = hrs.roundToInt()
-    return if (r == 1) "1 hour" else "$r hours"
+    return if (r == 1) uiStringOr(R.string.de_1_hour_f030c3, "1 hour") else "$r hours"
 }
 
 private fun caffeineIntakeLabel(intake: CaffeineIntake, context: Context): String {
@@ -329,7 +329,7 @@ private fun caffeineIntakeLabel(intake: CaffeineIntake, context: Context): Strin
     val time = java.text.SimpleDateFormat(
         ClockFormat.hourMinutePattern(ClockPrefs.uses24Hour(context)), java.util.Locale.getDefault(),
     ).format(java.util.Date(intake.atEpochSec * 1000L))
-    return if (intake.mg != null) "$time · ${intake.mg.roundToInt()} mg" else "$time · amount not logged"
+    return if (intake.mg != null) "$time · ${intake.mg.roundToInt()} mg" else uiStringOr(R.string.de_1_s_amount_not_logged_dea394, "%1\$s · amount not logged", time.toString())
 }
 
 /** A minutes-since-midnight value as a wall-clock label (e.g. "2:30 PM" / "14:30"), respecting the

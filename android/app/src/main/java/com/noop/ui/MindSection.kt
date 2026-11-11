@@ -64,8 +64,8 @@ private val MOOD_FACES = listOf(
 private const val MIND_GATE_DAYS = 7
 
 /** Shared verbatim footnote — IDENTICAL string on macOS/iOS; do not reword. */
-private const val MIND_FOOTNOTE =
-    "Self-tracking, not a clinical assessment. If low mood persists, talk to a professional. You deserve support."
+private val MIND_FOOTNOTE: String get() =
+    uiStringOr(R.string.de_self_tracking_not_a_clinical_assessment_0aea15, "Self-tracking, not a clinical assessment. If low mood persists, talk to a professional. You deserve support.")
 
 // MARK: - Section
 
@@ -100,7 +100,7 @@ fun MindSection(vm: AppViewModel) {
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
-        SectionHeader("Mind", overline = "Mood check-in")
+        SectionHeader(uiStringOr(R.string.de_mind_59e63f, "Mind"), overline = uiStringOr(R.string.de_mood_check_in_38e585, "Mood check-in"))
 
         NoopCard {
             Column(verticalArrangement = Arrangement.spacedBy(Metrics.gap)) {
@@ -154,7 +154,7 @@ fun MindSection(vm: AppViewModel) {
                             Text(face.word, style = NoopType.headline, color = Palette.textPrimary)
                             Text(uiString(R.string.l10n_mind_section_logged_today_0071a46c), style = NoopType.caption, color = Palette.textTertiary)
                         }
-                        MoodChip("Edit") { editing = true }
+                        MoodChip(uiStringOr(R.string.de_edit_530164, "Edit")) { editing = true }
                     }
                 }
 
@@ -238,8 +238,8 @@ private fun MoodChip(label: String, onClick: () -> Unit) {
  *  Neutral colours — r is information here, not a verdict. */
 @Composable
 private fun MindCorrelationRow(line: MindLine) {
-    val dir = if (line.r > 0) "positive" else if (line.r < 0) "negative" else "flat"
-    val sentence = "${mindStrengthWord(line.r)} $dir relationship (n = ${line.n})."
+    val dir = if (line.r > 0) uiStringOr(R.string.rel_dir_positive, "positive") else if (line.r < 0) uiStringOr(R.string.rel_dir_negative, "negative") else uiStringOr(R.string.rel_dir_flat, "flat")
+    val sentence = uiStringOr(R.string.rel_sentence_n, "%1\$s %2\$s relationship (n = %3\$d).", mindStrengthWord(line.r), dir, line.n)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -287,20 +287,20 @@ private fun buildMindCorrelations(
         return MindLine(title, c.r, c.n)
     }
     return listOfNotNull(
-        line("Mood ↔ HRV", days.mapNotNull { d -> d.avgHrv?.let { d.day to it } }),
-        line("Mood ↔ Recovery", days.mapNotNull { d -> d.recovery?.let { d.day to it } }),
-        line("Mood ↔ Sleep duration", days.mapNotNull { d -> d.totalSleepMin?.let { d.day to it } }),
+        line(uiStringOr(R.string.de_mood_hrv_c115b6, "Mood ↔ HRV"), days.mapNotNull { d -> d.avgHrv?.let { d.day to it } }),
+        line(uiStringOr(R.string.de_mood_recovery_eebeb0, "Mood ↔ Recovery"), days.mapNotNull { d -> d.recovery?.let { d.day to it } }),
+        line(uiStringOr(R.string.de_mood_sleep_duration_f373ab, "Mood ↔ Sleep duration"), days.mapNotNull { d -> d.totalSleepMin?.let { d.day to it } }),
     )
 }
 
 private fun mindStrengthWord(r: Double): String {
     val m = abs(r)
     return when {
-        m < 0.1 -> "No"
-        m < 0.3 -> "A weak"
-        m < 0.5 -> "A moderate"
-        m < 0.7 -> "A strong"
-        else -> "A very strong"
+        m < 0.1 -> uiStringOr(R.string.rel_str_no, "No")
+        m < 0.3 -> uiStringOr(R.string.rel_str_weak, "A weak")
+        m < 0.5 -> uiStringOr(R.string.rel_str_moderate, "A moderate")
+        m < 0.7 -> uiStringOr(R.string.rel_str_strong, "A strong")
+        else -> uiStringOr(R.string.rel_str_very_strong, "A very strong")
     }
 }
 
