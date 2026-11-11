@@ -233,7 +233,7 @@ internal data class DrawerGroup(
 // are NOT listed (they're bottom-bar tabs, exactly as on iOS). Android-only screens (Vital Signs, Wake
 // Window, Notifications, Devices) are slotted into the matching iOS group.
 internal val drawerGroups: List<DrawerGroup> = listOf(
-    DrawerGroup("Insights", R.string.more_group_insights, listOf(
+    DrawerGroup(uiStringOr(R.string.de_insights_b45103, "Insights"), R.string.more_group_insights, listOf(
         // Coach is a bottom-bar tab now and is deliberately absent here, matching iOS: "K3: Coach
         // promoted to a top-level tab — no longer listed under More." Leaving it would have put the
         // same destination in two places at once, which is the duplication the note above says this
@@ -241,16 +241,16 @@ internal val drawerGroups: List<DrawerGroup> = listOf(
         Destination.InsightsHub, Destination.Intelligence,
         Destination.Insights, Destination.Explore, Destination.Compare,
     ), defaultExpanded = true),
-    DrawerGroup("Body", R.string.more_group_body, listOf(
+    DrawerGroup(uiStringOr(R.string.de_body_718a7e, "Body"), R.string.more_group_body, listOf(
         Destination.Live, Destination.Workouts, Destination.Health, Destination.VitalSigns,
         Destination.LabBook, Destination.Stress, Destination.Breathe, Destination.Intervals,
         Destination.Rhythm,
     ), defaultExpanded = true),
-    DrawerGroup("Data", R.string.more_group_data, listOf(
+    DrawerGroup(uiStringOr(R.string.de_data_e5e429, "Data"), R.string.more_group_data, listOf(
         Destination.FusedRecord, Destination.AppleHealth, Destination.DataSources,
         Destination.BackupSync, Destination.Devices, Destination.NoopLimitations,
     ), defaultExpanded = false),
-    DrawerGroup("App", R.string.more_group_app, listOf(
+    DrawerGroup(uiStringOr(R.string.de_app_fc4a69, "App"), R.string.more_group_app, listOf(
         Destination.Automations, Destination.SmartAlarm, Destination.Notifications,
         Destination.TestCentre, Destination.PowerSaving, Destination.Settings,
     ), defaultExpanded = false),
@@ -821,7 +821,7 @@ fun AppRoot(viewModel: AppViewModel = viewModel()) {
                         .padding(bottom = 24.dp),
                 ) {
                     Overline(
-                        "Quick actions",
+                        uiStringOr(R.string.de_quick_actions_e47e80, "Quick actions"),
                         modifier = Modifier.padding(start = 16.dp, top = 4.dp, bottom = 6.dp),
                         color = Palette.textTertiary,
                     )
@@ -994,7 +994,7 @@ private fun MoreScreen(onNavigate: (String) -> Unit) {
     val skyBehindCards = remember { NoopPrefs.skyBehindCards(context) }
     ScreenScaffold(
         title = uiString(R.string.l10n_app_root_more_4bab2d8f),
-        subtitle = "Everything else, one tap away",
+        subtitle = uiStringOr(R.string.de_everything_else_one_tap_away_6d748a, "Everything else, one tap away"),
         topBackground = screenBackdropSlot(showDayCycleBackground, skyBehindCards),
         // Sky-behind-cards fills the viewport so the transparent cards reveal the sky the whole way down.
         fullBleedBackground = screenBackdropFullBleed(showDayCycleBackground, skyBehindCards),
@@ -1382,7 +1382,7 @@ fun ComingSoon(text: String, modifier: Modifier = Modifier) {
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(text, style = NoopType.title2, color = Palette.textPrimary, textAlign = TextAlign.Center)
-                Overline("Coming soon", color = Palette.textSecondary)
+                Overline(uiStringOr(R.string.de_coming_soon_e4115b, "Coming soon"), color = Palette.textSecondary)
                 Text(
                     uiString(R.string.l10n_app_root_this_section_is_on_the_way_ca7c4a32),
                     style = NoopType.footnote,

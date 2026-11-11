@@ -556,10 +556,10 @@ private fun PipScoreRow(
 private enum class TrendsRange(val days: Int?, val label: String, val longName: String) {
     Week(7, "W", "week"),
     Month(30, "M", "month"),
-    Quarter(90, "3M", "3 months"),
-    Half(180, "6M", "6 months"),
+    Quarter(90, "3M", uiStringOr(R.string.de_3_months_b9e4e6, "3 months")),
+    Half(180, "6M", uiStringOr(R.string.de_6_months_cd75b8, "6 months")),
     Year(365, "1Y", "year"),
-    All(null, "ALL", "all history");
+    All(null, "ALL", uiStringOr(R.string.de_all_history_eb5df7, "all history"));
 
     /** This range plus every LARGER range, ascending , the auto-expand search order. */
     val widening: List<TrendsRange>
@@ -661,11 +661,12 @@ private fun windowPoints(
 
 /** Caption text, mirroring TrendsView.caption(count:eff:). */
 private fun caption(count: Int, eff: TrendsRange, selected: TrendsRange): String {
-    val unit = if (count == 1) "reading" else "readings"
     return if (eff != selected) {
-        "$count $unit · sparse , widened to ${eff.longName}"
+        if (count == 1) uiStringOr(R.string.trends_caption_widened_one, "1 reading · sparse , widened to %1\$s", eff.longName)
+        else uiStringOr(R.string.trends_caption_widened_many, "%1\$d readings · sparse , widened to %2\$s", count, eff.longName)
     } else {
-        "$count $unit · ${selected.longName}"
+        if (count == 1) uiStringOr(R.string.trends_caption_one, "1 reading · %1\$s", selected.longName)
+        else uiStringOr(R.string.trends_caption_many, "%1\$d readings · %2\$s", count, selected.longName)
     }
 }
 
@@ -1089,9 +1090,9 @@ private fun RecoveryHistoryCard(days: List<DailyMetric>, range: TrendsRange) {
         days.takeLast(span).mapNotNull { it.recovery }
     }
     val title = if (range == TrendsRange.All && days.size > 365) {
-        "Charge , all history"
+        uiStringOr(R.string.de_charge_all_history_65d547, "Charge , all history")
     } else {
-        "Charge , past year"
+        uiStringOr(R.string.de_charge_past_year_c61f51, "Charge , past year")
     }
 
     NoopCard {

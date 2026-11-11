@@ -810,10 +810,9 @@ fun SettingsScreen(
                     // during a restore, which is the one moment the original is gone. The second
                     // sentence is the refusal's own wording, reused so this adds no untranslated copy.
                     val note = if (outcome.overRestoreCeiling) {
-                        "Backup exported. The backup archive is too large to restore safely — " +
-                            "restoring it will ask you to confirm."
+                        uiStringOr(R.string.de_backup_exported_the_backup_archive_is_to_a3da19, "Backup exported. The backup archive is too large to restore safely — restoring it will ask you to confirm.")
                     } else {
-                        "Backup exported. Copy this file to your new phone and use Import there to restore everything."
+                        uiStringOr(R.string.de_backup_exported_copy_this_file_to_your_n_9495b3, "Backup exported. Copy this file to your new phone and use Import there to restore everything.")
                     }
                     Toast.makeText(context, note, Toast.LENGTH_LONG).show()
                 },
@@ -821,7 +820,7 @@ fun SettingsScreen(
                     // The EXPORT-side integrity refusal lands here (#1014): a corrupt store is caught
                     // before it is archived, and the message names the CSV route that still works. That
                     // is a next step, so it needs the dialog for the same reason the import failures do.
-                    backupFailure = "Backup problem: ${e.message}"
+                    backupFailure = uiStringOr(R.string.de_backup_problem_1_s_1df82e, "Backup problem: %1\$s", e.message.toString())
                 },
             )
         }
@@ -848,7 +847,7 @@ fun SettingsScreen(
                     ).show()
                 },
                 onFailure = { e ->
-                    Toast.makeText(context, "CSV export problem: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, uiStringOr(R.string.de_csv_export_problem_1_s_8632cb, "CSV export problem: %1\$s", e.message.toString()), Toast.LENGTH_LONG).show()
                 },
             )
         }
@@ -866,7 +865,7 @@ fun SettingsScreen(
             when (result) {
                 is DataBackup.ImportResult.NeedsRestart -> Toast.makeText(
                     context,
-                    "Backup imported. Fully close and reopen NOOP for it to take effect.",
+                    uiStringOr(R.string.de_backup_imported_fully_close_and_reopen_n_8c1763, "Backup imported. Fully close and reopen NOOP for it to take effect."),
                     Toast.LENGTH_LONG,
                 ).show()
                 is DataBackup.ImportResult.Failed -> backupFailure = result.message
@@ -891,7 +890,7 @@ fun SettingsScreen(
                 ProfileAvatarStore.setAvatarFromUri(context, uri)
             }
             if (!ok) {
-                Toast.makeText(context, "Couldn't use that photo. Try another.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, uiStringOr(R.string.de_couldn_t_use_that_photo_try_another_18755a, "Couldn't use that photo. Try another."), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -904,7 +903,7 @@ fun SettingsScreen(
         scope.launch {
             val ok = withContext(Dispatchers.IO) { BackgroundImageStore.setImageFromUri(context, uri) }
             if (!ok) {
-                Toast.makeText(context, "Couldn't use that image. Try another.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, uiStringOr(R.string.de_couldn_t_use_that_image_try_another_311dd4, "Couldn't use that image. Try another."), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -917,7 +916,7 @@ fun SettingsScreen(
 
     ScreenScaffold(
         title = uiString(R.string.l10n_settings_screen_settings_c7f73bb5),
-        subtitle = "Your numbers, your strap, and how NOOP works. All on this phone.",
+        subtitle = uiStringOr(R.string.de_your_numbers_your_strap_and_how_noop_wor_5aad55, "Your numbers, your strap, and how NOOP works. All on this phone."),
         // LIQUID SKY BACKDROP (the pilot pattern — LiquidScreenSky.kt): the static time-of-day sky settles
         // into the theme canvas behind the top of the list, exactly like the liquid Today. This is a long,
         // scroll-heavy list with NO hero gauge, so the liquid finish here is just the sky + liquidPress on
@@ -958,7 +957,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Outlined.AccountCircle,
             title = uiString(R.string.l10n_settings_screen_profile_photo_33f385bb),
-            blurb = "Optional. Add a photo for the avatar in the top-left. Stored only on this phone. NOOP is offline, so it's never uploaded.",
+            blurb = uiStringOr(R.string.de_optional_add_a_photo_for_the_avatar_in_t_aee668, "Optional. Add a photo for the avatar in the top-left. Stored only on this phone. NOOP is offline, so it's never uploaded."),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
@@ -998,13 +997,13 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Outlined.Person,
             title = uiString(R.string.l10n_settings_screen_profile_ff4fc027),
-            blurb = "These power your heart-rate zones, calorie estimates and recovery baselines. Keep them accurate.",
+            blurb = uiStringOr(R.string.de_these_power_your_heart_rate_zones_calori_6d5e1a, "These power your heart-rate zones, calorie estimates and recovery baselines. Keep them accurate."),
         ) {
             Column {
                 SettingsFormRow(label = uiString(R.string.l10n_settings_screen_age_ff9f1ff3)) {
                     StepperField(
                         value = profile.age.toString(),
-                        accessibility = "Age, ${profile.age} years",
+                        accessibility = uiStringOr(R.string.de_age_1_s_years_773854, "Age, %1\$s years", profile.age),
                         // #146: age is derived from a stored date of birth, so it advances on its own. The
                         // stepper re-anchors the DOB via setAge (which clamps to 13..100 — age feeds the
                         // Fitness Age + Vitality engines that gate on age > 0, so it must never go 0/negative).
@@ -1033,7 +1032,7 @@ fun SettingsScreen(
                         StepperField(
                             value = "%.0f".format(lb),
                             unit = "lb",
-                            accessibility = "Weight, ${lb.roundToInt()} pounds",
+                            accessibility = uiStringOr(R.string.de_weight_1_s_pounds_a11163, "Weight, %1\$s pounds", lb.roundToInt()),
                             enabled = !weightFromHc,
                             onMinus = { mutate { profile.weightKg = (lb - 1) / UnitFormatter.POUNDS_PER_KILOGRAM } },
                             onPlus = { mutate { profile.weightKg = (lb + 1) / UnitFormatter.POUNDS_PER_KILOGRAM } },
@@ -1042,7 +1041,7 @@ fun SettingsScreen(
                         StepperField(
                             value = "%.1f".format(profile.weightKg),
                             unit = "kg",
-                            accessibility = "Weight in kilograms",
+                            accessibility = uiStringOr(R.string.de_weight_in_kilograms_ea489a, "Weight in kilograms"),
                             enabled = !weightFromHc,
                             onMinus = { mutate { profile.weightKg -= 0.5 } },
                             onPlus = { mutate { profile.weightKg += 0.5 } },
@@ -1084,7 +1083,7 @@ fun SettingsScreen(
                         val totalInches = UnitFormatter.cmToInches(profile.heightCm).roundToInt()
                         StepperField(
                             value = "$ft′ $inch″",
-                            accessibility = "Height, $ft feet $inch inches",
+                            accessibility = uiStringOr(R.string.de_height_1_s_feet_2_s_inches_e70481, "Height, %1\$s feet %2\$s inches", ft, inch),
                             onMinus = { mutate { profile.heightCm = (totalInches - 1) * UnitFormatter.CENTIMETERS_PER_INCH } },
                             onPlus = { mutate { profile.heightCm = (totalInches + 1) * UnitFormatter.CENTIMETERS_PER_INCH } },
                         )
@@ -1092,7 +1091,7 @@ fun SettingsScreen(
                         StepperField(
                             value = "%.0f".format(profile.heightCm),
                             unit = "cm",
-                            accessibility = "Height in centimetres",
+                            accessibility = uiStringOr(R.string.de_height_in_centimetres_037a5d, "Height in centimetres"),
                             onMinus = { mutate { profile.heightCm -= 1 } },
                             onPlus = { mutate { profile.heightCm += 1 } },
                         )
@@ -1113,14 +1112,14 @@ fun SettingsScreen(
                         if (unitSystem == UnitSystem.IMPERIAL) {
                             val totalInches = UnitFormatter.cmToInches(profile.waistCm).roundToInt()
                             StepperField(
-                                value = if (hasWaist) "%d″".format(totalInches) else "Add",
+                                value = if (hasWaist) "%d″".format(totalInches) else uiStringOr(R.string.de_add_61cc55, "Add"),
                                 accessibility = if (hasWaist) {
-                                    "Waist, $totalInches inches"
+                                    uiStringOr(R.string.de_waist_1_s_inches_cf9369, "Waist, %1\$s inches", totalInches)
                                 } else {
                                     // #1391: a waist does NOT unlock VO₂max (the Uth HR-ratio fallback
                                     // needs none) — it upgrades it. The visible footnote was corrected
                                     // for this; this screen-reader copy had been left behind.
-                                    "Waist, not set. Optional: your VO₂max is more accurate with it"
+                                    uiStringOr(R.string.de_waist_not_set_optional_your_vo_max_is_mo_f0c457, "Waist, not set. Optional: your VO₂max is more accurate with it")
                                 },
                                 valueColor = if (hasWaist) Palette.textPrimary else Palette.textTertiary,
                                 onMinus = { mutate { profile.waistCm = waistInchesStep(profile.waistCm, up = false) } },
@@ -1128,15 +1127,15 @@ fun SettingsScreen(
                             )
                         } else {
                             StepperField(
-                                value = if (hasWaist) "%.0f".format(profile.waistCm) else "Add",
+                                value = if (hasWaist) "%.0f".format(profile.waistCm) else uiStringOr(R.string.de_add_61cc55, "Add"),
                                 unit = if (hasWaist) "cm" else null,
                                 accessibility = if (hasWaist) {
-                                    "Waist in centimetres"
+                                    uiStringOr(R.string.de_waist_in_centimetres_ba68b0, "Waist in centimetres")
                                 } else {
                                     // #1391: a waist does NOT unlock VO₂max (the Uth HR-ratio fallback
                                     // needs none) — it upgrades it. The visible footnote was corrected
                                     // for this; this screen-reader copy had been left behind.
-                                    "Waist, not set. Optional: your VO₂max is more accurate with it"
+                                    uiStringOr(R.string.de_waist_not_set_optional_your_vo_max_is_mo_f0c457, "Waist, not set. Optional: your VO₂max is more accurate with it")
                                 },
                                 valueColor = if (hasWaist) Palette.textPrimary else Palette.textTertiary,
                                 onMinus = { mutate { profile.waistCm = waistCmStep(profile.waistCm, up = false) } },
@@ -1163,12 +1162,12 @@ fun SettingsScreen(
                 SettingsFormRow(label = uiString(R.string.l10n_settings_screen_max_heart_rate_3d4ed858)) {
                     Column(horizontalAlignment = Alignment.End) {
                         StepperField(
-                            value = if (profile.hrMaxOverride > 0) profile.hrMaxOverride.toString() else "Auto",
+                            value = if (profile.hrMaxOverride > 0) profile.hrMaxOverride.toString() else uiStringOr(R.string.de_auto_c614ba, "Auto"),
                             unit = "bpm",
                             accessibility = if (profile.hrMaxOverride == 0) {
-                                "Max heart rate override, automatic"
+                                uiStringOr(R.string.de_max_heart_rate_override_automatic_9e04bf, "Max heart rate override, automatic")
                             } else {
-                                "Max heart rate override, ${profile.hrMaxOverride} bpm"
+                                uiStringOr(R.string.de_max_heart_rate_override_1_s_bpm_d9a57f, "Max heart rate override, %1\$s bpm", profile.hrMaxOverride)
                             },
                             valueColor = if (profile.hrMaxOverride > 0) Palette.textPrimary else Palette.textTertiary,
                             onMinus = { mutate { profile.hrMaxOverride -= 1 } },
@@ -1215,7 +1214,7 @@ fun SettingsScreen(
                             StepperField(
                                 value = value.toString(),
                                 unit = "bpm",
-                                accessibility = "Zone ${index + 1} starts at $value bpm",
+                                accessibility = uiStringOr(R.string.de_zone_1_s_starts_at_2_s_bpm_b14f61, "Zone %1\$s starts at %2\$s bpm", index + 1, value),
                                 onMinus = { mutate { profile.stepHrZoneThreshold(index, up = false) } },
                                 onPlus = { mutate { profile.stepHrZoneThreshold(index, up = true) } },
                             )
@@ -1247,10 +1246,10 @@ fun SettingsScreen(
                 // motion and calibrates that to the phone. Opens the explainer + fit + comparison + manual
                 // override screen. Mirrors the macOS Profile "Steps estimate" row.
                 val stepsSummary = when {
-                    profile.stepsManualCoefficient > 0 -> "Manual"
+                    profile.stepsManualCoefficient > 0 -> uiStringOr(R.string.de_manual_4e836f, "Manual")
                     profile.stepsCalibrationCoefficient > 0 ->
-                        "Auto · ${StepsCalibrationFormat.confidenceLabel(profile.stepsCalibrationConfidence)} confidence"
-                    else -> "Not calibrated"
+                        uiStringOr(R.string.de_auto_1_s_confidence_c7c3d8, "Auto · %1\$s confidence", StepsCalibrationFormat.confidenceLabel(profile.stepsCalibrationConfidence))
+                    else -> uiStringOr(R.string.de_not_calibrated_2e269e, "Not calibrated")
                 }
                 val stepsRowInteraction = remember { MutableInteractionSource() }
                 Row(
@@ -1337,7 +1336,7 @@ fun SettingsScreen(
                     SegmentedPillControl(
                         items = listOf(UnitSystem.METRIC, UnitSystem.IMPERIAL),
                         selection = unitSystem,
-                        label = { if (it == UnitSystem.METRIC) "Metric" else "Imperial" },
+                        label = { if (it == UnitSystem.METRIC) uiStringOr(R.string.de_metric_b2bb76, "Metric") else uiStringOr(R.string.de_imperial_5d3908, "Imperial") },
                         onSelect = {
                             unitSystem = it
                             NoopPrefs.setUnitSystem(context, it)
@@ -1661,12 +1660,12 @@ fun SettingsScreen(
                     selection = sleepChartStyle,
                     label = {
                         when (it) {
-                            SleepChartStyle.FILLED -> "Fill"
+                            SleepChartStyle.FILLED -> uiStringOr(R.string.de_fill_7adb67, "Fill")
                             // "Garmin" not "Garmin Fill": four equal-width segments ellipsis-truncate a long
                             // label on a normal-width phone (iOS keeps "Garmin Fill" — it's a menu, not a pill).
                             SleepChartStyle.GARMIN_FILLED -> "Garmin"
-                            SleepChartStyle.RIBBON -> "Ribbon"
-                            else -> "Classic"
+                            SleepChartStyle.RIBBON -> uiStringOr(R.string.de_ribbon_ae48c3, "Ribbon")
+                            else -> uiStringOr(R.string.de_classic_130cd7, "Classic")
                         }
                     },
                     onSelect = { style ->
@@ -2078,7 +2077,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Palette,
             title = uiString(R.string.l10n_settings_screen_app_icon_abde7a74),
-            blurb = "Choose how NOOP looks on your home screen. The launcher may take a moment to refresh the icon after you change it.",
+            blurb = uiStringOr(R.string.de_choose_how_noop_looks_on_your_home_scree_d680c8, "Choose how NOOP looks on your home screen. The launcher may take a moment to refresh the icon after you change it."),
         ) {
             SettingsFormRow(label = uiString(R.string.l10n_settings_screen_icon_716f63b9)) {
                 SegmentedPillControl(
@@ -2097,7 +2096,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Sensors,
             title = uiString(R.string.l10n_settings_screen_strap_02b88eeb),
-            blurb = "NOOP pairs directly with your WHOOP over Bluetooth: no WHOOP app, no cloud.",
+            blurb = uiStringOr(R.string.de_noop_pairs_directly_with_your_whoop_over_0b5d57, "NOOP pairs directly with your WHOOP over Bluetooth: no WHOOP app, no cloud."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Row(
@@ -2572,7 +2571,7 @@ fun SettingsScreen(
                         selection = hrvWindow,
                         // #153: "Night" (not "Whole night") so the two-segment pill reads the same as the iOS
                         // picker and stays short — keeps the label consistent across platforms.
-                        label = { if (it == HrvWindow.DEEP_SLEEP) "Deep sleep" else "Night" },
+                        label = { if (it == HrvWindow.DEEP_SLEEP) uiStringOr(R.string.de_deep_sleep_865e58, "Deep sleep") else uiStringOr(R.string.de_night_1097b5, "Night") },
                         onSelect = {
                             hrvWindow = it
                             UnitPrefs.setHrvWindow(context, it)
@@ -2589,7 +2588,8 @@ fun SettingsScreen(
                             vm.syncNow()
                             Toast.makeText(
                                 context,
-                                "Re-scoring your recent nights over the ${if (it == HrvWindow.DEEP_SLEEP) "deep-sleep" else "whole-night"} window. Charge updates as soon as it's done.",
+                                if (it == HrvWindow.DEEP_SLEEP) uiStringOr(R.string.settings_rescoring_deep, "Re-scoring your recent nights over the deep-sleep window. Charge updates as soon as it's done.")
+                                else uiStringOr(R.string.settings_rescoring_whole, "Re-scoring your recent nights over the whole-night window. Charge updates as soon as it's done."),
                                 Toast.LENGTH_LONG,
                             ).show()
                         },
@@ -2673,7 +2673,7 @@ fun SettingsScreen(
         // away. Mirrors the iOS SettingsView "Advanced" disclosure and the Test Centre Advanced group.
         SettingsDisclosureGroup(
             title = uiString(R.string.l10n_settings_screen_advanced_4d064726),
-            subtitle = "Experimental probes, diagnostics, raw-sensor export, and the Trends report. Tucked away to keep the everyday screen tidy.",
+            subtitle = uiStringOr(R.string.de_experimental_probes_diagnostics_raw_sens_df4a89, "Experimental probes, diagnostics, raw-sensor export, and the Trends report. Tucked away to keep the everyday screen tidy."),
             expanded = advancedOpen,
             onToggle = { advancedOpen = !advancedOpen; SettingsDisclosurePrefs.write(NoopPrefs.of(context), advancedOpen) },
         ) {
@@ -2698,7 +2698,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Science,
             title = uiString(R.string.l10n_settings_screen_experimental_whoop_5_mg_41ef7041),
-            blurb = "Normal WHOOP 5/MG recording and history sync are supported. These remaining controls are developer experiments for unmapped protocol features; they are not required for everyday use.",
+            blurb = uiStringOr(R.string.de_normal_whoop_5_mg_recording_and_history_cdc167, "Normal WHOOP 5/MG recording and history sync are supported. These remaining controls are developer experiments for unmapped protocol features; they are not required for everyday use."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(
@@ -3094,7 +3094,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Science,
             title = uiString(R.string.l10n_settings_screen_diagnostics_3af2279f),
-            blurb = "A read-only export of the decoded sensor streams NOOP already stores. Works on any strap. Nothing is written to your device, and nothing is uploaded.",
+            blurb = uiStringOr(R.string.de_a_read_only_export_of_the_decoded_sensor_ad0afd, "A read-only export of the decoded sensor streams NOOP already stores. Works on any strap. Nothing is written to your device, and nothing is uploaded."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 // --- Sleep staging (V2) — the DEFAULT engine after the 44-subject benchmark; toggle off to
@@ -3303,12 +3303,12 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Science,
             title = uiString(R.string.l10n_settings_screen_health_wellness_93475778),
-            blurb = "Optional, on-device wellness signals. Each is off by default, computed only on this phone from data you already have, and never a medical diagnosis.",
+            blurb = uiStringOr(R.string.de_optional_on_device_wellness_signals_each_8e80e2, "Optional, on-device wellness signals. Each is off by default, computed only on this phone from data you already have, and never a medical diagnosis."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_illness_heads_up_97e10035),
-                    detail = "Watches your resting heart rate, HRV and skin temperature for the pattern that often shows up before you feel unwell, and surfaces a gentle heads-up. An observation about your own numbers, not a diagnosis.",
+                    detail = uiStringOr(R.string.de_watches_your_resting_heart_rate_hrv_and_1ad888, "Watches your resting heart rate, HRV and skin temperature for the pattern that often shows up before you feel unwell, and surfaces a gentle heads-up. An observation about your own numbers, not a diagnosis."),
                     checked = illnessWatch,
                     onCheckedChange = {
                         illnessWatch = it
@@ -3328,7 +3328,7 @@ fun SettingsScreen(
                     // Twin of the iOS Automations "Show cycle awareness" toggle.
                     SettingsToggleRow(
                         title = uiString(R.string.l10n_settings_screen_show_cycle_awareness_59709019),
-                        detail = "Shows the cycle-awareness card on Today and in Health. Turn off to hide it entirely — a private choice, never based on your age. You can turn it back on here any time.",
+                        detail = uiStringOr(R.string.de_shows_the_cycle_awareness_card_on_today_e19a78, "Shows the cycle-awareness card on Today and in Health. Turn off to hide it entirely — a private choice, never based on your age. You can turn it back on here any time."),
                         checked = !cycleHidden,
                         onCheckedChange = { show ->
                             cycleHidden = !show
@@ -3340,7 +3340,7 @@ fun SettingsScreen(
                     if (!cycleHidden) {
                         SettingsToggleRow(
                             title = uiString(R.string.l10n_settings_screen_cycle_awareness_ffb94783),
-                            detail = "Reads a coarse menstrual-cycle phase from your nightly skin-temperature shift, on this device only. Awareness only: not contraception, not a fertility predictor, not a medical service.",
+                            detail = uiStringOr(R.string.de_reads_a_coarse_menstrual_cycle_phase_fro_f176e4, "Reads a coarse menstrual-cycle phase from your nightly skin-temperature shift, on this device only. Awareness only: not contraception, not a fertility predictor, not a medical service."),
                             checked = cycleTracking,
                             onCheckedChange = {
                                 cycleTracking = it
@@ -3352,7 +3352,7 @@ fun SettingsScreen(
                 }
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_hydration_tracking_579a2b32),
-                    detail = "Adds a simple fluid log with a daily goal that adjusts to your effort. Tap to add a sip, cup or bottle and watch a progress ring fill. On this phone only. Nothing is synced.",
+                    detail = uiStringOr(R.string.de_adds_a_simple_fluid_log_with_a_daily_goa_007462, "Adds a simple fluid log with a daily goal that adjusts to your effort. Tap to add a sip, cup or bottle and watch a progress ring fill. On this phone only. Nothing is synced."),
                     checked = hydrationTracking,
                     onCheckedChange = {
                         hydrationTracking = it
@@ -3362,7 +3362,7 @@ fun SettingsScreen(
                 SettingsRowDivider()
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_auto_detect_workouts_bed4cf2a),
-                    detail = "After a sync, NOOP looks over your recent heart rate for a sustained, raised stretch that looks like exercise and offers to save it. It only ever suggests. Nothing is saved until you tap Save, and you can dismiss any suggestion. Turning this off stops future suggestions; workouts already in your history remain. Deliberately conservative, so the odd workout may be missed. On this phone only.",
+                    detail = uiStringOr(R.string.de_after_a_sync_noop_looks_over_your_recent_54156d, "After a sync, NOOP looks over your recent heart rate for a sustained, raised stretch that looks like exercise and offers to save it. It only ever suggests. Nothing is saved until you tap Save, and you can dismiss any suggestion. Turning this off stops future suggestions; workouts already in your history remain. Deliberately conservative, so the odd workout may be missed. On this phone only."),
                     checked = autoDetectWorkouts,
                     onCheckedChange = {
                         autoDetectWorkouts = it
@@ -3382,7 +3382,7 @@ fun SettingsScreen(
                 SettingsRowDivider()
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_keep_screen_on_during_a_workout_42d27284),
-                    detail = "Holds the screen awake while you're recording a workout, so your live heart rate stays visible without the phone dimming. Only applies during a recording. The screen sleeps normally the rest of the time. Leaving it on does use a bit more battery, and means your unlocked screen stays visible for the whole workout, so flip it off if that's a concern.",
+                    detail = uiStringOr(R.string.de_holds_the_screen_awake_while_you_re_reco_776373, "Holds the screen awake while you're recording a workout, so your live heart rate stays visible without the phone dimming. Only applies during a recording. The screen sleeps normally the rest of the time. Leaving it on does use a bit more battery, and means your unlocked screen stays visible for the whole workout, so flip it off if that's a concern."),
                     checked = workoutKeepScreenOn,
                     onCheckedChange = {
                         workoutKeepScreenOn = it
@@ -3394,7 +3394,7 @@ fun SettingsScreen(
                 // gates the Today entry so anyone can wave the beta away here with one flip.
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_live_sessions_beta_2ca3a97f),
-                    detail = "Silence-first strap coaching during workouts.",
+                    detail = uiStringOr(R.string.de_silence_first_strap_coaching_during_work_e63b10, "Silence-first strap coaching during workouts."),
                     checked = liveSessionsBeta,
                     onCheckedChange = {
                         liveSessionsBeta = it
@@ -3404,7 +3404,7 @@ fun SettingsScreen(
                 SettingsRowDivider()
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_stress_check_ins_haptic_bf2746ba),
-                    detail = "Lets NOOP notice a fresh HRV dip while you're still and offer a minute to breathe. \"Stress\" here is an autonomic proxy from your own baseline, never a diagnosis. The strap gives one light confirming buzz; no push notification.",
+                    detail = uiStringOr(R.string.de_lets_noop_notice_a_fresh_hrv_dip_while_y_eb7ead, "Lets NOOP notice a fresh HRV dip while you're still and offer a minute to breathe. \"Stress\" here is an autonomic proxy from your own baseline, never a diagnosis. The strap gives one light confirming buzz; no push notification."),
                     checked = stressCheckIn,
                     onCheckedChange = {
                         stressCheckIn = it
@@ -3416,7 +3416,7 @@ fun SettingsScreen(
                 if (stressCheckIn) {
                     SettingsToggleRow(
                         title = uiString(R.string.l10n_settings_screen_offer_a_breath_automatically_6c709dee),
-                        detail = "When a dip is detected, surface the check-in card on its own (rate-limited, quiet-hours aware). Off keeps it manual.",
+                        detail = uiStringOr(R.string.de_when_a_dip_is_detected_surface_the_check_4ccb84, "When a dip is detected, surface the check-in card on its own (rate-limited, quiet-hours aware). Off keeps it manual."),
                         checked = stressAutoNudge,
                         onCheckedChange = {
                             stressAutoNudge = it
@@ -3427,7 +3427,7 @@ fun SettingsScreen(
                 SettingsRowDivider()
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_rhythm_experimental_12d357da),
-                    detail = "An experimental picture of your beat-to-beat timing: a Poincaré scatter and plain regularity stats from quiet resting windows. Not an ECG and not a diagnosis; you'll read a short disclaimer and accept before it turns on.",
+                    detail = uiStringOr(R.string.de_an_experimental_picture_of_your_beat_to_29a199, "An experimental picture of your beat-to-beat timing: a Poincaré scatter and plain regularity stats from quiet resting windows. Not an ECG and not a diagnosis; you'll read a short disclaimer and accept before it turns on."),
                     checked = rhythmEnabled,
                     onCheckedChange = {
                         // Enabling here just un-gates the experimental item; the screen itself still shows
@@ -3444,7 +3444,7 @@ fun SettingsScreen(
                 SettingsRowDivider()
                 SettingsToggleRow(
                     title = uiString(R.string.l10n_settings_screen_share_on_device_signals_with_the_b3fd747e),
-                    detail = "When the opt-in Coach is set up with your own key, also include a short summary of your strongest on-device patterns and Lab Book markers in its context. Summary only; no raw data leaves your phone. Requires the Coach's own data consent first.",
+                    detail = uiStringOr(R.string.de_when_the_opt_in_coach_is_set_up_with_you_1e5112, "When the opt-in Coach is set up with your own key, also include a short summary of your strongest on-device patterns and Lab Book markers in its context. Summary only; no raw data leaves your phone. Requires the Coach's own data consent first."),
                     checked = coachSignals,
                     onCheckedChange = {
                         coachSignals = it
@@ -3461,7 +3461,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.BugReport,
             title = uiString(R.string.l10n_settings_screen_test_centre_37b36828),
-            blurb = "Turn on a test for the thing that's wrong, wear the strap, then tap Report. Your strap log, recalibrate, scheduled export and experimental probes all live here too.",
+            blurb = uiStringOr(R.string.de_turn_on_a_test_for_the_thing_that_s_wron_a88d29, "Turn on a test for the thing that's wrong, wear the strap, then tap Report. Your strap log, recalibrate, scheduled export and experimental probes all live here too."),
         ) {
             NoopButton(
                 text = uiString(R.string.l10n_settings_screen_open_test_centre_a7fbe4e9),
@@ -3482,7 +3482,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Favorite,
             title = uiString(R.string.l10n_settings_screen_charge_d4e1aee4),
-            blurb = "Charge is NOOP's daily readiness score, learned from your own HRV, resting heart rate and more over time. Your history stays.",
+            blurb = uiStringOr(R.string.de_charge_is_noop_s_daily_readiness_score_l_1f8911, "Charge is NOOP's daily readiness score, learned from your own HRV, resting heart rate and more over time. Your history stays."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -3529,7 +3529,7 @@ fun SettingsScreen(
                             when (again) {
                                 is DataBackup.ImportResult.NeedsRestart -> Toast.makeText(
                                     context,
-                                    "Backup imported. Fully close and reopen NOOP for it to take effect.",
+                                    uiStringOr(R.string.de_backup_imported_fully_close_and_reopen_n_8c1763, "Backup imported. Fully close and reopen NOOP for it to take effect."),
                                     Toast.LENGTH_LONG,
                                 ).show()
                                 // Same reason as the first attempt: these carry a next step, and a Toast
@@ -3631,7 +3631,7 @@ fun SettingsScreen(
                             vm.syncNow()
                             Toast.makeText(
                                 context,
-                                "Charge baseline reset. NOOP will re-learn it from tonight. Your history stays, and it takes a few nights to settle.",
+                                uiStringOr(R.string.de_charge_baseline_reset_noop_will_re_learn_bdbaf4, "Charge baseline reset. NOOP will re-learn it from tonight. Your history stays, and it takes a few nights to settle."),
                                 Toast.LENGTH_LONG,
                             ).show()
                         },
@@ -3734,7 +3734,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.CloudSync,
             title = uiString(R.string.l10n_settings_screen_automatic_backups_8a772f3c),
-            blurb = "Have NOOP save a dated backup to a folder every day (around 1am) and keep the last several - so if data ever corrupts, restore the newest. Point the folder at Drive/Dropbox for off-device copies. Off until you switch it on.",
+            blurb = uiStringOr(R.string.de_have_noop_save_a_dated_backup_to_a_folde_755bb0, "Have NOOP save a dated backup to a folder every day (around 1am) and keep the last several - so if data ever corrupts, restore the newest. Point the folder at Drive/Dropbox for off-device copies. Off until you switch it on."),
         ) {
             NoopButton(
                 text = uiString(R.string.l10n_settings_screen_set_up_automatic_backups_00b4780c),
@@ -3749,7 +3749,7 @@ fun SettingsScreen(
         SettingsCard(
             icon = Icons.Filled.Info,
             title = uiString(R.string.l10n_settings_screen_about_6b21fb79),
-            blurb = "NOOP: all your data, none of the cloud.",
+            blurb = uiStringOr(R.string.de_noop_all_your_data_none_of_the_cloud_ba567d, "NOOP: all your data, none of the cloud."),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Row(
@@ -4082,9 +4082,9 @@ fun SettingsScreen(
                 SettingsRowDivider()
 
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Overline("Built on")
-                    SettingsAttributionRow(repo = "my-whoop", note = "WHOOP 4.0 protocol")
-                    SettingsAttributionRow(repo = "goose", note = "WHOOP 5.0 protocol")
+                    Overline(uiStringOr(R.string.de_built_on_5342a2, "Built on"))
+                    SettingsAttributionRow(repo = "my-whoop", note = uiStringOr(R.string.de_whoop_4_0_protocol_87af84, "WHOOP 4.0 protocol"))
+                    SettingsAttributionRow(repo = "goose", note = uiStringOr(R.string.de_whoop_5_0_protocol_ca5584, "WHOOP 5.0 protocol"))
                 }
                 Text(
                     uiString(R.string.l10n_settings_screen_open_source_ble_reverse_engineering_work_40062271),
@@ -4115,7 +4115,7 @@ fun SettingsScreen(
                             try {
                                 context.startActivity(intent)
                             } catch (_: ActivityNotFoundException) {
-                                Toast.makeText(context, "Email us at $SUPPORT_EMAIL", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, uiStringOr(R.string.de_email_us_at_1_s_ee8307, "Email us at %1\$s", SUPPORT_EMAIL), Toast.LENGTH_LONG).show()
                             }
                         }
                         .padding(horizontal = 14.dp, vertical = 12.dp)

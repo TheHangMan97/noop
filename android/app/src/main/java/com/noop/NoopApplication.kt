@@ -220,6 +220,12 @@ class NoopApplication : Application() {
             return if (formatArgs.isEmpty()) app.getString(id) else app.getString(id, *formatArgs)
         }
 
+        /** [localizedString], or null when no Application is attached (plain JVM unit tests). */
+        fun localizedStringOrNull(@StringRes id: Int, vararg formatArgs: Any): String? {
+            val app = instance ?: return null
+            return if (formatArgs.isEmpty()) app.getString(id) else app.getString(id, *formatArgs)
+        }
+
         /** Quantity-aware twin of [localizedString]: resolves a `<plurals>` for [count] under the active
          *  locale's own plural rules. Same Application-resources path, so it stays locale-aware off the
          *  composition. */

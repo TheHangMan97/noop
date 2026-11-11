@@ -16,6 +16,16 @@ internal fun uiString(@StringRes id: Int, vararg formatArgs: Any): String =
     NoopApplication.localizedString(id, *formatArgs)
 
 /**
+ * [uiString] with the English source as a fallback, for helpers that also run in plain JVM unit tests
+ * where no Application (and so no resources) exists. In the app it always resolves the resource, so the
+ * active locale wins; [fallback] is the same format string as the base `values/strings.xml` entry and is
+ * only ever formatted when there is nothing to look the resource up in.
+ */
+internal fun uiStringOr(@StringRes id: Int, fallback: String, vararg formatArgs: Any): String =
+    NoopApplication.localizedStringOrNull(id, *formatArgs)
+        ?: if (formatArgs.isEmpty()) fallback else String.format(java.util.Locale.ROOT, fallback, *formatArgs)
+
+/**
  * Quantity-aware twin of [uiString]. Android picks the right `<item quantity=...>` for [count] using the
  * LOCALE's own plural rules, which is the whole point: hand-rolling `if (n == 1) singular else plural` at
  * the call site bakes in English's TWO categories. That silently under-serves any language with more —

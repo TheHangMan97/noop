@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import android.content.SharedPreferences
 import kotlin.math.roundToInt
 
@@ -42,14 +43,14 @@ internal fun waistInchesStep(current: Double, up: Boolean): Double {
  * above that contradicts it on the same screen.
  */
 internal fun strapStatusTitle(encryptedBond: Boolean, bonded: Boolean, connected: Boolean): String = when {
-    encryptedBond && connected -> "Bonded · streaming"
-    encryptedBond -> "Bonded · idle"
-    bonded && connected -> "Live HR (not fully paired)"
-    connected -> "Connected"
+    encryptedBond && connected -> uiStringOr(R.string.de_bonded_streaming_4dda60, "Bonded · streaming")
+    encryptedBond -> uiStringOr(R.string.de_bonded_idle_193028, "Bonded · idle")
+    bonded && connected -> uiStringOr(R.string.de_live_hr_not_fully_paired_6fd6dd, "Live HR (not fully paired)")
+    connected -> uiStringOr(R.string.de_connected_c2f9b7, "Connected")
     // No `bonded`-only idle arm: without an encrypted bond there was never a pairing to be idle from,
     // and labelling that "Paired" would be the same overclaim this change exists to remove. The 5/MG
     // shortcut's `bonded` is cleared on disconnect anyway, so the honest answer here is Disconnected.
-    else -> "Disconnected"
+    else -> uiStringOr(R.string.de_disconnected_771e05, "Disconnected")
 }
 
 /** Positive ONLY for a real encrypted bond on a live link — see [strapStatusTitle]. A live-HR-only link
@@ -67,12 +68,12 @@ internal fun strapStatusDetail(
     connected: Boolean,
     scanning: Boolean,
 ): String = when {
-    scanning -> "Searching for your WHOOP… make sure it's charged, on your wrist, and the official WHOOP app isn't connected to it."
-    encryptedBond && connected -> "Your strap is paired and sending data. Open Live for a real-time heart rate."
-    bonded && connected -> "Live heart rate is streaming, but your strap is not fully paired. The encrypted pairing is what carries motion, skin temperature, SpO₂ and respiratory rate — without it, sleep is staged from heart rate alone. Buzz, alarms and history sync need it too."
-    connected -> "Connected. Finishing the secure pairing handshake…"
-    bonded -> "Previously paired but not currently connected. Re-scan to reconnect."
-    else -> "No strap connected. Put your WHOOP nearby and tap Re-scan to pair."
+    scanning -> uiStringOr(R.string.de_searching_for_your_whoop_make_sure_it_s_7be37c, "Searching for your WHOOP… make sure it's charged, on your wrist, and the official WHOOP app isn't connected to it.")
+    encryptedBond && connected -> uiStringOr(R.string.de_your_strap_is_paired_and_sending_data_op_ef06df, "Your strap is paired and sending data. Open Live for a real-time heart rate.")
+    bonded && connected -> uiStringOr(R.string.de_live_heart_rate_is_streaming_but_your_st_934807, "Live heart rate is streaming, but your strap is not fully paired. The encrypted pairing is what carries motion, skin temperature, SpO₂ and respiratory rate — without it, sleep is staged from heart rate alone. Buzz, alarms and history sync need it too.")
+    connected -> uiStringOr(R.string.de_connected_finishing_the_secure_pairing_h_1e56d3, "Connected. Finishing the secure pairing handshake…")
+    bonded -> uiStringOr(R.string.de_previously_paired_but_not_currently_conn_0a84a0, "Previously paired but not currently connected. Re-scan to reconnect.")
+    else -> uiStringOr(R.string.de_no_strap_connected_put_your_whoop_nearby_61a155, "No strap connected. Put your WHOOP nearby and tap Re-scan to pair.")
 }
 
 internal fun batteryTone(pct: Double): StrandTone = when {
@@ -86,9 +87,9 @@ internal fun batteryTone(pct: Double): StrandTone = when {
 internal data class SexOption(val tag: String, val label: String)
 
 internal val SEX_OPTIONS = listOf(
-    SexOption("male", "Male"),
-    SexOption("female", "Female"),
-    SexOption("nonbinary", "Non-binary"),
+    SexOption("male", uiStringOr(R.string.de_male_3f3a48, "Male")),
+    SexOption("female", uiStringOr(R.string.de_female_b7c17e, "Female")),
+    SexOption("nonbinary", uiStringOr(R.string.de_non_binary_dc82a4, "Non-binary")),
 )
 
 // MARK: - Advanced disclosure persistence (S3)

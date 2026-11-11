@@ -127,13 +127,12 @@ fun WeeklyDigestCard(vm: AppViewModel, modifier: Modifier = Modifier) {
 fun WeeklyDigestScreen(vm: AppViewModel) {
     val days by vm.recentDays.collectAsStateWithLifecycle()
     val factor = effortDisplayFactor(UnitPrefs.effortScale(LocalContext.current))
-    ScreenScaffold(title = uiString(R.string.l10n_weekly_digest_card_week_in_review_66d95a07), subtitle = "Your Monday-to-Sunday, read in one glance.") {
+    ScreenScaffold(title = uiString(R.string.l10n_weekly_digest_card_week_in_review_66d95a07), subtitle = uiStringOr(R.string.de_your_monday_to_sunday_read_in_one_glance_c47588, "Your Monday-to-Sunday, read in one glance.")) {
         val digest = buildWeeklyDigest(days, effortDisplayFactor = factor)
         if (digest.isEmpty) {
             DataPendingNote(
                 title = uiString(R.string.l10n_weekly_digest_card_no_readings_this_week_yet_0745a2df),
-                body = "Wear your strap or import your WHOOP export in Data Sources. Once this week has a " +
-                    "day or two of data, your week-in-review appears here.",
+                body = "Wear your strap or import your WHOOP export in Data Sources. Once this week has a day or two of data, your week-in-review appears here.",
             )
         } else {
             NoopCard { WeeklyDigestContent(digest = digest, compact = false) }
@@ -144,7 +143,7 @@ fun WeeklyDigestScreen(vm: AppViewModel) {
 // MARK: - Shared content
 
 private val MONTHS = arrayOf(
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    uiStringOr(R.string.de_jan_efed36, "Jan"), uiStringOr(R.string.de_feb_dc8415, "Feb"), uiStringOr(R.string.de_mar_c4ba08, "Mar"), uiStringOr(R.string.de_apr_befde5, "Apr"), uiStringOr(R.string.de_may_c94f47, "May"), uiStringOr(R.string.de_jun_6d90df, "Jun"), uiStringOr(R.string.de_jul_b73755, "Jul"), uiStringOr(R.string.de_aug_75629a, "Aug"), uiStringOr(R.string.de_sep_fdd289, "Sep"), uiStringOr(R.string.de_oct_51327a, "Oct"), uiStringOr(R.string.de_nov_bb9bfe, "Nov"), uiStringOr(R.string.de_dec_997f59, "Dec"),
 )
 
 private val DISPLAY_ORDER = listOf(
@@ -168,7 +167,7 @@ fun WeeklyDigestContent(digest: WeeklyDigest, compact: Boolean = false) {
             verticalAlignment = Alignment.Top,
         ) {
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Overline("Week in review")
+                Overline(uiStringOr(R.string.de_week_in_review_66d95a, "Week in review"))
                 Text(weekRangeLabel(digest), style = NoopType.title2, color = Palette.textPrimary)
             }
             Text(
@@ -341,17 +340,18 @@ private fun WeeklyMetric.labelRes(): Int = when (this) {
 private fun rowAccessibility(s: WeeklyMetricSummary, effortScale: EffortScale): String {
     val mean = meanText(s, effortScale)
     if (s.weekOverWeek.current.n == 0 || s.weekOverWeek.previous.n == 0) {
-        return "${s.metric.label}: $mean this week, no comparison."
+        return uiStringOr(R.string.digest_row_no_comparison, "%1\$s: %2\$s this week, no comparison.", s.metric.label, mean)
     }
-    val dir = if (s.wowDelta > 0) "up" else if (s.wowDelta < 0) "down" else "unchanged"
     // A rough comparison drops the verdict framing too, so VoiceOver/TalkBack matches the neutral chip.
     val frame = when {
         s.isRoughComparison -> ""
-        s.wowGoodness == 1 -> ", a good sign"
-        s.wowGoodness == -1 -> ", worth a look"
+        s.wowGoodness == 1 -> uiStringOr(R.string.de_a_good_sign_c810c5, ", a good sign")
+        s.wowGoodness == -1 -> uiStringOr(R.string.de_worth_a_look_4073e6, ", worth a look")
         else -> ""
     }
-    return "${s.metric.label}: $mean this week, $dir ${deltaText(s)} week over week$frame."
+    val res = if (s.wowDelta > 0) R.string.digest_row_up else if (s.wowDelta < 0) R.string.digest_row_down else R.string.digest_row_flat
+    val dir = if (s.wowDelta > 0) "up" else if (s.wowDelta < 0) "down" else "unchanged"
+    return uiStringOr(res, "%1\$s: %2\$s this week, $dir %3\$s week over week%4\$s.", s.metric.label, mean, deltaText(s), frame)
 }
 
 private fun fmt1(x: Double): String = ((x * 10).roundToInt() / 10.0).toString()

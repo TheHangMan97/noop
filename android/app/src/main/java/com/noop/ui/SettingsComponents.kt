@@ -111,7 +111,7 @@ internal fun SettingsCard(
     NoopCard(padding = 20.dp, tint = Palette.accent) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Overline("Settings")
+                Overline(uiStringOr(R.string.de_settings_c7f73b, "Settings"))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
