@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -180,7 +182,7 @@ object CircadianEngine {
         if (daysObserved < minDaysForFit || !rhythmic) {
             val tmin = observedTempMinHour ?: wrap24(fit.acrophaseHours - acrophaseAfterCbtMinHours)
             return PhaseEstimate(tmin, fit.acrophaseHours, 0.0, PhaseConfidence.UNREADABLE,
-                "Your rhythm is hard to read right now - keep wearing it for a clearer picture.")
+                uiStringOr(R.string.de_your_rhythm_is_hard_to_read_right_now_ke_63b0f0, "Your rhythm is hard to read right now - keep wearing it for a clearer picture."))
         }
 
         val derivedTempMin = wrap24(fit.acrophaseHours - acrophaseAfterCbtMinHours)
@@ -201,11 +203,11 @@ object CircadianEngine {
             PhaseConfidence.WIDE
         }
         val lean = when {
-            offsetMinutes > 20 -> "later (a night-owl lean)"
-            offsetMinutes < -20 -> "earlier (a morning-lark lean)"
-            else -> "well-aligned with your schedule"
+            offsetMinutes > 20 -> uiStringOr(R.string.de_later_a_night_owl_lean_19b81b, "later (a night-owl lean)")
+            offsetMinutes < -20 -> uiStringOr(R.string.de_earlier_a_morning_lark_lean_00e81c, "earlier (a morning-lark lean)")
+            else -> uiStringOr(R.string.de_well_aligned_with_your_schedule_dde220, "well-aligned with your schedule")
         }
-        val note = "Your body clock looks $lean."
+        val note = uiStringOr(R.string.de_your_body_clock_looks_1_s_6524a5, "Your body clock looks %1\$s.", lean.toString())
 
         return PhaseEstimate(tempMinHour, fit.acrophaseHours, offsetMinutes, confidence, note)
     }
@@ -244,7 +246,7 @@ object CircadianEngine {
         val magnitude = abs(shiftHours)
         if (magnitude < 0.5) {
             return JetLagPlan(ShiftDirection.NONE, 0.0, 0, emptyList(),
-                "No meaningful body-clock shift needed - you're about aligned.")
+                uiStringOr(R.string.de_no_meaningful_body_clock_shift_needed_yo_b2a3d2, "No meaningful body-clock shift needed - you're about aligned."))
         }
 
         val advancing = shiftHours > 0
@@ -269,23 +271,20 @@ object CircadianEngine {
                 brightStart = wake
                 brightEnd = wrap24(wake + 2.0)
                 dimFrom = wrap24(sleep - 2.0)
-                guidance = "Get bright light early after waking and keep the evening dim - this nudges your " +
-                    "clock earlier. Aim for lights-out around ${clock(sleep)}."
+                guidance = uiStringOr(R.string.de_get_bright_light_early_after_waking_and_ed7ac0, "Get bright light early after waking and keep the evening dim - this nudges your clock earlier. Aim for lights-out around %1\$s.", (clock(sleep)).toString())
             } else {
                 brightStart = wrap24(sleep - 3.0)
                 brightEnd = wrap24(sleep - 1.0)
                 dimFrom = wrap24(wake)
-                guidance = "Get bright light in the evening and go easy on bright morning light - this nudges " +
-                    "your clock later. Aim for lights-out around ${clock(sleep)}."
+                guidance = uiStringOr(R.string.de_get_bright_light_in_the_evening_and_go_e_f8bb39, "Get bright light in the evening and go easy on bright morning light - this nudges your clock later. Aim for lights-out around %1\$s.", (clock(sleep)).toString())
             }
             plan.add(DayPlan(i, brightStart, brightEnd, dimFrom, sleep, wake, guidance))
         }
 
-        val dirWord = if (advancing) "earlier" else "later"
+        val dirWord = if (advancing) uiStringOr(R.string.circadian_dir_earlier, "earlier") else uiStringOr(R.string.circadian_dir_later, "later")
         val magStr = formatOneDecimal(magnitude)
-        val rate = if (maxShiftPerDayHours == 1.0) "an hour" else "$maxShiftPerDayHours h"
-        val note = "Shifting your clock $magStr h $dirWord, about $rate a day. Light and sleep " +
-            "timing only."
+        val rate = if (maxShiftPerDayHours == 1.0) uiStringOr(R.string.de_an_hour_90335b, "an hour") else "$maxShiftPerDayHours h"
+        val note = uiStringOr(R.string.de_shifting_your_clock_1_s_h_2_s_about_3_s_205683, "Shifting your clock %1\$s h %2\$s, about %3\$s a day. Light and sleep timing only.", magStr.toString(), dirWord.toString(), rate.toString())
         return JetLagPlan(direction, magnitude, days, plan, note)
     }
 

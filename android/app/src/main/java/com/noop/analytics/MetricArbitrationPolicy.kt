@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 /*
  * MetricArbitrationPolicy (v5 — Local Multi-Device Fusion).
  *
@@ -164,26 +166,26 @@ object MetricArbitrationPolicy {
             (source == FusionSource.XIAOMI_BAND || source == FusionSource.APPLE_HEALTH ||
                 source == FusionSource.HEALTH_CONNECT)
         ) {
-            return "counts directly"
+            return uiStringOr(R.string.de_counts_directly_ef3d19, "counts directly")
         }
         if (metric == MetricKind.STEPS &&
             (source == FusionSource.WHOOP_IMPORT || source == FusionSource.NOOP_COMPUTED)
         ) {
-            return "step estimate"
+            return uiStringOr(R.string.de_step_estimate_f5fece, "step estimate")
         }
-        if (metric == MetricKind.SLEEP && source == FusionSource.WHOOP_IMPORT) return "best stager"
-        if (metric == MetricKind.SLEEP && source == FusionSource.NOOP_COMPUTED) return "computed stages"
+        if (metric == MetricKind.SLEEP && source == FusionSource.WHOOP_IMPORT) return uiStringOr(R.string.de_best_stager_6d3752, "best stager")
+        if (metric == MetricKind.SLEEP && source == FusionSource.NOOP_COMPUTED) return uiStringOr(R.string.de_computed_stages_1c91d2, "computed stages")
         if (metric == MetricKind.SLEEP &&
             (source == FusionSource.APPLE_HEALTH || source == FusionSource.HEALTH_CONNECT)
         ) {
-            return "phone sleep buckets"
+            return uiStringOr(R.string.de_phone_sleep_buckets_758abd, "phone sleep buckets")
         }
-        if (metric == MetricKind.SKIN_TEMP) return "worn sensor"
+        if (metric == MetricKind.SKIN_TEMP) return uiStringOr(R.string.de_worn_sensor_781fd4, "worn sensor")
 
         return when (tier(metric, source)) {
-            0 -> "direct sensor"
-            1 -> "computed on device"
-            2 -> "phone aggregate"
+            0 -> uiStringOr(R.string.de_direct_sensor_b8d25a, "direct sensor")
+            1 -> uiStringOr(R.string.de_computed_on_device_f0c40e, "computed on device")
+            2 -> uiStringOr(R.string.de_phone_aggregate_a65fac, "phone aggregate")
             else -> "estimate"
         }
     }

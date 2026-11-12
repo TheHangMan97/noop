@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -62,17 +64,14 @@ data class DoseResponse(
     /** Plain-English read. Honest about prior-vs-yours. Mirrors Swift exactly. */
     fun sentence(): String {
         val mag = DoseResponseEngine.round1(abs(perUnit))
-        val dir = if (perUnit <= 0) "lower" else "higher"
+        val dir = if (perUnit <= 0) uiStringOr(R.string.dose_dir_lower, "lower") else uiStringOr(R.string.dose_dir_higher, "higher")
         return when {
             priorDominated ->
-                "Each extra unit typically lines up with about $mag $outcome $dir " +
-                    " - typical patterns, not yet yours (n=$nUser)."
+                uiStringOr(R.string.de_each_extra_unit_typically_lines_up_with_6a7464, "Each extra unit typically lines up with about %1\$s %2\$s %3\$s  - typical patterns, not yet yours (n=%4\$s).", mag.toString(), outcome.toString(), dir.toString(), nUser.toString())
             contradictsPrior ->
-                "In your data so far, this doesn't move your $outcome the way it typically " +
-                    "does (n=$nUser)."
+                uiStringOr(R.string.de_in_your_data_so_far_this_doesn_t_move_yo_384156, "In your data so far, this doesn't move your %1\$s the way it typically does (n=%2\$s).", outcome.toString(), nUser.toString())
             else ->
-                "Each extra unit tends to line up with about $mag $outcome $dir for you " +
-                    "(n=$nUser)."
+                uiStringOr(R.string.de_each_extra_unit_tends_to_line_up_with_ab_19e7ab, "Each extra unit tends to line up with about %1\$s %2\$s %3\$s for you (n=%4\$s).", mag.toString(), outcome.toString(), dir.toString(), nUser.toString())
         }
     }
 }

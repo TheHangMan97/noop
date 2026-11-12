@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 /**
  * On-demand "take an HRV reading now" — the single-value spot RMSSD path (#537, @sunny-noop).
  *
@@ -99,13 +101,10 @@ object SpotHrvReading {
      */
     fun caveatFor(source: Source): String {
         val base =
-            "This is a spot reading over a short, still capture, not your overnight HRV baseline. " +
-                "Take it seated, still, and at a consistent time of day for comparable numbers, and " +
-                "only a reading with enough clean beats is shown."
+            uiStringOr(R.string.de_this_is_a_spot_reading_over_a_short_stil_54ba35, "This is a spot reading over a short, still capture, not your overnight HRV baseline. Take it seated, still, and at a consistent time of day for comparable numbers, and only a reading with enough clean beats is shown.")
         return when (source) {
             Source.OPTICAL_PPG ->
-                base + " On a WHOOP 5.0/MG the intervals come from the optical pulse signal, which is " +
-                    "noisier than a chest strap, so treat the number as a rough estimate."
+                base + uiStringOr(R.string.de_on_a_whoop_5_0_mg_the_intervals_come_fr_eedd68, " On a WHOOP 5.0/MG the intervals come from the optical pulse signal, which is noisier than a chest strap, so treat the number as a rough estimate.")
             Source.CHEST_STRAP, Source.UNKNOWN -> base
         }
     }

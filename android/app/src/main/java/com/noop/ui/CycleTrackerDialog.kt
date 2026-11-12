@@ -1,5 +1,6 @@
 package com.noop.ui
 
+import com.noop.R
 import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -137,7 +138,7 @@ fun CycleTrackerDialog(
                 }
 
                 HorizontalDivider(color = Palette.hairline)
-                Text(CyclePhaseEngine.awarenessLine, style = NoopType.footnote, color = Palette.textTertiary)
+                Text(uiStringOr(R.string.de_for_awareness_only_not_a_medical_device_08df79, CyclePhaseEngine.awarenessLine), style = NoopType.footnote, color = Palette.textTertiary)
                 Row(horizontalArrangement = Arrangement.spacedBy(Metrics.space8), verticalAlignment = Alignment.Top) {
                     Icon(Icons.Filled.Lock, contentDescription = null, tint = Palette.textTertiary, modifier = Modifier.size(Metrics.iconTiny))
                     Text(uiString(com.noop.R.string.cycle_tracker_privacy), style = NoopType.footnote, color = Palette.textTertiary)

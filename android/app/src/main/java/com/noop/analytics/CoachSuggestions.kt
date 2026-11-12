@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import com.noop.data.DailyMetric
 
 // CoachSuggestions.kt — contextual coaching prompt chips derived from the user's own bands.
@@ -14,10 +16,10 @@ object CoachSuggestions {
     /** The stable generic set used when there is no usable data for today. Byte-identical to the
      *  Swift `fallback` list. */
     val fallback: List<String> = listOf(
-        "How's my recovery trending this week?",
-        "What should today's training look like?",
+        uiStringOr(R.string.de_how_s_my_recovery_trending_this_week_b1a576, "How's my recovery trending this week?"),
+        uiStringOr(R.string.de_what_should_today_s_training_look_like_d28e0c, "What should today's training look like?"),
         "Analyse my sleep",
-        "Why am I run down?",
+        uiStringOr(R.string.de_why_am_i_run_down_c26e05, "Why am I run down?"),
     )
 
     /** A stable generic prompt always appended as the last chip so there is a consistent entry point
@@ -59,9 +61,9 @@ object CoachSuggestions {
         // 1. Charge band → one readiness prescription chip.
         if (charge != null) {
             chips += when {
-                charge < CHARGE_RED_CUTOFF -> "Active recovery only today — what should I do?"
-                charge < CHARGE_GREEN_CUTOFF -> "Quality over volume today — plan my session"
-                else -> "Green light — how hard can I push today?"
+                charge < CHARGE_RED_CUTOFF -> uiStringOr(R.string.de_active_recovery_only_today_what_should_i_939c6f, "Active recovery only today — what should I do?")
+                charge < CHARGE_GREEN_CUTOFF -> uiStringOr(R.string.de_quality_over_volume_today_plan_my_sessio_083112, "Quality over volume today — plan my session")
+                else -> uiStringOr(R.string.de_green_light_how_hard_can_i_push_today_aa1f8a, "Green light — how hard can I push today?")
             }
         }
 
@@ -69,18 +71,18 @@ object CoachSuggestions {
         if (hrv != null) {
             val baseline = hrvBaseline(recent, excluding = today.day)
             if (baseline != null && baseline > 0 && hrv < HRV_DOWN_RATIO * baseline) {
-                chips += "Why is my HRV trending down?"
+                chips += uiStringOr(R.string.de_why_is_my_hrv_trending_down_2575b1, "Why is my HRV trending down?")
             }
         }
 
         // 3. Poor sleep (< 6h).
         if (sleep != null && sleep < POOR_SLEEP_MIN) {
-            chips += "I slept poorly — how do I recover today?"
+            chips += uiStringOr(R.string.de_i_slept_poorly_how_do_i_recover_today_26dbde, "I slept poorly — how do I recover today?")
         }
 
         // 4. Already a high-strain day.
         if (strain != null && strain >= StrainScorer.effortValueFromWhoopStrain(HIGH_STRAIN)) {
-            chips += "Have I done enough today, or push more?"
+            chips += uiStringOr(R.string.de_have_i_done_enough_today_or_push_more_de6c37, "Have I done enough today, or push more?")
         }
 
         // Signals present but none of the band conditions fired → generic fallback (avoids a lone

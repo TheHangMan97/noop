@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 // FitnessAgeEngine.kt — on-device "Fitness Age" from resting HR + activity + profile.
 // Byte-for-byte mirror of Strand/Packages/StrandAnalytics/Sources/StrandAnalytics/FitnessAgeEngine.swift.
 //
@@ -138,30 +140,30 @@ object FitnessAgeEngine {
     fun assessReadiness(hasAge: Boolean, hasSex: Boolean, rhrDays: Int, activityDays: Int,
                         hasHeightWeight: Boolean, hasWaist: Boolean): FitnessAgeReadiness {
         val items = listOf(
-            FitnessReadinessItem("age", "Your age",
+            FitnessReadinessItem("age", uiStringOr(R.string.de_your_age_9b974c, "Your age"),
                 if (hasAge) FitnessReadinessStatus.SATISFIED else FitnessReadinessStatus.MISSING,
                 required = true, role = FitnessReadinessRole.DRIVES_AGE,
-                detail = if (hasAge) "Set" else "Add it in Settings"),
-            FitnessReadinessItem("sex", "Biological sex",
+                detail = if (hasAge) uiStringOr(R.string.de_set_448ab7, "Set") else uiStringOr(R.string.de_add_it_in_settings_50fa46, "Add it in Settings")),
+            FitnessReadinessItem("sex", uiStringOr(R.string.de_biological_sex_14a7ce, "Biological sex"),
                 if (hasSex) FitnessReadinessStatus.SATISFIED else FitnessReadinessStatus.MISSING,
                 required = true, role = FitnessReadinessRole.DRIVES_AGE,
-                detail = if (hasSex) "Set" else "Add it in Settings"),
-            FitnessReadinessItem("rhr", "Resting heart rate",
+                detail = if (hasSex) uiStringOr(R.string.de_set_448ab7, "Set") else uiStringOr(R.string.de_add_it_in_settings_50fa46, "Add it in Settings")),
+            FitnessReadinessItem("rhr", uiStringOr(R.string.de_resting_heart_rate_348928, "Resting heart rate"),
                 coverageStatus(rhrDays, minCoverageDays), required = true,
-                role = FitnessReadinessRole.DRIVES_AGE, detail = "$rhrDays of last 7 nights"),
-            FitnessReadinessItem("activity", "Recent activity",
+                role = FitnessReadinessRole.DRIVES_AGE, detail = uiStringOr(R.string.de_1_s_of_last_7_nights_647104, "%1\$s of last 7 nights", rhrDays.toString())),
+            FitnessReadinessItem("activity", uiStringOr(R.string.de_recent_activity_72d561, "Recent activity"),
                 coverageStatus(activityDays, minCoverageDays), required = false,
-                role = FitnessReadinessRole.DRIVES_AGE, detail = "$activityDays of last 7 days"),
-            FitnessReadinessItem("bodyMetrics", "Height & weight",
+                role = FitnessReadinessRole.DRIVES_AGE, detail = uiStringOr(R.string.de_1_s_of_last_7_days_735233, "%1\$s of last 7 days", activityDays.toString())),
+            FitnessReadinessItem("bodyMetrics", uiStringOr(R.string.de_height_weight_ee3965, "Height & weight"),
                 if (hasHeightWeight) FitnessReadinessStatus.SATISFIED else FitnessReadinessStatus.MISSING,
                 required = false, role = FitnessReadinessRole.UNLOCKS_VO2MAX,
                 // Height/weight feed calories/BMI, not the VO₂max estimate (Nes uses waist; the Uth
                 // fallback uses HR only). So neutral "Set" — never implying they gate or sharpen VO₂max.
-                detail = if (hasHeightWeight) "Set" else "Add it in Settings"),
-            FitnessReadinessItem("waist", "Waist (optional)",
+                detail = if (hasHeightWeight) uiStringOr(R.string.de_set_448ab7, "Set") else uiStringOr(R.string.de_add_it_in_settings_50fa46, "Add it in Settings")),
+            FitnessReadinessItem("waist", uiStringOr(R.string.de_waist_optional_d53567, "Waist (optional)"),
                 if (hasWaist) FitnessReadinessStatus.SATISFIED else FitnessReadinessStatus.MISSING,
                 required = false, role = FitnessReadinessRole.UNLOCKS_VO2MAX,
-                detail = if (hasWaist) "Sharpens VO₂max" else "Optional - sharpens VO₂max"),
+                detail = if (hasWaist) uiStringOr(R.string.de_sharpens_vo_max_fe0a59, "Sharpens VO₂max") else uiStringOr(R.string.de_optional_sharpens_vo_max_553821, "Optional - sharpens VO₂max")),
         )
         val confidence = when {
             !hasAge || !hasSex || rhrDays < minCoverageDays -> FitnessAgeConfidence.NOT_READY

@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -84,16 +86,21 @@ data class ActivityCost(
         val mag = abs(delta)
         val points = ActivityCostEngine.roundToIntHalfUp(mag)
         if (mag < ActivityCostEngine.barelyMovesPoints) {
-            return "Sessions like this barely move your next-day Charge (n=$n)."
+            return uiStringOr(R.string.de_sessions_like_this_barely_move_your_next_94c868, "Sessions like this barely move your next-day Charge (n=%1\$s).", n.toString())
         }
-        val direction = if (delta >= 0) "cost you" else "lift"
-        val head = "Sessions like this usually $direction about $points Charge " +
-            "point${if (points == 1) "" else "s"} the next morning"
+        val cost = delta >= 0
+        val head = when {
+            cost && points == 1 -> uiStringOr(R.string.activity_cost_head_cost_one, "Sessions like this usually cost you about 1 Charge point the next morning")
+            cost -> uiStringOr(R.string.activity_cost_head_cost_many, "Sessions like this usually cost you about %1\$d Charge points the next morning", points)
+            points == 1 -> uiStringOr(R.string.activity_cost_head_lift_one, "Sessions like this usually lift about 1 Charge point the next morning")
+            else -> uiStringOr(R.string.activity_cost_head_lift_many, "Sessions like this usually lift about %1\$d Charge points the next morning", points)
+        }
         val days = daysToBaseline
         return if (days != null) {
-            "$head and take about $days day${if (days == 1) "" else "s"} to bounce back (n=$n)."
+            if (days == 1) uiStringOr(R.string.activity_cost_tail_one, "%1\$s and take about 1 day to bounce back (n=%2\$d).", head, n)
+            else uiStringOr(R.string.activity_cost_tail_many, "%1\$s and take about %2\$d days to bounce back (n=%3\$d).", head, days, n)
         } else {
-            "$head (n=$n)."
+            uiStringOr(R.string.activity_cost_tail_none, "%1\$s (n=%2\$d).", head, n)
         }
     }
 }

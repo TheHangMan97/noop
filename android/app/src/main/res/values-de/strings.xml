@@ -4346,4 +4346,103 @@
     <string name="lab_signal_charge">Energie</string>
     <string name="lab_signal_rest">Erholung</string>
     <string name="lab_signal_effort">Belastung</string>
+    <string name="de_your_rhythm_is_hard_to_read_right_now_ke_63b0f0">Dein Rhythmus ist gerade schwer zu lesen – trag den Strap weiter für ein klareres Bild.</string>
+    <string name="de_later_a_night_owl_lean_19b81b">später (eher Nachteule)</string>
+    <string name="de_earlier_a_morning_lark_lean_00e81c">früher (eher Lerche)</string>
+    <string name="de_well_aligned_with_your_schedule_dde220">gut auf deinen Tagesplan abgestimmt</string>
+    <string name="de_your_body_clock_looks_1_s_6524a5">Deine innere Uhr wirkt %1$s.</string>
+    <string name="de_no_meaningful_body_clock_shift_needed_yo_b2a3d2">Keine nennenswerte Verschiebung der inneren Uhr nötig – du bist etwa im Takt.</string>
+    <string name="de_get_bright_light_early_after_waking_and_ed7ac0">Hol dir früh nach dem Aufwachen helles Licht und halte den Abend gedämpft – das verschiebt deine Uhr nach vorn. Ziel: Licht aus gegen %1$s.</string>
+    <string name="de_get_bright_light_in_the_evening_and_go_e_f8bb39">Hol dir abends helles Licht und meide helles Licht am Morgen – das verschiebt deine Uhr nach hinten. Ziel: Licht aus gegen %1$s.</string>
+    <string name="de_an_hour_90335b">eine Stunde</string>
+    <string name="de_shifting_your_clock_1_s_h_2_s_about_3_s_205683">Deine Uhr wird um %1$s h %2$s verschoben, etwa %3$s pro Tag. Nur über Licht und Schlafzeiten.</string>
+    <string name="de_each_extra_unit_typically_lines_up_with_6a7464">Jede zusätzliche Einheit geht typischerweise mit etwa %1$s einher (%2$s, %3$s) – typische Muster, noch nicht deine (n=%4$s).</string>
+    <string name="de_in_your_data_so_far_this_doesn_t_move_yo_384156">In deinen bisherigen Daten wirkt sich das nicht so auf %1$s aus, wie es typischerweise der Fall ist (n=%2$s).</string>
+    <string name="de_each_extra_unit_tends_to_line_up_with_ab_19e7ab">Jede zusätzliche Einheit geht bei dir meist mit etwa %1$s einher (%2$s, %3$s) (n=%4$s).</string>
+    <string name="de_stress_bad333">Stress</string>
+    <string name="de_a_good_sign_e94528">" – ein gutes Zeichen"</string>
+    <string name="de_worth_a_look_a49afa">" – einen Blick wert"</string>
+    <string name="de_1_s_is_2_s_avg_3_s_4_s_5_s_6_s_7_s_63f19a">%1$s: %2$s (Ø %3$s%4$s → %5$s%4$s)%7$s.</string>
+    <string name="de_counts_directly_ef3d19">zählt direkt</string>
+    <string name="de_step_estimate_f5fece">Schrittschätzung</string>
+    <string name="de_best_stager_6d3752">beste Phaseneinteilung</string>
+    <string name="de_computed_stages_1c91d2">berechnete Phasen</string>
+    <string name="de_phone_sleep_buckets_758abd">Schlafdaten vom Smartphone</string>
+    <string name="de_worn_sensor_781fd4">getragener Sensor</string>
+    <string name="de_direct_sensor_b8d25a">direkter Sensor</string>
+    <string name="de_computed_on_device_f0c40e">auf dem Gerät berechnet</string>
+    <string name="de_phone_aggregate_a65fac">Smartphone-Zusammenfassung</string>
+    <string name="de_for_awareness_only_not_a_medical_device_08df79">Nur zur Orientierung. Kein Medizinprodukt, keine Verhütung, kein Ersatz für fachliche Betreuung.</string>
+    <string name="de_learning_your_pattern_from_your_nightly_3d4771">Dein Muster wird aus deiner nächtlichen Temperatur gelernt – trag den Strap weiter über Nacht.</string>
+    <string name="de_no_clear_temperature_pattern_yet_this_ca_b0eb07">Noch kein klares Temperaturmuster – das kann bei unregelmäßigen Zyklen, hormoneller Verhütung oder Schichtarbeit vorkommen.</string>
+    <string name="de_your_temperature_shift_came_at_a_differe_40a2d6">Deine Temperaturverschiebung kam zu einem anderen Zeitpunkt als dein eingetragenes Datum – der eingetragene Beginn stimmt vielleicht nicht.</string>
+    <string name="de_follicular_range_temperature_sitting_at_043745">Follikelphase – die Temperatur liegt auf deiner Basislinie.</string>
+    <string name="de_around_your_mid_cycle_shift_temperature_de0e8e">Um die Zyklusmitte – die Temperatur dreht gerade.</string>
+    <string name="de_luteal_range_temperature_is_running_abov_082fdf">Lutealphase – die Temperatur liegt über deiner Basislinie.</string>
+    <string name="de_no_clear_pattern_yet_2149b4">Noch kein klares Muster.</string>
+    <string name="de_learning_your_pattern_keep_wearing_it_ov_6e709f">Dein Muster wird gelernt – trag den Strap weiter über Nacht.</string>
+    <string name="de_your_age_9b974c">Dein Alter</string>
+    <string name="de_set_448ab7">Eingetragen</string>
+    <string name="de_add_it_in_settings_50fa46">In den Einstellungen eintragen</string>
+    <string name="de_biological_sex_14a7ce">Biologisches Geschlecht</string>
+    <string name="de_1_s_of_last_7_nights_647104">%1$s der letzten 7 Nächte</string>
+    <string name="de_recent_activity_72d561">Jüngste Aktivität</string>
+    <string name="de_1_s_of_last_7_days_735233">%1$s der letzten 7 Tage</string>
+    <string name="de_height_weight_ee3965">Größe &amp; Gewicht</string>
+    <string name="de_waist_optional_d53567">Taillenumfang (optional)</string>
+    <string name="de_sharpens_vo_max_fe0a59">Verbessert die VO₂max</string>
+    <string name="de_optional_sharpens_vo_max_553821">Optional – verbessert die VO₂max</string>
+    <string name="de_how_s_my_recovery_trending_this_week_b1a576">Wie entwickelt sich meine Erholung diese Woche?</string>
+    <string name="de_what_should_today_s_training_look_like_d28e0c">Wie sollte mein Training heute aussehen?</string>
+    <string name="de_why_am_i_run_down_c26e05">Warum bin ich so erschöpft?</string>
+    <string name="de_active_recovery_only_today_what_should_i_939c6f">Heute nur aktive Erholung — was soll ich tun?</string>
+    <string name="de_quality_over_volume_today_plan_my_sessio_083112">Heute Qualität statt Umfang — plane meine Einheit</string>
+    <string name="de_green_light_how_hard_can_i_push_today_aa1f8a">Grünes Licht — wie hart kann ich heute trainieren?</string>
+    <string name="de_why_is_my_hrv_trending_down_2575b1">Warum fällt meine HRV?</string>
+    <string name="de_i_slept_poorly_how_do_i_recover_today_26dbde">Ich habe schlecht geschlafen — wie erhole ich mich heute?</string>
+    <string name="de_have_i_done_enough_today_or_push_more_de6c37">Habe ich heute genug gemacht, oder noch mehr?</string>
+    <string name="de_same_day_9632d9">am selben Tag</string>
+    <string name="de_next_morning_c080b7">am nächsten Morgen</string>
+    <string name="de_1_s_mornings_later_3d9d69">%1$s Morgen später</string>
+    <string name="de_on_days_you_logged_1_s_2_s_was_3_s_avg_4_5a8cb9">An Tagen mit ‘%1$s’ war %2$s %3$s (Ø %4$s vs. %5$s, n=%6$s vs. %7$s).</string>
+    <string name="de_sessions_like_this_barely_move_your_next_94c868">Sessions wie diese verändern deine Energie am nächsten Tag kaum (n=%1$s).</string>
+    <string name="de_cardio_fitness_cf9aa1">Kardio-Fitness</string>
+    <string name="de_sleep_duration_b6c939">Schlafdauer</string>
+    <string name="de_sleep_regularity_0730ac">Schlafregelmäßigkeit</string>
+    <string name="de_daily_steps_a4d246">Tägliche Schritte</string>
+    <string name="de_still_learning_your_baseline_keeping_an_8e3249">Deine Basislinie wird noch gelernt – wir behalten es im Blick.</string>
+    <string name="de_rest_up_you_logged_feeling_unwell_and_yo_f22c7a">Ruh dich aus – du hast eingetragen, dass du dich krank fühlst, und deine Werte bestätigen das. %1$s</string>
+    <string name="de_rest_up_you_logged_feeling_unwell_take_i_196b11">Ruh dich aus – du hast eingetragen, dass du dich krank fühlst. Lass es heute ruhig angehen. %1$s</string>
+    <string name="de_nothing_notable_your_signals_look_like_y_cfcca2">Nichts Auffälliges – deine Signale liegen in deinem normalen Bereich.</string>
+    <string name="de_some_signals_are_up_87f4b2">Einige Signale sind erhöht</string>
+    <string name="de_some_signals_are_up_1_s_but_you_logged_2_690c7f">Einige Signale sind erhöht (%1$s), aber du hast %2$s eingetragen – vermutlich liegt es daran, nicht an einer Krankheit. %3$s</string>
+    <string name="de_a_few_signals_are_mildly_up_1_s_nothing_43444e">Ein paar Signale sind leicht erhöht (%1$s). Nichts Beunruhigendes – ein ruhigerer Tag wäre gut. %2$s</string>
+    <string name="de_no_alcohol_or_travel_logged_40e3d7">kein Alkohol und keine Reise eingetragen</string>
+    <string name="de_heads_up_your_body_looks_strained_1_s_wi_da7aeb">Hinweis – dein Körper wirkt belastet. %1$s. Da %2$s ist, lass es lieber ruhig angehen. %3$s</string>
+    <string name="de_this_is_a_spot_reading_over_a_short_stil_54ba35">Das ist eine Momentaufnahme aus einer kurzen, ruhigen Messung, nicht deine nächtliche HRV-Basislinie. Miss im Sitzen, still und immer zur gleichen Tageszeit, um vergleichbare Werte zu erhalten. Angezeigt wird nur eine Messung mit genug sauberen Schlägen.</string>
+    <string name="de_on_a_whoop_5_0_mg_the_intervals_come_fr_eedd68">" Bei einem WHOOP 5.0/MG stammen die Intervalle aus dem optischen Pulssignal, das stärker rauscht als ein Brustgurt – sieh den Wert daher als grobe Schätzung."</string>
+    <string name="circadian_dir_earlier">nach vorn</string>
+    <string name="circadian_dir_later">nach hinten</string>
+    <string name="dose_dir_lower">niedriger</string>
+    <string name="dose_dir_higher">höher</string>
+    <string name="effect_dir_higher">höher</string>
+    <string name="effect_dir_lower">niedriger</string>
+    <string name="effect_dir_unchanged">unverändert</string>
+    <string name="activity_cost_head_cost_one">Sessions wie diese kosten dich am nächsten Morgen meist etwa 1 Energie-Punkt</string>
+    <string name="activity_cost_head_cost_many">Sessions wie diese kosten dich am nächsten Morgen meist etwa %1$d Energie-Punkte</string>
+    <string name="activity_cost_head_lift_one">Sessions wie diese heben deine Energie am nächsten Morgen meist um etwa 1 Punkt</string>
+    <string name="activity_cost_head_lift_many">Sessions wie diese heben deine Energie am nächsten Morgen meist um etwa %1$d Punkte</string>
+    <string name="activity_cost_tail_one">%1$s, die Erholung dauert etwa 1 Tag (n=%2$d).</string>
+    <string name="activity_cost_tail_many">%1$s, die Erholung dauert etwa %2$d Tage (n=%3$d).</string>
+    <string name="activity_cost_tail_none">%1$s (n=%2$d).</string>
+    <string name="illness_disclaimer">Schätzung auf dem Gerät – keine Diagnose.</string>
+    <string name="illness_reason_something">etwas</string>
+    <string name="illness_reason_and">%1$s und %2$s</string>
+    <string name="illness_reason_alcohol">Alkohol</string>
+    <string name="illness_reason_stress">Stress</string>
+    <string name="illness_reason_sauna">Sauna</string>
+    <string name="illness_reason_workout">ein hartes oder spätes Workout</string>
+    <string name="illness_reason_travel">eine Reise</string>
+    <string name="rtc_warning_charged">Die Uhr des Straps steht auf 1970/71 (seit dem letzten Zurücksetzen nie gestellt), daher speichert er keinen Verlauf. Der Strap ist bereits geladen, erneutes Laden ändert daran also nichts. Exportiere im Testzentrum ein Strap-Protokoll, damit der Uhrzeit-Austausch ausgewertet werden kann.</string>
+    <string name="rtc_warning_charge">Die Uhr des Straps steht auf 1970/71 (seit dem letzten Zurücksetzen nie gestellt), daher speichert er keinen Verlauf. Lade den Strap auf 100 % und verbinde ihn neu, damit die Uhr übernommen wird.</string>
 </resources>

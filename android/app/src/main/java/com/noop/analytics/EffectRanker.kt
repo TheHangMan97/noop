@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.math.sqrt
@@ -76,9 +78,9 @@ data class RankedEffect(
     /** Plain-English lead/lag chip text. */
     val leadLagText: String
         get() = when (lag) {
-            0 -> "same day"
-            1 -> "next morning"
-            else -> "$lag mornings later"
+            0 -> uiStringOr(R.string.de_same_day_9632d9, "same day")
+            1 -> uiStringOr(R.string.de_next_morning_c080b7, "next morning")
+            else -> uiStringOr(R.string.de_1_s_mornings_later_3d9d69, "%1\$s mornings later", lag.toString())
         }
 
     /** The sign-aware sentence plus the lead/lag clause. */
@@ -286,19 +288,18 @@ object EffectRanker {
     /** Render an effect as a plain-English sentence (byte-identical to Swift BehaviorInsights). */
     internal fun sentence(e: BehaviorEffect): String {
         val directionWord = when {
-            e.delta > 0 -> "higher"
-            e.delta < 0 -> "lower"
-            else -> "unchanged"
+            e.delta > 0 -> uiStringOr(R.string.effect_dir_higher, "higher")
+            e.delta < 0 -> uiStringOr(R.string.effect_dir_lower, "lower")
+            else -> uiStringOr(R.string.effect_dir_unchanged, "unchanged")
         }
         val magnitude = when {
-            e.delta == 0.0 -> "no different"
+            e.delta == 0.0 -> uiStringOr(R.string.de_no_different_1ea813, "no different")
             e.pctChange != null -> "${roundedInt(abs(e.pctChange))}% $directionWord"
             else -> "${round1(abs(e.delta))} $directionWord"
         }
         val avgWith = roundedInt(e.meanWith)
         val avgWithout = roundedInt(e.meanWithout)
-        return "On days you logged ‘${e.behavior}’, ${e.outcome} was $magnitude " +
-            "(avg $avgWith vs $avgWithout, n=${e.nWith} vs ${e.nWithout})."
+        return uiStringOr(R.string.de_on_days_you_logged_1_s_2_s_was_3_s_avg_4_5a8cb9, "On days you logged ‘%1\$s’, %2\$s was %3\$s (avg %4\$s vs %5\$s, n=%6\$s vs %7\$s).", (e.behavior).toString(), (e.outcome).toString(), magnitude.toString(), avgWith.toString(), avgWithout.toString(), (e.nWith).toString(), (e.nWithout).toString())
     }
 
     // Confidence.

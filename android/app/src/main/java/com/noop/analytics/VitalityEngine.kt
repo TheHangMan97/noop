@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.abs
 
 // VitalityEngine.kt — 0–100 "Vitality" wellness score + optional "Body Age in years".
@@ -77,26 +79,26 @@ object VitalityEngine {
     fun contributions(inputs: Inputs): List<Contribution> {
         val out = ArrayList<Contribution>()
         inputs.restingHR?.let {
-            out.add(Contribution("rhr", "Resting heart rate", ((it - 65) / 10) * 0.100))
+            out.add(Contribution("rhr", uiStringOr(R.string.de_resting_heart_rate_348928, "Resting heart rate"), ((it - 65) / 10) * 0.100))
         }
         val vo2 = inputs.vo2max; val exp = inputs.expectedVO2max
         if (vo2 != null && exp != null && exp > 0) {
-            out.add(Contribution("vo2max", "Cardio fitness", ((exp - vo2) / 3.5).coerceIn(-4.0, 4.0) * 0.130))
+            out.add(Contribution("vo2max", uiStringOr(R.string.de_cardio_fitness_cf9aa1, "Cardio fitness"), ((exp - vo2) / 3.5).coerceIn(-4.0, 4.0) * 0.130))
         }
         inputs.sleepHours?.let {
             val dev = maxOf(0.0, abs(it - 7.5) - 0.5)
-            out.add(Contribution("sleep", "Sleep duration", dev.coerceIn(0.0, 3.0) * 0.110))
+            out.add(Contribution("sleep", uiStringOr(R.string.de_sleep_duration_b6c939, "Sleep duration"), dev.coerceIn(0.0, 3.0) * 0.110))
         }
         inputs.sleepConsistency?.let {
-            out.add(Contribution("consistency", "Sleep regularity", (0.75 - it.coerceIn(0.0, 1.0)) * 0.450))
+            out.add(Contribution("consistency", uiStringOr(R.string.de_sleep_regularity_0730ac, "Sleep regularity"), (0.75 - it.coerceIn(0.0, 1.0)) * 0.450))
         }
         val h = inputs.rmssd; val norm = inputs.rmssdNorm
         if (h != null && norm != null && norm > 0) {
-            out.add(Contribution("hrv", "Heart-rate variability", ((norm - h) / norm).coerceIn(-1.0, 1.0) * 0.160))
+            out.add(Contribution("hrv", uiStringOr(R.string.de_heart_rate_variability_a13758, "Heart-rate variability"), ((norm - h) / norm).coerceIn(-1.0, 1.0) * 0.160))
         }
         inputs.steps?.let {
             val deficit = (7000 - it.coerceIn(0.0, 11000.0)) / 1000
-            out.add(Contribution("steps", "Daily steps", deficit.coerceIn(-4.0, 4.0) * 0.064))
+            out.add(Contribution("steps", uiStringOr(R.string.de_daily_steps_a4d246, "Daily steps"), deficit.coerceIn(-4.0, 4.0) * 0.064))
         }
         return out
     }

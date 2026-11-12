@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import kotlin.math.abs
 import kotlin.math.roundToLong
 
@@ -45,15 +47,15 @@ enum class ReportMetric {
     /** Human label for the metric (matches the rest of the app's naming). */
     val label: String
         get() = when (this) {
-            WORKOUTS -> "Workouts"
-            STRESS -> "Stress"
-            RECOVERY -> "Recovery"
-            SLEEP_HOURS -> "Sleep"
+            WORKOUTS -> uiStringOr(R.string.de_workouts_ccb58b, "Workouts")
+            STRESS -> uiStringOr(R.string.de_stress_bad333, "Stress")
+            RECOVERY -> uiStringOr(R.string.de_recovery_ea924f, "Recovery")
+            SLEEP_HOURS -> uiStringOr(R.string.de_sleep_3cac34, "Sleep")
             HRV -> "HRV"
-            RESTING_HR -> "Resting HR"
-            STRAIN -> "Strain"
-            RESP_RATE -> "Respiratory rate"
-            SKIN_TEMP_DEV -> "Skin temp"
+            RESTING_HR -> uiStringOr(R.string.de_resting_hr_266770, "Resting HR")
+            STRAIN -> uiStringOr(R.string.de_strain_79fe38, "Strain")
+            RESP_RATE -> uiStringOr(R.string.de_respiratory_rate_da7b89, "Respiratory rate")
+            SKIN_TEMP_DEV -> uiStringOr(R.string.de_skin_temp_cd9363, "Skin temp")
         }
 
     /** Display unit suffix (empty for the unitless 0–100 scores and the 0–3 stress index). */
@@ -370,9 +372,9 @@ object RangeReportEngine {
         units: ReportDisplayUnits = ReportDisplayUnits.STORED,
     ): String {
         val word = when (s.trend) {
-            ReportTrend.RISING -> "trending up"
-            ReportTrend.FALLING -> "trending down"
-            ReportTrend.FLAT -> "holding steady"
+            ReportTrend.RISING -> uiStringOr(R.string.de_trending_up_34094b, "trending up")
+            ReportTrend.FALLING -> uiStringOr(R.string.de_trending_down_fc2716, "trending down")
+            ReportTrend.FLAT -> uiStringOr(R.string.de_holding_steady_d34c82, "holding steady")
         }
         val frame = if (s.trend == ReportTrend.FLAT || !s.metric.framesGoodBad) {
             // Flat, or a signed-deviation metric with no inherent good/bad direction.
@@ -380,14 +382,13 @@ object RangeReportEngine {
         } else {
             val up = s.trend == ReportTrend.RISING
             val good = up == s.metric.higherIsBetter
-            if (good) " - a good sign" else " - worth a look"
+            if (good) uiStringOr(R.string.de_a_good_sign_e94528, " - a good sign") else uiStringOr(R.string.de_worth_a_look_a49afa, " - worth a look")
         }
         val rawUnit = displayUnit(s.metric, units)
         val unit = if (rawUnit.isEmpty()) "" else " $rawUnit"
         val first = displayValue(s.firstHalfMean, s.metric, units)
         val second = displayValue(s.secondHalfMean, s.metric, units)
-        return "${s.metric.label} is $word (avg ${round1(first)}$unit → " +
-            "${round1(second)}$unit)$frame."
+        return uiStringOr(R.string.de_1_s_is_2_s_avg_3_s_4_s_5_s_6_s_7_s_63f19a, "%1\$s is %2\$s (avg %3\$s%4\$s → %5\$s%6\$s)%7\$s.", (s.metric.label).toString(), word.toString(), (round1(first)).toString(), unit.toString(), (round1(second)).toString(), unit.toString(), frame.toString())
     }
 
     // Trend

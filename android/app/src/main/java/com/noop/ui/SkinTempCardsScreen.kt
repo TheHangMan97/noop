@@ -185,7 +185,7 @@ fun CycleAwarenessCard(
             HorizontalDivider(color = Palette.hairline)
 
             // Standing awareness-only legal line (verbatim from the engine) + privacy promise.
-            Text(CyclePhaseEngine.awarenessLine, style = NoopType.footnote, color = Palette.textTertiary)
+            Text(uiStringOr(R.string.de_for_awareness_only_not_a_medical_device_08df79, CyclePhaseEngine.awarenessLine), style = NoopType.footnote, color = Palette.textTertiary)
             PrivacyNote()
         }
     }

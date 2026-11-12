@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 // IllnessSignalEngine.kt — multi-signal "Heads-Up" early-warning with explicit false-positive suppression.
 // Byte-for-byte mirror of Strand/Packages/StrandAnalytics/Sources/StrandAnalytics/IllnessSignalEngine.swift.
 //
@@ -110,23 +112,23 @@ object IllnessSignalEngine {
         // Gate 0: untrusted baseline → silent.
         if (!context.baselineTrusted) {
             return Result(score, Level.QUIET, firedSignals, emptyList(), signalCount,
-                "Still learning your baseline - keeping an eye out.")
+                uiStringOr(R.string.de_still_learning_your_baseline_keeping_an_8e3249, "Still learning your baseline - keeping an eye out."))
         }
 
         // Already-unwell path: switch from "early warning" to a gentle "rest up".
         if (context.alreadyUnwell) {
             val agreeing = score >= mildThreshold && signalCount >= 1
             val copy = if (agreeing)
-                "Rest up - you logged feeling unwell, and your numbers agree. $disclaimerTail"
+                uiStringOr(R.string.de_rest_up_you_logged_feeling_unwell_and_yo_f22c7a, "Rest up - you logged feeling unwell, and your numbers agree. %1\$s", uiStringOr(R.string.illness_disclaimer, disclaimerTail))
             else
-                "Rest up - you logged feeling unwell. Take it easy today. $disclaimerTail"
+                uiStringOr(R.string.de_rest_up_you_logged_feeling_unwell_take_i_196b11, "Rest up - you logged feeling unwell. Take it easy today. %1\$s", uiStringOr(R.string.illness_disclaimer, disclaimerTail))
             return Result(score, Level.ALREADY_UNWELL, firedSignals, emptyList(), signalCount, copy)
         }
 
         // Corroboration + magnitude gate.
         if (signalCount < minCorroboratingSignals || score < mildThreshold) {
             return Result(score, Level.QUIET, firedSignals, emptyList(), signalCount,
-                "Nothing notable - your signals look like your normal range.")
+                uiStringOr(R.string.de_nothing_notable_your_signals_look_like_y_cfcca2, "Nothing notable - your signals look like your normal range."))
         }
 
         // Confounder suppression — the differentiating part.
@@ -137,26 +139,32 @@ object IllnessSignalEngine {
         if (context.hardOrLateWorkout) suppressedBy.add("a hard or late workout")
         if (context.travelPhaseJump) suppressedBy.add("travel")
 
-        val signalsPhrase = if (firedSignals.isEmpty()) "Some signals are up" else firedSignals.joinToString(", ")
+        val signalsPhrase = if (firedSignals.isEmpty()) uiStringOr(R.string.de_some_signals_are_up_87f4b2, "Some signals are up") else firedSignals.joinToString(", ")
 
         if (suppressedBy.isNotEmpty()) {
             val dampened = score * confounderDampen
-            val reason = joinReasons(suppressedBy)
-            val copy = "Some signals are up ($signalsPhrase), but you logged $reason - likely that, " +
-                "not illness. $disclaimerTail"
+            val reason = joinReasons(suppressedBy.map { key ->
+                when (key) {
+                "alcohol" -> uiStringOr(R.string.illness_reason_alcohol, "alcohol")
+                "stress" -> uiStringOr(R.string.illness_reason_stress, "stress")
+                "sauna" -> uiStringOr(R.string.illness_reason_sauna, "sauna")
+                "a hard or late workout" -> uiStringOr(R.string.illness_reason_workout, "a hard or late workout")
+                "travel" -> uiStringOr(R.string.illness_reason_travel, "travel")
+                else -> key
+                }
+            })
+            val copy = uiStringOr(R.string.de_some_signals_are_up_1_s_but_you_logged_2_690c7f, "Some signals are up (%1\$s), but you logged %2\$s - likely that, not illness. %3\$s", signalsPhrase.toString(), reason.toString(), uiStringOr(R.string.illness_disclaimer, disclaimerTail))
             return Result(dampened, Level.SUPPRESSED, firedSignals, suppressedBy, signalCount, copy)
         }
 
         // No confounder. Mild stays in the detail view; a strong composite raises.
         if (score < raiseThreshold) {
-            val copy = "A few signals are mildly up ($signalsPhrase). Nothing alarming - worth a calmer " +
-                "day. $disclaimerTail"
+            val copy = uiStringOr(R.string.de_a_few_signals_are_mildly_up_1_s_nothing_43444e, "A few signals are mildly up (%1\$s). Nothing alarming - worth a calmer day. %2\$s", signalsPhrase.toString(), uiStringOr(R.string.illness_disclaimer, disclaimerTail))
             return Result(score, Level.MILD, firedSignals, emptyList(), signalCount, copy)
         }
 
-        val ruledOut = "no alcohol or travel logged"
-        val copy = "Heads-up - your body looks strained. $signalsPhrase. With $ruledOut, consider " +
-            "taking it easy. $disclaimerTail"
+        val ruledOut = uiStringOr(R.string.de_no_alcohol_or_travel_logged_40e3d7, "no alcohol or travel logged")
+        val copy = uiStringOr(R.string.de_heads_up_your_body_looks_strained_1_s_wi_da7aeb, "Heads-up - your body looks strained. %1\$s. With %2\$s, consider taking it easy. %3\$s", signalsPhrase.toString(), ruledOut.toString(), uiStringOr(R.string.illness_disclaimer, disclaimerTail))
         return Result(score, Level.RAISED, firedSignals, emptyList(), signalCount, copy)
     }
 
@@ -164,12 +172,12 @@ object IllnessSignalEngine {
 
     /** Join named confounders into a natural list ("alcohol", "alcohol and stress", "a, b and c"). */
     internal fun joinReasons(reasons: List<String>): String = when (reasons.size) {
-        0 -> "something"
+        0 -> uiStringOr(R.string.illness_reason_something, "something")
         1 -> reasons[0]
-        2 -> "${reasons[0]} and ${reasons[1]}"
+        2 -> uiStringOr(R.string.illness_reason_and, "%1\$s and %2\$s", reasons[0], reasons[1])
         else -> {
             val head = reasons.dropLast(1).joinToString(", ")
-            "$head and ${reasons.last()}"
+            uiStringOr(R.string.illness_reason_and, "%1\$s and %2\$s", head, reasons.last())
         }
     }
 }

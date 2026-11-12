@@ -4362,4 +4362,103 @@
     <string name="lab_signal_charge">Charge</string>
     <string name="lab_signal_rest">Rest</string>
     <string name="lab_signal_effort">Effort</string>
+    <string name="de_your_rhythm_is_hard_to_read_right_now_ke_63b0f0">Your rhythm is hard to read right now - keep wearing it for a clearer picture.</string>
+    <string name="de_later_a_night_owl_lean_19b81b">later (a night-owl lean)</string>
+    <string name="de_earlier_a_morning_lark_lean_00e81c">earlier (a morning-lark lean)</string>
+    <string name="de_well_aligned_with_your_schedule_dde220">well-aligned with your schedule</string>
+    <string name="de_your_body_clock_looks_1_s_6524a5">Your body clock looks %1$s.</string>
+    <string name="de_no_meaningful_body_clock_shift_needed_yo_b2a3d2">No meaningful body-clock shift needed - you\'re about aligned.</string>
+    <string name="de_get_bright_light_early_after_waking_and_ed7ac0">Get bright light early after waking and keep the evening dim - this nudges your clock earlier. Aim for lights-out around %1$s.</string>
+    <string name="de_get_bright_light_in_the_evening_and_go_e_f8bb39">Get bright light in the evening and go easy on bright morning light - this nudges your clock later. Aim for lights-out around %1$s.</string>
+    <string name="de_an_hour_90335b">an hour</string>
+    <string name="de_shifting_your_clock_1_s_h_2_s_about_3_s_205683">Shifting your clock %1$s h %2$s, about %3$s a day. Light and sleep timing only.</string>
+    <string name="de_each_extra_unit_typically_lines_up_with_6a7464">Each extra unit typically lines up with about %1$s %2$s %3$s  - typical patterns, not yet yours (n=%4$s).</string>
+    <string name="de_in_your_data_so_far_this_doesn_t_move_yo_384156">In your data so far, this doesn\'t move your %1$s the way it typically does (n=%2$s).</string>
+    <string name="de_each_extra_unit_tends_to_line_up_with_ab_19e7ab">Each extra unit tends to line up with about %1$s %2$s %3$s for you (n=%4$s).</string>
+    <string name="de_stress_bad333">Stress</string>
+    <string name="de_a_good_sign_e94528">" - a good sign"</string>
+    <string name="de_worth_a_look_a49afa">" - worth a look"</string>
+    <string name="de_1_s_is_2_s_avg_3_s_4_s_5_s_6_s_7_s_63f19a">%1$s is %2$s (avg %3$s%4$s → %5$s%6$s)%7$s.</string>
+    <string name="de_counts_directly_ef3d19">counts directly</string>
+    <string name="de_step_estimate_f5fece">step estimate</string>
+    <string name="de_best_stager_6d3752">best stager</string>
+    <string name="de_computed_stages_1c91d2">computed stages</string>
+    <string name="de_phone_sleep_buckets_758abd">phone sleep buckets</string>
+    <string name="de_worn_sensor_781fd4">worn sensor</string>
+    <string name="de_direct_sensor_b8d25a">direct sensor</string>
+    <string name="de_computed_on_device_f0c40e">computed on device</string>
+    <string name="de_phone_aggregate_a65fac">phone aggregate</string>
+    <string name="de_for_awareness_only_not_a_medical_device_08df79">For awareness only. Not a medical device, not contraception, not a substitute for professional care.</string>
+    <string name="de_learning_your_pattern_from_your_nightly_3d4771">Learning your pattern from your nightly temperature - keep wearing it overnight.</string>
+    <string name="de_no_clear_temperature_pattern_yet_this_ca_b0eb07">No clear temperature pattern yet - this can happen with irregular cycles, hormonal birth control, or shift work.</string>
+    <string name="de_your_temperature_shift_came_at_a_differe_40a2d6">Your temperature shift came at a different time than your logged date - the logged start may be off.</string>
+    <string name="de_follicular_range_temperature_sitting_at_043745">Follicular range - temperature sitting at your baseline.</string>
+    <string name="de_around_your_mid_cycle_shift_temperature_de0e8e">Around your mid-cycle shift - temperature is turning.</string>
+    <string name="de_luteal_range_temperature_is_running_abov_082fdf">Luteal range - temperature is running above your baseline.</string>
+    <string name="de_no_clear_pattern_yet_2149b4">No clear pattern yet.</string>
+    <string name="de_learning_your_pattern_keep_wearing_it_ov_6e709f">Learning your pattern - keep wearing it overnight.</string>
+    <string name="de_your_age_9b974c">Your age</string>
+    <string name="de_set_448ab7">Set</string>
+    <string name="de_add_it_in_settings_50fa46">Add it in Settings</string>
+    <string name="de_biological_sex_14a7ce">Biological sex</string>
+    <string name="de_1_s_of_last_7_nights_647104">%1$s of last 7 nights</string>
+    <string name="de_recent_activity_72d561">Recent activity</string>
+    <string name="de_1_s_of_last_7_days_735233">%1$s of last 7 days</string>
+    <string name="de_height_weight_ee3965">Height &amp; weight</string>
+    <string name="de_waist_optional_d53567">Waist (optional)</string>
+    <string name="de_sharpens_vo_max_fe0a59">Sharpens VO₂max</string>
+    <string name="de_optional_sharpens_vo_max_553821">Optional - sharpens VO₂max</string>
+    <string name="de_how_s_my_recovery_trending_this_week_b1a576">How\'s my recovery trending this week?</string>
+    <string name="de_what_should_today_s_training_look_like_d28e0c">What should today\'s training look like?</string>
+    <string name="de_why_am_i_run_down_c26e05">Why am I run down?</string>
+    <string name="de_active_recovery_only_today_what_should_i_939c6f">Active recovery only today — what should I do?</string>
+    <string name="de_quality_over_volume_today_plan_my_sessio_083112">Quality over volume today — plan my session</string>
+    <string name="de_green_light_how_hard_can_i_push_today_aa1f8a">Green light — how hard can I push today?</string>
+    <string name="de_why_is_my_hrv_trending_down_2575b1">Why is my HRV trending down?</string>
+    <string name="de_i_slept_poorly_how_do_i_recover_today_26dbde">I slept poorly — how do I recover today?</string>
+    <string name="de_have_i_done_enough_today_or_push_more_de6c37">Have I done enough today, or push more?</string>
+    <string name="de_same_day_9632d9">same day</string>
+    <string name="de_next_morning_c080b7">next morning</string>
+    <string name="de_1_s_mornings_later_3d9d69">%1$s mornings later</string>
+    <string name="de_on_days_you_logged_1_s_2_s_was_3_s_avg_4_5a8cb9">On days you logged ‘%1$s’, %2$s was %3$s (avg %4$s vs %5$s, n=%6$s vs %7$s).</string>
+    <string name="de_sessions_like_this_barely_move_your_next_94c868">Sessions like this barely move your next-day Charge (n=%1$s).</string>
+    <string name="de_cardio_fitness_cf9aa1">Cardio fitness</string>
+    <string name="de_sleep_duration_b6c939">Sleep duration</string>
+    <string name="de_sleep_regularity_0730ac">Sleep regularity</string>
+    <string name="de_daily_steps_a4d246">Daily steps</string>
+    <string name="de_still_learning_your_baseline_keeping_an_8e3249">Still learning your baseline - keeping an eye out.</string>
+    <string name="de_rest_up_you_logged_feeling_unwell_and_yo_f22c7a">Rest up - you logged feeling unwell, and your numbers agree. %1$s</string>
+    <string name="de_rest_up_you_logged_feeling_unwell_take_i_196b11">Rest up - you logged feeling unwell. Take it easy today. %1$s</string>
+    <string name="de_nothing_notable_your_signals_look_like_y_cfcca2">Nothing notable - your signals look like your normal range.</string>
+    <string name="de_some_signals_are_up_87f4b2">Some signals are up</string>
+    <string name="de_some_signals_are_up_1_s_but_you_logged_2_690c7f">Some signals are up (%1$s), but you logged %2$s - likely that, not illness. %3$s</string>
+    <string name="de_a_few_signals_are_mildly_up_1_s_nothing_43444e">A few signals are mildly up (%1$s). Nothing alarming - worth a calmer day. %2$s</string>
+    <string name="de_no_alcohol_or_travel_logged_40e3d7">no alcohol or travel logged</string>
+    <string name="de_heads_up_your_body_looks_strained_1_s_wi_da7aeb">Heads-up - your body looks strained. %1$s. With %2$s, consider taking it easy. %3$s</string>
+    <string name="de_this_is_a_spot_reading_over_a_short_stil_54ba35">This is a spot reading over a short, still capture, not your overnight HRV baseline. Take it seated, still, and at a consistent time of day for comparable numbers, and only a reading with enough clean beats is shown.</string>
+    <string name="de_on_a_whoop_5_0_mg_the_intervals_come_fr_eedd68">" On a WHOOP 5.0/MG the intervals come from the optical pulse signal, which is noisier than a chest strap, so treat the number as a rough estimate."</string>
+    <string name="circadian_dir_earlier">earlier</string>
+    <string name="circadian_dir_later">later</string>
+    <string name="dose_dir_lower">lower</string>
+    <string name="dose_dir_higher">higher</string>
+    <string name="effect_dir_higher">higher</string>
+    <string name="effect_dir_lower">lower</string>
+    <string name="effect_dir_unchanged">unchanged</string>
+    <string name="activity_cost_head_cost_one">Sessions like this usually cost you about 1 Charge point the next morning</string>
+    <string name="activity_cost_head_cost_many">Sessions like this usually cost you about %1$d Charge points the next morning</string>
+    <string name="activity_cost_head_lift_one">Sessions like this usually lift about 1 Charge point the next morning</string>
+    <string name="activity_cost_head_lift_many">Sessions like this usually lift about %1$d Charge points the next morning</string>
+    <string name="activity_cost_tail_one">%1$s and take about 1 day to bounce back (n=%2$d).</string>
+    <string name="activity_cost_tail_many">%1$s and take about %2$d days to bounce back (n=%3$d).</string>
+    <string name="activity_cost_tail_none">%1$s (n=%2$d).</string>
+    <string name="illness_disclaimer">On-device estimate - not a diagnosis.</string>
+    <string name="illness_reason_something">something</string>
+    <string name="illness_reason_and">%1$s and %2$s</string>
+    <string name="illness_reason_alcohol">alcohol</string>
+    <string name="illness_reason_stress">stress</string>
+    <string name="illness_reason_sauna">sauna</string>
+    <string name="illness_reason_workout">a hard or late workout</string>
+    <string name="illness_reason_travel">travel</string>
+    <string name="rtc_warning_charged">Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. The strap is already charged, so charging again will not change this. Export a strap log from Test Centre so the clock exchange can be read.</string>
+    <string name="rtc_warning_charge">Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. Charge the strap to 100% and reconnect so the clock latches.</string>
 </resources>

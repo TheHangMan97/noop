@@ -3120,4 +3120,5 @@
     </plurals>
     <string name="breathe_rate_per_min">%1$.1f resp/min</string>
     <string name="de_0f_eff_148f1a">%.0f%% efic.</string>
+    <string name="de_for_awareness_only_not_a_medical_device_08df79">Apenas para orientação. Não é um dispositivo médico, nem contraceção, nem substitui o acompanhamento profissional.</string>
 </resources>

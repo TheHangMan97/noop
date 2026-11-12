@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -282,13 +284,10 @@ object ConnectionReadout {
         val clockBad = deviceClockUnix != null && deviceClockUnix > 0L && deviceClockUnix < ceiling
         val newestBad = strapNewestUnix != null && strapNewestUnix > 0L && strapNewestUnix < ceiling
         if (!clockBad && !newestBad) return null
-        val lead = "Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. "
         if (batteryPct != null && batteryPct >= RTC_ALREADY_CHARGED_PCT) {
-            return lead +
-                "The strap is already charged, so charging again will not change this. Export a strap " +
-                "log from Test Centre so the clock exchange can be read."
+            return uiStringOr(R.string.rtc_warning_charged, "Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. The strap is already charged, so charging again will not change this. Export a strap log from Test Centre so the clock exchange can be read.")
         }
-        return lead + "Charge the strap to 100% and reconnect so the clock latches."
+        return uiStringOr(R.string.rtc_warning_charge, "Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. Charge the strap to 100% and reconnect so the clock latches.")
     }
 
     /** #1809: one-line account of a finished BLE link, logged on every disconnect. Twin of the Swift
