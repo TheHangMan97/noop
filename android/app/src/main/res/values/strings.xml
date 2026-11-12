@@ -4461,4 +4461,24 @@
     <string name="illness_reason_travel">travel</string>
     <string name="rtc_warning_charged">Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. The strap is already charged, so charging again will not change this. Export a strap log from Test Centre so the clock exchange can be read.</string>
     <string name="rtc_warning_charge">Strap clock reads 1970/71 (never set since its last reset), so it is not banking history. Charge the strap to 100% and reconnect so the clock latches.</string>
+    <string name="live_header_worn">Worn</string>
+    <string name="live_header_last_sync">Last sync</string>
+    <string name="live_badge_full_bond">FULL BOND</string>
+    <string name="live_badge_hr_only">LIVE HR ONLY</string>
+    <string name="live_badge_streaming">STREAMING</string>
+    <string name="live_badge_connecting">CONNECTING</string>
+    <string name="live_badge_paired">PAIRED</string>
+    <string name="live_badge_offline">OFFLINE</string>
+    <string name="live_rr_recent_count">%1$d recent</string>
+    <string name="ble_note_no_strap">No strap found. Check it\'s charged and on your wrist, and that the official WHOOP app isn\'t connected to it (a strap will only pair with one app at a time). Then tap Connect again.</string>
+    <string name="ble_note_no_ble">This device has no Bluetooth LE. NOOP has to run on a real phone with Bluetooth, near your strap. It can\'t connect from an emulator or virtual device.</string>
+    <string name="ble_note_bt_off_connect">Bluetooth is off. Turn it on, then tap Connect.</string>
+    <string name="ble_note_bt_not_ready">Bluetooth isn\'t ready yet. Try again in a moment.</string>
+    <string name="ble_note_connecting_to">Connecting to your %1$s…</string>
+    <string name="ble_note_searching_for">Searching for your %1$s…</string>
+    <string name="ble_note_need_permission">NOOP needs the Nearby devices / Bluetooth permission. Allow it in Settings → Apps → NOOP → Permissions, then tap Connect.</string>
+    <string name="ble_note_scan_failed">Couldn\'t start scanning: %1$s</string>
+    <string name="ble_note_bt_off_reconnect">Bluetooth is off. Turn it on to reconnect.</string>
+    <string name="ble_note_found_connecting">Found %1$s, connecting…</string>
+    <string name="ble_note_whoop5_experimental">WHOOP 5/MG connected - experimental. After bonding, NOOP brings up live heart rate from the strap\'s realtime stream. Deeper metrics (recovery, strain, sleep) for 5/MG are still being figured out. WHOOP 4.0 is fully supported today.</string>
 </resources>

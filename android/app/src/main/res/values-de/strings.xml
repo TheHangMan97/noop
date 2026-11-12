@@ -4445,4 +4445,24 @@
     <string name="illness_reason_travel">eine Reise</string>
     <string name="rtc_warning_charged">Die Uhr des Straps steht auf 1970/71 (seit dem letzten Zurücksetzen nie gestellt), daher speichert er keinen Verlauf. Der Strap ist bereits geladen, erneutes Laden ändert daran also nichts. Exportiere im Testzentrum ein Strap-Protokoll, damit der Uhrzeit-Austausch ausgewertet werden kann.</string>
     <string name="rtc_warning_charge">Die Uhr des Straps steht auf 1970/71 (seit dem letzten Zurücksetzen nie gestellt), daher speichert er keinen Verlauf. Lade den Strap auf 100 % und verbinde ihn neu, damit die Uhr übernommen wird.</string>
+    <string name="live_header_worn">Getragen</string>
+    <string name="live_header_last_sync">Letzte Sync.</string>
+    <string name="live_badge_full_bond">VOLL GEKOPPELT</string>
+    <string name="live_badge_hr_only">NUR LIVE-HF</string>
+    <string name="live_badge_streaming">STREAMT</string>
+    <string name="live_badge_connecting">VERBINDET</string>
+    <string name="live_badge_paired">GEKOPPELT</string>
+    <string name="live_badge_offline">OFFLINE</string>
+    <string name="live_rr_recent_count">%1$d aktuelle</string>
+    <string name="ble_note_no_strap">Kein Strap gefunden. Prüfe, ob er geladen ist, am Handgelenk sitzt und nicht mit der offiziellen WHOOP-App verbunden ist (ein Strap koppelt sich immer nur mit einer App). Tippe dann erneut auf „Verbinden“.</string>
+    <string name="ble_note_no_ble">Dieses Gerät hat kein Bluetooth LE. NOOP muss auf einem echten Smartphone mit Bluetooth in der Nähe deines Straps laufen. Von einem Emulator oder virtuellen Gerät aus kann es sich nicht verbinden.</string>
+    <string name="ble_note_bt_off_connect">Bluetooth ist aus. Schalte es ein und tippe dann auf „Verbinden“.</string>
+    <string name="ble_note_bt_not_ready">Bluetooth ist noch nicht bereit. Versuch es gleich noch einmal.</string>
+    <string name="ble_note_connecting_to">Verbinde mit deinem %1$s…</string>
+    <string name="ble_note_searching_for">Suche nach deinem %1$s…</string>
+    <string name="ble_note_need_permission">NOOP braucht die Berechtigung „Geräte in der Nähe“ / Bluetooth. Erlaube sie unter Einstellungen → Apps → NOOP → Berechtigungen und tippe dann auf „Verbinden“.</string>
+    <string name="ble_note_scan_failed">Suche konnte nicht gestartet werden: %1$s</string>
+    <string name="ble_note_bt_off_reconnect">Bluetooth ist aus. Schalte es ein, um wieder zu verbinden.</string>
+    <string name="ble_note_found_connecting">%1$s gefunden, verbinde…</string>
+    <string name="ble_note_whoop5_experimental">WHOOP 5/MG verbunden – experimentell. Nach der Kopplung zeigt NOOP die Live-Herzfrequenz aus dem Echtzeit-Stream des Straps. Tiefere Werte (Erholung, Belastung, Schlaf) werden für 5/MG noch entschlüsselt. WHOOP 4.0 wird bereits vollständig unterstützt.</string>
 </resources>

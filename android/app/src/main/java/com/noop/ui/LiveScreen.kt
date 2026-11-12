@@ -866,8 +866,8 @@ private fun ConsoleHeader(
                         ?.let { "$it%" } ?: "—",
                     charging = live.charging == true,
                 )
-                HeaderStat("Worn", wornLabel(live, activeConnection, ouraWear))
-                HeaderStat("Last sync", lastSyncLabel(live))
+                HeaderStat(uiStringOr(R.string.live_header_worn, "Worn"), wornLabel(live, activeConnection, ouraWear))
+                HeaderStat(uiStringOr(R.string.live_header_last_sync, "Last sync"), lastSyncLabel(live))
             }
         }
     }
@@ -1058,17 +1058,17 @@ private fun wornLabel(live: LiveState, activeConnection: Boolean, ouraWear: Oura
     return when {
         !liveLink -> "—"
         ouraWear != null -> if (ouraWear == OuraWearState.WORN) uiStringOr(R.string.common_yes, "Yes") else uiStringOr(R.string.common_no, "No")
-        else -> if (live.worn) "Yes" else "No"
+        else -> if (live.worn) uiStringOr(R.string.common_yes, "Yes") else uiStringOr(R.string.common_no, "No")
     }
 }
 
 private fun connectionModeBadge(live: LiveState, activeConnection: Boolean): String = when {
-    activeConnection && live.encryptedBond -> "FULL BOND"
-    activeConnection -> "LIVE HR ONLY"
-    ringStreaming(live) -> "STREAMING"
-    live.connected -> "CONNECTING"
-    live.encryptedBond -> "PAIRED"
-    else -> "OFFLINE"
+    activeConnection && live.encryptedBond -> uiStringOr(R.string.live_badge_full_bond, "FULL BOND")
+    activeConnection -> uiStringOr(R.string.live_badge_hr_only, "LIVE HR ONLY")
+    ringStreaming(live) -> uiStringOr(R.string.live_badge_streaming, "STREAMING")
+    live.connected -> uiStringOr(R.string.live_badge_connecting, "CONNECTING")
+    live.encryptedBond -> uiStringOr(R.string.live_badge_paired, "PAIRED")
+    else -> uiStringOr(R.string.live_badge_offline, "OFFLINE")
 }
 
 /** Whether to render the connection-mode badge. False exactly when the badge would read "OFFLINE" —
@@ -1349,7 +1349,7 @@ private fun signalTiles(
     ),
     SignalTile(
         uiStringOr(R.string.de_r_r_intervals_b6d6a7, "R-R intervals"),
-        if (live.rrRecent.isEmpty()) uiStringOr(R.string.de_missing_92185d, "Missing") else "${live.rrRecent.size} recent",
+        if (live.rrRecent.isEmpty()) uiStringOr(R.string.de_missing_92185d, "Missing") else uiStringOr(R.string.live_rr_recent_count, "%1\$d recent", live.rrRecent.size),
         rollingRMSSD(live.rrRecent)?.let { "RMSSD ${it.roundToInt()} ms" } ?: uiStringOr(R.string.de_needs_interval_frames_16c872, "Needs interval frames"),
         if (live.rrRecent.isEmpty()) Palette.textTertiary else Palette.metricCyan,
     ),

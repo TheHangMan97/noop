@@ -1,5 +1,7 @@
 package com.noop.ble
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -3040,9 +3042,7 @@ class WhoopBleClient(
             log("No WHOOP strap found within ${SCAN_TIMEOUT_MS / 1000}s")
             _state.update { it.copy(
                 scanning = false,
-                statusNote = "No strap found. Check it's charged and on your wrist, and that the " +
-                    "official WHOOP app isn't connected to it (a strap will only pair with one app " +
-                    "at a time). Then tap Connect again.",
+                statusNote = uiStringOr(R.string.ble_note_no_strap, "No strap found. Check it's charged and on your wrist, and that the official WHOOP app isn't connected to it (a strap will only pair with one app at a time). Then tap Connect again."),
             ) }
         }
     }
@@ -3824,20 +3824,19 @@ class WhoopBleClient(
             log("No Bluetooth LE on this device")
             _state.update { it.copy(
                 scanning = false,
-                statusNote = "This device has no Bluetooth LE. NOOP has to run on a real phone with " +
-                    "Bluetooth, near your strap. It can't connect from an emulator or virtual device.") }
+                statusNote = uiStringOr(R.string.ble_note_no_ble, "This device has no Bluetooth LE. NOOP has to run on a real phone with Bluetooth, near your strap. It can't connect from an emulator or virtual device.")) }
             return
         }
         if (!adp.isEnabled) {
             log("Bluetooth is off")
             _state.update { it.copy(
-                scanning = false, statusNote = "Bluetooth is off. Turn it on, then tap Connect.") }
+                scanning = false, statusNote = uiStringOr(R.string.ble_note_bt_off_connect, "Bluetooth is off. Turn it on, then tap Connect.")) }
             return
         }
         val sc = scanner
         if (sc == null) {
             log("No BLE scanner available")
-            _state.update { it.copy(statusNote = "Bluetooth isn't ready yet. Try again in a moment.") }
+            _state.update { it.copy(statusNote = uiStringOr(R.string.ble_note_bt_not_ready, "Bluetooth isn't ready yet. Try again in a moment.")) }
             return
         }
         if (scanning) {
@@ -3890,7 +3889,7 @@ class WhoopBleClient(
             log("Easy-connect: attaching directly to ${direct.name ?: "WHOOP"} (no scan needed)")
             _state.update { it.copy(
                 scanning = false, whoop5Detected = false,
-                statusNote = "Connecting to your ${WhoopModel.WHOOP5_MG.displayName}…",
+                statusNote = uiStringOr(R.string.ble_note_connecting_to, "Connecting to your %1\$s…", WhoopModel.WHOOP5_MG.displayName),
             ) }
             connectToDevice(direct, alreadyAuthorised = userInitiated)
             bondedDirectAttempt = true   // after connectToDevice: reset() must not clear it
@@ -3925,7 +3924,7 @@ class WhoopBleClient(
         selectedModel = model
         val sc = scanner ?: run {
             log("No BLE scanner available")
-            _state.update { it.copy(scanning = false, statusNote = "Bluetooth isn't ready yet. Try again in a moment.") }
+            _state.update { it.copy(scanning = false, statusNote = uiStringOr(R.string.ble_note_bt_not_ready, "Bluetooth isn't ready yet. Try again in a moment.")) }
             return
         }
         // Filter to the strap we're targeting plus diagnostic-only WHOOP service families. The callback
@@ -3950,7 +3949,7 @@ class WhoopBleClient(
             .build()
         log("Scanning for ${model.displayName}…")
         scanning = true
-        _state.update { it.copy(scanning = true, whoop5Detected = false, statusNote = "Searching for your ${model.displayName}…") }
+        _state.update { it.copy(scanning = true, whoop5Detected = false, statusNote = uiStringOr(R.string.ble_note_searching_for, "Searching for your %1\$s…", model.displayName)) }
         try {
             sc.startScan(filters, settings, scanCallback)
         } catch (se: SecurityException) {
@@ -3959,13 +3958,12 @@ class WhoopBleClient(
             log("Scan blocked (permission): ${se.message}")
             _state.update { it.copy(
                 scanning = false,
-                statusNote = "NOOP needs the Nearby devices / Bluetooth permission. Allow it in " +
-                    "Settings → Apps → NOOP → Permissions, then tap Connect.") }
+                statusNote = uiStringOr(R.string.ble_note_need_permission, "NOOP needs the Nearby devices / Bluetooth permission. Allow it in Settings → Apps → NOOP → Permissions, then tap Connect.")) }
             return
         } catch (t: Throwable) {
             scanning = false
             log("Scan failed to start: ${t.message}")
-            _state.update { it.copy(scanning = false, statusNote = "Couldn't start scanning: ${t.message}") }
+            _state.update { it.copy(scanning = false, statusNote = uiStringOr(R.string.ble_note_scan_failed, "Couldn't start scanning: %1\$s", t.message.toString())) }
             return
         }
         // Stop and explain if nothing turns up in time.
@@ -4034,7 +4032,7 @@ class WhoopBleClient(
             // "off" reason explicit for the UI so it reads "Bluetooth is off" rather than "Reconnecting…".
             _state.update { it.copy(
                 connected = false, scanning = false, streamingLiveHR = false,   // #56: keep streamingLiveHR ⟹ connected
-                statusNote = "Bluetooth is off. Turn it on to reconnect.",
+                statusNote = uiStringOr(R.string.ble_note_bt_off_reconnect, "Bluetooth is off. Turn it on to reconnect."),
             ) }
         }
     }
@@ -6620,7 +6618,7 @@ class WhoopBleClient(
             // Persist the family that actually advertised so the next scan starts on the right service —
             // this is what makes a one-time rotation stick after a stale-preference reconnect. (PR#195)
             persistSelectedModel(selectedModel)
-            _state.update { it.copy(statusNote = "Found $name, connecting…") }
+            _state.update { it.copy(statusNote = uiStringOr(R.string.ble_note_found_connecting, "Found %1\$s, connecting…", name.toString())) }
             // Port of didDiscover: stop scanning, then connect to this peripheral.
             stopScan()
             connectToDevice(device, alreadyAuthorised = true)   // #1881: a scan result is already authorised
@@ -7614,9 +7612,7 @@ class WhoopBleClient(
                 log("WHOOP 5/MG detected — will send CLIENT_HELLO after subscribing (experimental).")
                 _state.update { it.copy(
                     whoop5Detected = true,
-                    statusNote = "WHOOP 5/MG connected - experimental. After bonding, NOOP brings up live " +
-                        "heart rate from the strap's realtime stream. Deeper metrics (recovery, strain, " +
-                        "sleep) for 5/MG are still being figured out. WHOOP 4.0 is fully supported today.",
+                    statusNote = uiStringOr(R.string.ble_note_whoop5_experimental, "WHOOP 5/MG connected - experimental. After bonding, NOOP brings up live heart rate from the strap's realtime stream. Deeper metrics (recovery, strain, sleep) for 5/MG are still being figured out. WHOOP 4.0 is fully supported today."),
                 ) }
                 cmdCharacteristic = whoop5.getCharacteristic(WHOOP5_CMD_WRITE_CHAR)
                 // #1635: dump what the strap actually OFFERS, once per strap. Every characteristic in this
