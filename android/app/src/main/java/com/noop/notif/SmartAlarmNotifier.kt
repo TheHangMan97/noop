@@ -1,5 +1,6 @@
 package com.noop.notif
 
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -56,10 +57,10 @@ object SmartAlarmNotifier {
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_ID, "Smart alarm",
+                    CHANNEL_ID, uiStringOr(R.string.channel_smart_alarm, "Smart alarm"),
                     NotificationManager.IMPORTANCE_HIGH,
                 ).apply {
-                    description = "Your wake-up smart alarm went off on the strap."
+                    description = uiStringOr(R.string.channel_smart_alarm_desc, "Your wake-up smart alarm went off on the strap.")
                 },
             )
         }

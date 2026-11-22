@@ -1,5 +1,6 @@
 package com.noop.alarm
 
+import com.noop.ui.uiStringOr
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -100,8 +101,8 @@ object WindDownScheduler {
             )
             val n = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_heart)
-                .setContentTitle("Time to wind down")
-                .setContentText("A calm hour now helps you hit your wake time well-rested.")
+                .setContentTitle(uiStringOr(R.string.winddown_title, "Time to wind down"))
+                .setContentText(uiStringOr(R.string.winddown_body, "A calm hour now helps you hit your wake time well-rested."))
                 .setContentIntent(open)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -129,8 +130,8 @@ object WindDownScheduler {
             val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
-                NotificationChannel(CHANNEL_ID, "Wind-down nudge", NotificationManager.IMPORTANCE_DEFAULT).apply {
-                    description = "An optional evening reminder to start winding down before bed."
+                NotificationChannel(CHANNEL_ID, uiStringOr(R.string.channel_winddown, "Wind-down nudge"), NotificationManager.IMPORTANCE_DEFAULT).apply {
+                    description = uiStringOr(R.string.channel_winddown_desc, "An optional evening reminder to start winding down before bed.")
                     setShowBadge(false)
                 },
             )

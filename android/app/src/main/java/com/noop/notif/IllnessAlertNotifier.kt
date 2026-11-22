@@ -1,5 +1,6 @@
 package com.noop.notif
 
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -82,7 +83,7 @@ object IllnessAlertNotifier {
                 .setContentText(alert)
                 .setStyle(
                     NotificationCompat.BigTextStyle()
-                        .bigText("$alert\nOn-device estimate (approximate), not a diagnosis."),
+                        .bigText(alert + "\n" + uiStringOr(R.string.illness_alert_disclaimer, "On-device estimate (approximate), not a diagnosis.")),
                 )
                 .setContentIntent(openApp)
                 .setAutoCancel(true)
@@ -101,10 +102,10 @@ object IllnessAlertNotifier {
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_ID, "Illness early-warning",
+                    CHANNEL_ID, uiStringOr(R.string.channel_illness, "Illness early-warning"),
                     NotificationManager.IMPORTANCE_DEFAULT,
                 ).apply {
-                    description = "A heads-up when resting HR, HRV, skin temp or respiration drift together vs your baseline."
+                    description = uiStringOr(R.string.channel_illness_desc, "A heads-up when resting HR, HRV, skin temp or respiration drift together vs your baseline.")
                 },
             )
         }

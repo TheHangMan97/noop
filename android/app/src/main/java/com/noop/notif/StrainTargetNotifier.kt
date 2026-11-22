@@ -1,5 +1,6 @@
 package com.noop.notif
 
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -49,8 +50,8 @@ object StrainTargetPolicy {
     /** Title + body for the nudge. [target] is the optimal-band low on the 0-21 coupled axis. NOOP's OWN
      *  wording — the feature is reimplemented behaviour, not copied copy. */
     fun copy(target: Int): Pair<String, String> {
-        val title = "Optimal strain reached"
-        val body = "You've hit today's optimal strain target of $target. Nice work — your recovery earned it."
+        val title = uiStringOr(R.string.strain_target_title, "Optimal strain reached")
+        val body = uiStringOr(R.string.strain_target_body, "You've hit today's optimal strain target of %1\$s. Nice work — your recovery earned it.", target.toString())
         return title to body
     }
 }
@@ -116,10 +117,10 @@ object StrainTargetNotifier {
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_ID, "Daily reports",
+                    CHANNEL_ID, uiStringOr(R.string.channel_daily_reports, "Daily reports"),
                     NotificationManager.IMPORTANCE_LOW,
                 ).apply {
-                    description = "A morning recap and post-workout summary, after your strap syncs."
+                    description = uiStringOr(R.string.channel_daily_reports_desc, "A morning recap and post-workout summary, after your strap syncs.")
                 },
             )
         }

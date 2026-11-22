@@ -1,5 +1,7 @@
 package com.noop.analytics
 
+import com.noop.R
+import com.noop.ui.uiStringOr
 import com.noop.data.DailyMetric
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -123,7 +125,7 @@ object IllnessWatch {
             if (r != null && b != null && current != null && rhrBaseUsable &&
                 r >= b + 5 && current >= b + 5
             ) {
-                flags.add("resting HR +${(current - b).roundToInt()} bpm")
+                flags.add(uiStringOr(R.string.illness_flag_rhr, "resting HR +%1\$d bpm", (current - b).roundToInt()))
             }
         }
 
@@ -136,7 +138,7 @@ object IllnessWatch {
             if (r != null && b != null && current != null && b > 0 && hrvBaseUsable &&
                 r <= b * 0.80 && current <= b * 0.80
             ) {
-                flags.add("HRV −${((1 - current / b) * 100).roundToInt()}%")
+                flags.add(uiStringOr(R.string.illness_flag_hrv, "HRV −%1\$d%%", ((1 - current / b) * 100).roundToInt()))
             }
         }
 
@@ -144,7 +146,7 @@ object IllnessWatch {
             val r = rm { it.skinTempDevC }
             val current = latest.skinTempDevC
             if (r != null && current != null && r >= 0.6 && current >= 0.6) {
-                flags.add("skin temp +${formatOneDp(current)}°C")
+                flags.add(uiStringOr(R.string.illness_flag_skin, "skin temp +%1\$s°C", formatOneDp(current)))
             }
         }
 
@@ -164,13 +166,12 @@ object IllnessWatch {
                 plausible(r) && plausible(b) && plausible(current) &&
                 r >= b + 2.5 && current >= b + 2.5
             ) {
-                flags.add("respiration up")
+                flags.add(uiStringOr(R.string.illness_flag_resp, "respiration up"))
             }
         }
 
         return if (flags.size >= 2) {
-            "Your body looks strained - " + flags.joinToString(", ") +
-                ". Consider taking it easy."
+            uiStringOr(R.string.illness_alert_body, "Your body looks strained - %1\$s. Consider taking it easy.", flags.joinToString(", "))
         } else {
             null
         }

@@ -1,5 +1,6 @@
 package com.noop.notif
 
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -91,12 +92,11 @@ object ScheduledReportPolicy {
      *  neither is present (the caller shouldn't have been asked to build copy, but stay honest). */
     fun morningCopy(chargePct: Int?, restPct: Int?): Pair<String, String>? {
         val parts = ArrayList<String>(2)
-        chargePct?.let { parts.add("Charge $it") }
-        restPct?.let { parts.add("Rest $it") }
+        chargePct?.let { parts.add(uiStringOr(R.string.report_part_charge, "Charge %1\$d", it)) }
+        restPct?.let { parts.add(uiStringOr(R.string.report_part_rest, "Rest %1\$d", it)) }
         if (parts.isEmpty()) return null
-        val title = "Good morning: last night's recap"
-        val body = parts.joinToString(" · ") +
-            ". Recovery from your strap, scored after it synced this morning."
+        val title = uiStringOr(R.string.report_morning_title, "Good morning: last night's recap")
+        val body = parts.joinToString(" · ") + uiStringOr(R.string.report_morning_suffix, ". Recovery from your strap, scored after it synced this morning.")
         return title to body
     }
 
@@ -110,19 +110,19 @@ object ScheduledReportPolicy {
         durationLabel: String,
         avgHr: Int?,
     ): Pair<String, String> {
-        val title = "Workout logged: $sportLabel"
+        val title = uiStringOr(R.string.report_workout_title, "Workout logged: %1\$s", sportLabel)
         val pieces = ArrayList<String>(3)
-        pieces.add("Effort $effortDisplay/$effortMaxLabel")
+        pieces.add(uiStringOr(R.string.report_workout_effort, "Effort %1\$s/%2\$s", effortDisplay, effortMaxLabel))
         pieces.add(durationLabel)
-        avgHr?.let { pieces.add("avg $it bpm") }
-        val body = pieces.joinToString(" · ") + ". Summarised after your strap synced."
+        avgHr?.let { pieces.add(uiStringOr(R.string.report_workout_avg_hr, "avg %1\$d bpm", it)) }
+        val body = pieces.joinToString(" · ") + uiStringOr(R.string.report_workout_suffix, ". Summarised after your strap synced.")
         return title to body
     }
 
     /** "42 min" / "1 h 8 min" from a whole-minute duration; clamps a 0/negative span to "under a minute"
      *  so a mis-timed session never reads as "0 min". */
     fun durationLabel(minutes: Int): String = when {
-        minutes <= 0 -> "under a minute"
+        minutes <= 0 -> uiStringOr(R.string.report_duration_under_minute, "under a minute")
         minutes < 60 -> "$minutes min"
         minutes % 60 == 0 -> "${minutes / 60} h"
         else -> "${minutes / 60} h ${minutes % 60} min"
@@ -231,10 +231,10 @@ object ScheduledReportNotifier {
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_ID, "Daily reports",
+                    CHANNEL_ID, uiStringOr(R.string.channel_daily_reports, "Daily reports"),
                     NotificationManager.IMPORTANCE_LOW,
                 ).apply {
-                    description = "A morning recap and post-workout summary, after your strap syncs."
+                    description = uiStringOr(R.string.channel_daily_reports_desc, "A morning recap and post-workout summary, after your strap syncs.")
                 },
             )
         }

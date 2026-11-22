@@ -1,5 +1,6 @@
 package com.noop.alarm
 
+import com.noop.ui.uiStringOr
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -59,11 +60,11 @@ class SmartAlarmReceiver : BroadcastReceiver() {
             context, 0, appLaunchIntent(context),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
-        val title = "Good morning"
+        val title = uiStringOr(R.string.alarm_good_morning, "Good morning")
         val body = if (smart) {
-            "You're in a lighter sleep phase. Time to wake up."
+            uiStringOr(R.string.alarm_body_smart, "You're in a lighter sleep phase. Time to wake up.")
         } else {
-            "Your wake window has ended. Time to get up."
+            uiStringOr(R.string.alarm_body_window_end, "Your wake window has ended. Time to get up.")
         }
         return NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_heart)
@@ -88,10 +89,10 @@ class SmartAlarmReceiver : BroadcastReceiver() {
                 ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Smart alarm",
+                uiStringOr(R.string.channel_smart_alarm, "Smart alarm"),
                 NotificationManager.IMPORTANCE_HIGH,
             ).apply {
-                description = "The phone wake alarm NOOP fires inside your chosen wake window."
+                description = uiStringOr(R.string.channel_phone_alarm_desc, "The phone wake alarm NOOP fires inside your chosen wake window.")
                 enableVibration(true)
                 vibrationPattern = longArrayOf(0, 600, 400, 600, 400, 600)
                 setBypassDnd(true)   // a wake alarm should sound through Do Not Disturb

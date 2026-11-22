@@ -1,5 +1,6 @@
 package com.noop.notif
 
+import com.noop.ui.uiStringOr
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -31,9 +32,9 @@ object InactivityNotifier {
         // Mirror the iOS master gate: the engine already honours it before buzzing, re-check anyway.
         if (!NotifPrefs.getBool(context, NotifPrefs.MASTER, false)) return
         val body = if (minutes > 0) {
-            "You've been seated for about $minutes min. Time to move."
+            uiStringOr(R.string.inactivity_body_min, "You've been seated for about %1\$d min. Time to move.", minutes)
         } else {
-            "Time to move. You've been seated a while."
+            uiStringOr(R.string.inactivity_body, "Time to move. You've been seated a while.")
         }
         // Defensive: never let a notify() throw (revoked POST_NOTIFICATIONS, OEM quirk) crash the offload.
         runCatching {
@@ -64,10 +65,10 @@ object InactivityNotifier {
             if (mgr.getNotificationChannel(CHANNEL_ID) != null) return
             mgr.createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_ID, "Inactivity reminder",
+                    CHANNEL_ID, uiStringOr(R.string.channel_inactivity, "Inactivity reminder"),
                     NotificationManager.IMPORTANCE_DEFAULT,
                 ).apply {
-                    description = "A nudge to move after a long sedentary stretch."
+                    description = uiStringOr(R.string.channel_inactivity_desc, "A nudge to move after a long sedentary stretch.")
                 },
             )
         }
